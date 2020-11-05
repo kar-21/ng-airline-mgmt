@@ -1,7 +1,12 @@
 <mat-toolbar class="mat-toolbar" color="primary">
   <span>{{ title }}</span>
+  <span *ngIf="isLoggedIn" class="name-container"
+    ><mat-icon>account_circle</mat-icon>{{ userName }}</span
+  >
 </mat-toolbar>
 <mat-drawer-container class="mat-drawer-container">
-  <mat-drawer *ngIf="isLoggedIn" mode="side" opened>Drawer content</mat-drawer>
+  <mat-drawer *ngIf="isLoggedIn" mode="side" opened
+    ><app-side-nav></app-side-nav
+  ></mat-drawer>
   <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
 </mat-drawer-container>

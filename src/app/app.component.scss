@@ -1,6 +1,15 @@
 .mat-drawer-container {
-    height: 93%;
+  height: 93%;
 }
 .mat-toolbar {
-    height: 7%;
+  height: 7%;
+  justify-content: space-between;
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    margin-right: 1vw;
+  }
 }

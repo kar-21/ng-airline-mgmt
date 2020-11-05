@@ -1,0 +1,11 @@
+<div class="side-container">
+  <div class="side-div" *ngFor="let nav of navList">
+    <a
+      [class.active-link]="rla.isActive"
+      [routerLink]="[nav.routerLink]"
+      routerLinkActive
+      #rla="routerLinkActive"
+      ><span><mat-icon>{{nav.icon}}</mat-icon>{{ nav.routerLinkText }}</span></a
+    >
+  </div>
+</div>
