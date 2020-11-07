@@ -1,6 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { environment } from "src/environments/environment";
+
+interface googleRequest {
+  redirectURI: string;
+}
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +23,7 @@ export class LoginService {
     return this.isLoggedIn;
   }
 
-  sendGoogleRequest():Observable<any> {
-    return this.http.get<any>("http://localhost:3000/login");
+  sendGoogleRequest(): Observable<googleRequest> {
+    return this.http.get<googleRequest>(environment.backendAPI + "/login");
   }
 }

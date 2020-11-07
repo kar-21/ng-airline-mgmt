@@ -7,18 +7,23 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppReducer } from "./core/store/reducers/app.reducers";
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterModule } from '@angular/router';
+import { PassangerEffect } from './core/store/effects/passanger.effect';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
+    EffectsModule.forRoot([PassangerEffect]),
     StoreModule.forRoot(AppReducer),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument(),

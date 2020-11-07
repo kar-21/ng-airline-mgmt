@@ -1,12 +1,16 @@
 <mat-toolbar class="mat-toolbar" color="primary">
-  <span>{{ title }}</span>
+  <span><mat-icon *ngIf="isMobile" (click)="toggleSideNav()">menu</mat-icon>{{ title }}</span>
   <span *ngIf="isLoggedIn" class="name-container"
     ><mat-icon>account_circle</mat-icon>{{ userName }}</span
   >
 </mat-toolbar>
-<mat-drawer-container class="mat-drawer-container">
-  <mat-drawer *ngIf="isLoggedIn" mode="side" opened
-    ><app-side-nav></app-side-nav
+<mat-drawer-container class="mat-drawer-container" [hasBackdrop]="isMobile">
+  <mat-drawer
+    *ngIf="isLoggedIn"
+    mode="side"
+    class="mat-drawer"
+    [opened]="!isMobile || toggled"
+    ><app-side-nav (navigationSelected)="toggleSideNav()"></app-side-nav
   ></mat-drawer>
   <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
 </mat-drawer-container>

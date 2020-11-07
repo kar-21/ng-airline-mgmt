@@ -1,16 +1,18 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { LoginComponent } from "./core/login/login.component";
+import { AboutComponent } from "./shared/components/about/about.component";
 
 const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./airline-staff/airline-staff-routing.module").then(
-        (m) => m.AirlineStaffRoutingModule
+      import("./airline-staff/airline-staff.module").then(
+        (m) => m.AirlineStaffModule
       ),
   },
   { path: "login", component: LoginComponent },
+  { path: "about", component: AboutComponent },
 ];
 
 @NgModule({

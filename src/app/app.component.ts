@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from "@angular/core";
-import { LoginService } from "./core/service/login.service";
+import { LoginService } from "./core/services/login.service";
 import { takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
@@ -9,6 +9,7 @@ import { AppState } from "./core/store/states/app.state";
 import { select, Store } from "@ngrx/store";
 import { SaveUserInfo } from "./core/store/actions/user.action";
 import { selectorUserName } from "./core/store/selector/user.selector";
+import { MediaObserver } from "@angular/flex-layout";
 
 @Component({
   selector: "app-root",
@@ -21,16 +22,27 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   cookieValue;
   unsubscribe: Subject<void> = new Subject();
   userName: string;
+  isMobile: boolean;
+  toggled: boolean;
 
   constructor(
     private loginService: LoginService,
     private cookieService: CookieService,
+    private mediaObserver: MediaObserver,
     private router: Router,
     private store: Store<AppState>
   ) {
     this.store.pipe(select(selectorUserName)).subscribe((userName: string) => {
       this.userName = userName;
     });
+    this.mediaObserver
+      .asObservable()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => {
+        this.isMobile = this.mediaObserver.isActive("xs");
+        this.toggled = !this.isMobile;
+      });
+    console.log('>>>>', !this.isMobile && this.toggled);
   }
 
   ngOnInit() {
@@ -56,6 +68,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((isLoggedIn: boolean) => {
         this.isLoggedIn = isLoggedIn;
       });
+  }
+
+  toggleSideNav() {
+    console.log(this.toggled)
+    this.toggled = !this.toggled;
   }
 
   ngOnDestroy() {

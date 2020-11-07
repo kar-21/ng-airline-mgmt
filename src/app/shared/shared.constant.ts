@@ -6,7 +6,7 @@ export const SharedContants = {
   sideNav: {
     StaffSideNav: [
       {
-        routerLink: "/",
+        routerLink: "/checkIn",
         routerLinkText: "Check In",
         icon: "assignment_turned_in",
       },
@@ -26,4 +26,18 @@ export const SharedContants = {
       { routerLink: "/about", routerLinkText: "About", icon: "info" },
     ],
   },
+  monthNames: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
 };
