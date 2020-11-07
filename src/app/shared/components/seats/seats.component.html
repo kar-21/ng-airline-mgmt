@@ -1,0 +1,10 @@
+<div class="seat-container">
+  <div class="seat-colum-label">
+    <div *ngFor="let row of rowSeatName">{{ row }}</div>
+  </div>
+  <div class="seat-row-container">
+    <div *ngFor="let seatRow of seatsArray" class="seat-row">
+      <div *ngFor="let seat of seatRow" class="seat"></div>
+    </div>
+  </div>
+</div>

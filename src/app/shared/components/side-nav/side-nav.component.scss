@@ -1,19 +1,18 @@
 .side-container {
   display: flex;
   flex-direction: column;
-  width: 25vw;
   .side-div {
     a {
       text-decoration: unset;
       color: white;
       span {
-        padding: 1vh 0 1vh 2vh;
+        padding: 1vh 4vh 1vh 2vh;
         font-size: large;
         display: flex;
         align-items: center;
         background: inherit;
         mat-icon {
-          margin-right: 3vw;
+          margin-right: 2vw;
         }
       }
     }

@@ -1,0 +1,17 @@
+<mat-expansion-panel (opened)="setPanelOpen()" (closed)="setPanelClose()">
+  <mat-expansion-panel-header>
+    <mat-panel-title> {{ flightFrom }} &#8594; {{ flightTo }}</mat-panel-title>
+    <mat-panel-description class="mat-panel-description"
+      ><span>{{ date }}</span> | <span>{{ time }}</span>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div *ngIf="isPanelOpen">
+    <div class="sirline-detail">
+      <span> {{ flightNumber }}</span
+      ><span>{{ flightPartner }}</span
+      ><span> Gate - {{ gate }} </span>
+    </div>
+    <mat-divider></mat-divider>
+    <app-seats></app-seats>
+  </div>
+</mat-expansion-panel>
