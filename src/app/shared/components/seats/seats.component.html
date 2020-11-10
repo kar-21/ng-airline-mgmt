@@ -1,10 +1,31 @@
-<div class="seat-container">
-  <div class="seat-colum-label">
-    <div *ngFor="let row of rowSeatName">{{ row }}</div>
+<div *ngIf="isLoadingShown" class="spinner-container" x>
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!isLoadingShown" class="container">
+  <div class="seat-row-label">
+    <div *ngFor="let column of columnSeatNumbrer" class="seat">
+      {{ column !== 0 ? column : "" }}
+    </div>
   </div>
-  <div class="seat-row-container">
-    <div *ngFor="let seatRow of seatsArray" class="seat-row">
-      <div *ngFor="let seat of seatRow" class="seat"></div>
+  <div class="seat-container">
+    <div class="seat-colum-label">
+      <div *ngFor="let row of rowSeatName" class="seat">{{ row }}</div>
+    </div>
+    <div class="seat-row-container">
+      <div *ngFor="let seatRow of seatsArray" class="seat-row">
+        <div
+          *ngFor="let seat of seatRow"
+          class="seat"
+          (click)="selectSeat(seat)"
+          [ngClass]="{
+            'checked-in': seat.includes(checkedInText),
+            'not-checked-in': seat.includes(notCheckedInText)
+          }"
+        >
+          <div *ngIf="seat.includes(wheelChairText)" class="wheel-chair"></div>
+          <div *ngIf="seat.includes(infantsText)" class="infants"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

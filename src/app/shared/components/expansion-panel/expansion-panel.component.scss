@@ -1,7 +1,11 @@
-.mat-panel-description{
-    display: flow-root;
+.mat-panel-description {
+  display: flow-root;
 }
 .sirline-detail {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
+}
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  width: 30%;
 }

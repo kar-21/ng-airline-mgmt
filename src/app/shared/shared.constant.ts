@@ -40,4 +40,12 @@ export const SharedContants = {
     "Nov",
     "Dec",
   ],
+  text: {
+    checkedIn: "checked-in",
+    notCheckedIn: "not-checked-in",
+    wheelChair: "wheel-chair",
+    noWheelChair: "no-wheel-chair",
+    infants: "infants",
+    noInfants: "no-infants"
+  },
 };

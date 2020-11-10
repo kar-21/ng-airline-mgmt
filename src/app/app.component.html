@@ -7,7 +7,7 @@
 <mat-drawer-container class="mat-drawer-container" [hasBackdrop]="isMobile">
   <mat-drawer
     *ngIf="isLoggedIn"
-    mode="side"
+    [mode]="!isMobile ? 'side' : 'over'"
     class="mat-drawer"
     [opened]="!isMobile || toggled"
     ><app-side-nav (navigationSelected)="toggleSideNav()"></app-side-nav

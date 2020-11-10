@@ -1,19 +1,49 @@
-.seat-container {
+.container {
   margin-top: 5vh;
+  @media screen AND (max-width: 599px) {
+    display: flex;
+    margin-top: 2vh;
+  }
+}
+.seat-row-label {
+  display: flex;
+  flex-direction: row;
+  div {
+    font-size: 1.5vw;
+    background: none;
+    height: 2.25vw;
+    text-align: center;
+  }
+  @media screen AND (max-width: 599px) {
+    margin-top: 1.5vh;
+    flex-direction: column;
+    margin-right: 2.5vw;
+    div {
+      height: 5.5vw;
+      font-size: 3.5vw;
+    }
+  }
+}
+.seat-container {
   display: flex;
   flex-direction: row;
   @media screen AND (max-width: 599px) {
     margin-top: 1vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 }
 .seat-colum-label {
   margin-right: 1vw;
+  display: flex;
+  flex-direction: column;
   div {
-    font-size: 3vw;
-    height: 3.4vw;
-    margin: 0.25vw;
+    width: 100%;
+    font-size: 2.5vw;
+    display: flex;
+    align-items: center;
+    background: none;
     &:nth-child(4) {
       margin-top: 1.5vh;
     }
@@ -22,8 +52,8 @@
     display: flex;
     flex-direction: row;
     div {
+      display: inline;
       font-size: 5vw;
-      height: 4.4vw;
       margin: 0.5vw;
       width: 8.5%;
       text-align: center;
@@ -58,7 +88,7 @@
 }
 .seat {
   width: 4.7619%;
-  background: darkgrey;
+  background: grey;
   margin: 0.25vw;
   height: 3vw;
   @media screen AND (max-width: 599px) {
@@ -66,4 +96,35 @@
     height: 5.5vw;
     margin: 0.5vw;
   }
+}
+.checked-in {
+  background-color: skyblue;
+  cursor: pointer;
+  &:hover {
+    outline: 0.5px solid white;
+  }
+}
+.not-checked-in {
+  background-color: lightcoral;
+  cursor: pointer;
+  &:hover {
+    outline: 0.5px solid white;
+  }
+}
+.wheel-chair {
+  width: 35%;
+  height: 50%;
+  background-color: limegreen;
+}
+.infants {
+  width: 35%;
+  height: 50%;
+  background-color: purple;
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 4vh;
+  margin-bottom: 2vh;
 }

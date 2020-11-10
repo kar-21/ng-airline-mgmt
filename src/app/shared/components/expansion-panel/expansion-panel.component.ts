@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Store } from '@ngrx/store';
+import { GetPassangersListOfFlight } from 'src/app/core/store/actions/passanger.action';
+import { AppState } from 'src/app/core/store/states/app.state';
 import { AirlineList } from "../../models/airline-list.model";
 import { SharedContants } from "../../shared.constant";
 
@@ -34,9 +37,10 @@ export class ExpansionPanelComponent implements OnInit {
   gate: number;
   isPanelOpen = false;
 
-  constructor() {}
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   getDate(): string {
     console.log(
@@ -105,6 +109,7 @@ export class ExpansionPanelComponent implements OnInit {
 
   setPanelOpen() {
     this.isPanelOpen = true;
+    this.store.dispatch(new GetPassangersListOfFlight(this.flightNumber));
   }
   
   setPanelClose() {

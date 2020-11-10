@@ -7,10 +7,14 @@ import {
   EPassangerAction,
   GetAirLineList,
   GetAirlineListSuccess,
+  GetPassangersListOfFlight,
+  GetPassangerssListOfFlightSuccess,
+  UpdatePassangerDetailsFromKey,
 } from "../actions/passanger.action";
 import { switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { AirlineList } from "src/app/shared/models/airline-list.model";
+import { PassangerList } from "src/app/shared/models/passanger-list.model";
 
 @Injectable()
 export class PassangerEffect {
@@ -20,7 +24,8 @@ export class PassangerEffect {
     private actions: Actions
   ) {}
 
-  airlineHttp;
+  flightNumber: string;
+  updatedFlightNumber: string;
 
   @Effect()
   getAirlineList = this.actions.pipe(
@@ -29,5 +34,40 @@ export class PassangerEffect {
     switchMap((airlineHttp: AirlineList[]) =>
       of(new GetAirlineListSuccess(airlineHttp))
     )
+  );
+
+  @Effect()
+  getPassangerListOfFlight = this.actions.pipe(
+    ofType<GetPassangersListOfFlight>(
+      EPassangerAction.GetPassangersListOfFlight
+    ),
+    switchMap((data) => {
+      this.flightNumber = data.payload;
+      return this.airlineHttpService.getPassangerListForFlight(data.payload);
+    }),
+    switchMap((passangerList: PassangerList[]) =>
+      of(
+        new GetPassangerssListOfFlightSuccess({
+          flightNumber: this.flightNumber,
+          data: passangerList,
+        })
+      )
+    )
+  );
+
+  @Effect()
+  updatePassangerDetailsFromKey = this.actions.pipe(
+    ofType<UpdatePassangerDetailsFromKey>(
+      EPassangerAction.UpdatePassangerDetailsFromKey
+    ),
+    switchMap((data) => {
+      this.updatedFlightNumber = data.payload.flightNumber;
+      return this.airlineHttpService.updatePassangerDetailsFromKey(
+        data.payload.passangerPassportNumber,
+        data.payload.flightNumber,
+        data.payload.keyValuePair
+      );
+    }),
+    switchMap(() => of(new GetPassangersListOfFlight(this.updatedFlightNumber)))
   );
 }

@@ -16,6 +16,11 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { SeatsComponent } from "./components/seats/seats.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { DialogComponent } from "./components/dialog/dialog.component";
+import {
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -24,6 +29,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     AirlineListComponent,
     ExpansionPanelComponent,
     SeatsComponent,
+    DialogComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +44,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatExpansionModule,
     MatDividerModule,
     FlexLayoutModule,
+    MatDialogModule,
   ],
   exports: [
     MatSidenavModule,
@@ -54,6 +61,14 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatDividerModule,
     SeatsComponent,
     FlexLayoutModule,
+    MatDialogModule,
+  ],
+  entryComponents: [DialogComponent],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { hasBackdrop: true, direction: "ltr" },
+    },
   ],
 })
 export class SharedModule {}

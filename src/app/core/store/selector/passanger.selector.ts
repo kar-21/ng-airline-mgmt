@@ -8,3 +8,8 @@ export const selectorAirlineList = createSelector(
   selectorPassangerData,
   (state: PassangerState) => state.airlineList
 );
+
+export const selectorPassangerListOfFlight = createSelector(
+  selectorPassangerData,
+  (state: PassangerState) => state.passangerList
+);
