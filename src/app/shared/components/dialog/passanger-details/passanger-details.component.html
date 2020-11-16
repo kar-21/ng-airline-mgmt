@@ -1,6 +1,8 @@
 <div class="header">
-    <h1 class="name"><mat-icon>person</mat-icon>{{ name }}</h1>
-    <button mat-mini-fab color="warn" (click)="closeDialog()"><mat-icon>close</mat-icon></button>
+  <h1 class="name"><mat-icon>person</mat-icon>{{ name }}</h1>
+  <button mat-mini-fab color="warn" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 <div class="container">
   <table>
@@ -10,7 +12,32 @@
           <h2>Seat Number</h2>
         </td>
         <td>
-          <h2>{{ seatNumber }}</h2>
+          <form class="form" [formGroup]="form" (ngSubmit)="changeSeatnumber()">
+            <mat-form-field class="form-field">
+              <input
+                class="seat-input"
+                matInput
+                formControlName="seatNumberForm"
+              />
+              <mat-icon>mode_edit</mat-icon>
+              <mat-error class="error-text" *ngIf="form.valid">
+                Seat Number is not <strong> Valid </strong>
+              </mat-error>
+              <mat-hint *ngIf="showSeatOccupied">
+                Seat is already taken
+              </mat-hint>
+            </mat-form-field>
+            <button
+              *ngIf="form.valid && form.dirty"
+              class="submit"
+              mat-raised-button
+              type="submit"
+              color="primary"
+            >
+              <span *ngIf="showSeatOccupied">Swap</span
+              ><span *ngIf="!showSeatOccupied">Apply</span>
+            </button>
+          </form>
         </td>
       </tr>
       <tr>
@@ -51,12 +78,16 @@
       </tr>
     </tbody>
   </table>
-  <mat-divider class="divider" *ngIf="wheelChair || infants || ancillaryServices"></mat-divider>
+  <mat-divider
+    class="divider"
+    *ngIf="wheelChair || infants || ancillaryServices"
+  ></mat-divider>
   <p *ngIf="wheelChair">Passanger requires Wheel Chair.</p>
   <p *ngIf="infants">Passanger boading with infant.</p>
   <p *ngIf="ancillaryServices">Passanger requires Ancillary services.</p>
   <mat-divider></mat-divider>
-  <button class="checkin-button"
+  <button
+    class="checkin-button"
     mat-raised-button
     [color]="checkedIn ? 'warn' : 'primary'"
     (click)="sendCheckInDataToServer()"

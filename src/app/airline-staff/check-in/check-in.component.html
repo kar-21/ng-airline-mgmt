@@ -1,9 +1,11 @@
 <h1>Check In</h1>
-<div *ngIf="isLoaderShown" class="spinner-container"><mat-spinner></mat-spinner></div>
+<div *ngIf="isLoaderShown" class="spinner-container">
+  <mat-spinner></mat-spinner>
+</div>
 <div *ngIf="!isLoaderShown">
   <mat-accordion>
     <div *ngFor="let airline of airlineList">
-      <app-expansion-panel [airline]="airline"></app-expansion-panel>
+      <app-expansion-panel [airline]="airline" [type]="type"></app-expansion-panel>
     </div>
   </mat-accordion>
 </div>

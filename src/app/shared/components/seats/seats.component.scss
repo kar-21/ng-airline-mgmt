@@ -128,3 +128,15 @@
   margin-top: 4vh;
   margin-bottom: 2vh;
 }
+.anotation {
+  display: flex;
+  justify-content: space-between;
+  div {
+    display: inline-flex;
+    align-items: flex-end;
+    .seat {
+      width: 2vw;
+      height: 2vw;
+    }
+  }
+}

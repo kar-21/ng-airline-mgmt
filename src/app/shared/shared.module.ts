@@ -16,11 +16,17 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { SeatsComponent } from "./components/seats/seats.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { DialogComponent } from "./components/dialog/dialog.component";
+import { PassangerDetailsComponent } from "./components/dialog/passanger-details/passanger-details.component";
+import { MatInputModule } from "@angular/material/input";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
 import {
   MatDialogModule,
   MAT_DIALOG_DEFAULT_OPTIONS,
 } from "@angular/material/dialog";
+import { TableComponent } from "./components/table/table.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +35,8 @@ import {
     AirlineListComponent,
     ExpansionPanelComponent,
     SeatsComponent,
-    DialogComponent,
+    PassangerDetailsComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +52,11 @@ import {
     MatDividerModule,
     FlexLayoutModule,
     MatDialogModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   exports: [
     MatSidenavModule,
@@ -54,6 +66,7 @@ import {
     MatCheckboxModule,
     MatIconModule,
     SideNavComponent,
+    TableComponent,
     RouterModule,
     MatProgressSpinnerModule,
     ExpansionPanelComponent,
@@ -62,8 +75,13 @@ import {
     SeatsComponent,
     FlexLayoutModule,
     MatDialogModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
-  entryComponents: [DialogComponent],
+  entryComponents: [PassangerDetailsComponent],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

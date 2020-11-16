@@ -13,6 +13,7 @@ import { AirlineList } from "src/app/shared/models/airline-list.model";
 export class CheckInComponent implements OnInit {
   airlineList: AirlineList[];
   isLoaderShown = true;
+  type = "checkin";
 
   constructor(private store: Store<AppState>) {
     this.store

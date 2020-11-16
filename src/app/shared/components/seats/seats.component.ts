@@ -5,7 +5,7 @@ import { selectorPassangerListOfFlight } from "src/app/core/store/selector/passa
 import { AppState } from "src/app/core/store/states/app.state";
 import { PassangerList } from "../../models/passanger-list.model";
 import { SharedContants } from "../../shared.constant";
-import { DialogComponent } from "../dialog/dialog.component";
+import { PassangerDetailsComponent } from "../dialog/passanger-details/passanger-details.component";
 
 @Component({
   selector: "app-seats",
@@ -14,16 +14,15 @@ import { DialogComponent } from "../dialog/dialog.component";
 })
 export class SeatsComponent implements OnInit {
   @Input() flightNumber: string;
-  rowSeatName = ["A", "B", "C", "D", "E", "F"];
+  @Input() type: string;
+  rowSeatName = SharedContants.rowSeatName;
   passangers: PassangerList[];
   isLoadingShown = true;
   checkedInText = SharedContants.text.checkedIn;
   notCheckedInText = SharedContants.text.notCheckedIn;
   wheelChairText = SharedContants.text.wheelChair;
   infantsText = SharedContants.text.infants;
-  seatsArray = new Array(6)
-    .fill(null)
-    .map((row) => (row = new Array(25).fill([null])));
+  seatsArray;
   columnSeatNumbrer = new Array(26)
     .fill(null)
     .map((column, index) => (column = index));
@@ -36,6 +35,9 @@ export class SeatsComponent implements OnInit {
       .subscribe((passangers) => {
         if (passangers && passangers[this.flightNumber]) {
           this.passangers = passangers[this.flightNumber];
+          this.seatsArray = new Array(6)
+            .fill(null)
+            .map((row) => (row = new Array(25).fill([null])));
           this.updateSeatsArray();
           this.isLoadingShown = false;
         }
@@ -47,25 +49,32 @@ export class SeatsComponent implements OnInit {
       const row = this.rowSeatName.indexOf(passanger.seatNumber.slice(0, 1));
       const column =
         +passanger.seatNumber.slice(1, passanger.seatNumber.length) - 1;
-      this.seatsArray[row][column] = [
-        passanger,
-        passanger.checkedIn
-          ? SharedContants.text.checkedIn
-          : SharedContants.text.notCheckedIn,
-        passanger.wheelChair
-          ? SharedContants.text.wheelChair
-          : SharedContants.text.noWheelChair,
-        passanger.infants
-          ? SharedContants.text.infants
-          : SharedContants.text.noInfants,
-      ];
+      console.log(">>", this.type);
+      if (this.type === "checkin") {
+        this.seatsArray[row][column] = [
+          passanger,
+          passanger.checkedIn
+            ? SharedContants.text.checkedIn
+            : SharedContants.text.notCheckedIn,
+          passanger.wheelChair
+            ? SharedContants.text.wheelChair
+            : SharedContants.text.noWheelChair,
+          passanger.infants
+            ? SharedContants.text.infants
+            : SharedContants.text.noInfants,
+        ];
+      } else {
+        this.seatsArray[row][column] = [passanger];
+      }
     });
   }
 
   selectSeat(seat) {
     console.log(">>selected", seat);
     if (seat[0] !== null) {
-      const dialogRef = this.dialog.open(DialogComponent, { data: seat[0] });
+      const dialogRef = this.dialog.open(PassangerDetailsComponent, {
+        data: { ...seat[0], airlinePassangers: this.seatsArray },
+      });
       dialogRef.afterClosed().subscribe((result) => {
         console.log(">>closed");
       });

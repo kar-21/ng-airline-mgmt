@@ -11,3 +11,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: white;
+  background-color: #7b1fa2;
+}

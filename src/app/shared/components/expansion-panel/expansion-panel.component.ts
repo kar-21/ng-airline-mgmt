@@ -26,6 +26,7 @@ export class ExpansionPanelComponent implements OnInit {
       this.gate = airline.gate;
     }
   }
+  @Input() type: string;
   flightFrom: string;
   flightTo: string;
   flightNumber: string;
@@ -36,6 +37,7 @@ export class ExpansionPanelComponent implements OnInit {
   flightPartner: string;
   gate: number;
   isPanelOpen = false;
+  isSeatMapView = true;
 
   constructor(private store: Store<AppState>) {}
 
@@ -114,5 +116,9 @@ export class ExpansionPanelComponent implements OnInit {
   
   setPanelClose() {
     this.isPanelOpen = false;
+  }
+
+  changeView(event) {
+    this.isSeatMapView = event.checked;
   }
 }

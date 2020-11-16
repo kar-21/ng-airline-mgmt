@@ -32,7 +32,7 @@ td {
   }
 }
 .divider {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
 }
 .checkin-button {
   margin-top: 1vw;
@@ -42,4 +42,20 @@ td {
   mat-icon {
     margin-right: 1vw;
   }
+}
+.form {
+  display: flex;
+}
+.form-field {
+  width: 120px;
+}
+.seat-input {
+  width: 55%;
+  font-size: 2vw;
+  margin-left: 10%;
+}
+.submit {
+  margin-left: 10%;
+  height: fit-content;
+  margin-top: 6%;
 }

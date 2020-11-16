@@ -26,6 +26,7 @@ export const SharedContants = {
       { routerLink: "/about", routerLinkText: "About", icon: "info" },
     ],
   },
+  rowSeatName: ["A", "B", "C", "D", "E", "F"],
   monthNames: [
     "Jan",
     "Feb",
