@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgControl, Validators } from "@angular/forms";
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { UpdatePassangerDetailsFromKey } from "src/app/core/store/actions/passanger.action";
 import { AppState } from "src/app/core/store/states/app.state";
 import { SharedContants } from "src/app/shared/shared.constant";
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 @Component({
   selector: "app-passanger-details",
@@ -26,12 +28,18 @@ export class PassangerDetailsComponent implements OnInit {
   checkedIn: boolean;
   wheelChair: boolean;
   infants: boolean;
-  ancillaryServices: boolean;
+  checkinServices: string[];
   flightNumber: string;
   form: FormGroup;
+  checkinServicesForm: FormGroup;
   passangersArray;
   rowSeatName = SharedContants.rowSeatName;
   showSeatOccupied = false;
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   ngOnInit(): void {
     if (this.data) {
@@ -43,7 +51,7 @@ export class PassangerDetailsComponent implements OnInit {
       this.checkedIn = this.data.checkedIn;
       this.wheelChair = this.data.wheelChair;
       this.infants = this.data.infants;
-      this.ancillaryServices = this.data.ancillaryServices;
+      this.checkinServices = Object.assign([], this.data.checkinServices);
       this.flightNumber = this.data.flightNumber;
       this.passangersArray = this.data.airlinePassangers;
       this.form = new FormGroup({
@@ -94,7 +102,7 @@ export class PassangerDetailsComponent implements OnInit {
         keyValuePair: { seatNumber: newSeatNumber },
       })
     );
-    this.dialogRef.close();
+    this.closeDialog();
   }
 
   sendCheckInDataToServer() {
@@ -105,7 +113,40 @@ export class PassangerDetailsComponent implements OnInit {
         keyValuePair: { checkedIn: !this.checkedIn },
       })
     );
-    this.dialogRef.close();
+    this.closeDialog();
+  }
+
+  addCheckinService(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim() && !this.checkinServices.includes(value)) {
+      this.checkinServices.push(value.trim());
+    }
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeCheckinService(checkinService: string ): void {
+    const index = this.checkinServices.indexOf(checkinService);
+    if (index >= 0) {
+      this.checkinServices.splice(index, 1);
+    }
+  }
+
+  saveServies() {
+    console.log('>>>services', this.checkinServices);
+    this.store.dispatch(
+      new UpdatePassangerDetailsFromKey({
+        passangerPassportNumber: this.passportNumber,
+        flightNumber: this.flightNumber,
+        keyValuePair: { checkinServices: this.checkinServices },
+      })
+    );
+    this.closeDialog()
   }
 
   closeDialog() {

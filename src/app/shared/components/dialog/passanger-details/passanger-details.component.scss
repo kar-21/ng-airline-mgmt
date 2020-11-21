@@ -31,11 +31,22 @@ td {
     max-width: 22vh;
   }
 }
+.divider-top {
+  margin-top: 12px;
+}
 .divider {
   margin-bottom: 12px;
 }
+.checked-in-cell {
+  display: flex;
+  align-items: center;
+}
 .checkin-button {
-  margin-top: 1vw;
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  height: 30px;
+  align-items: center;
 }
 .checked-in-status {
   display: flex;
@@ -58,4 +69,14 @@ td {
   margin-left: 10%;
   height: fit-content;
   margin-top: 6%;
+}
+.form-chip-field {
+  margin-top: -0.84375em;
+}
+.service-button {
+  width: fit-content;
+  margin: auto;
+  height: 30px;
+  display: flex;
+  align-items: center;
 }

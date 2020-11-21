@@ -8,5 +8,8 @@ export interface PassangerList {
   checkedIn: boolean;
   wheelChair: boolean;
   infants: boolean;
-  ancillaryServices: boolean;
+  checkinSerivces: string[];
+  mealType: string;
+  shopItem: string[];
+  inflightServices: string[];
 }

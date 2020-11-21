@@ -22,6 +22,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatChipsModule } from "@angular/material/chips";
 import {
   MatDialogModule,
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -57,6 +58,7 @@ import { TableComponent } from "./components/table/table.component";
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatChipsModule,
   ],
   exports: [
     MatSidenavModule,
@@ -80,6 +82,7 @@ import { TableComponent } from "./components/table/table.component";
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatChipsModule,
   ],
   entryComponents: [PassangerDetailsComponent],
   providers: [
