@@ -47,6 +47,11 @@ export const SharedContants = {
     wheelChair: "wheel-chair",
     noWheelChair: "no-wheel-chair",
     infants: "infants",
-    noInfants: "no-infants"
+    noInfants: "no-infants",
+    mealNotRequired: "notRequired",
+    normalVegMeal: "normalVeg",
+    normalNonVegMeal: "normalNonVeg",
+    specialVegMeal: "specialVeg",
+    specialNonVegMeal: "specialNonVeg"
   },
 };

@@ -55,7 +55,7 @@
       display: inline;
       font-size: 5vw;
       margin: 0.5vw;
-      width: 8.5%;
+      width: 11.5%;
       text-align: center;
       &:nth-child(4) {
         margin-top: 0.5vw;
@@ -79,7 +79,7 @@
   }
   @media screen AND (max-width: 599px) {
     flex-direction: column;
-    width: 10%;
+    width: 13.5%;
     &:nth-child(4) {
       margin-top: 0vh;
       margin-left: 2vw;
@@ -93,7 +93,7 @@
   height: 3vw;
   @media screen AND (max-width: 599px) {
     width: 80%;
-    height: 5.5vw;
+    height: 6vw;
     margin: 0.5vw;
   }
 }
@@ -111,12 +111,43 @@
     outline: 0.5px solid white;
   }
 }
+.meal-not-requried {
+  background-color: #ffff7e;
+  cursor: pointer;
+  &:hover {
+    outline: 0.5px solid white;
+  }
+}
+.veg-meal {
+  background-color: #7aff7a;
+  cursor: pointer;
+  &:hover {
+    outline: 0.5px solid white;
+  }
+}
+.non-veg-meal {
+  background-color: #ff5273;
+  cursor: pointer;
+  &:hover {
+    outline: 0.5px solid white;
+  }
+}
 .wheel-chair {
   width: 35%;
   height: 50%;
-  background-color: limegreen;
+  background-color: blue;
 }
 .infants {
+  width: 35%;
+  height: 50%;
+  background-color: purple;
+}
+.special-meal {
+  width: 35%;
+  height: 50%;
+  background-color: steelblue;
+}
+.shop-item {
   width: 35%;
   height: 50%;
   background-color: purple;
@@ -131,12 +162,22 @@
 .anotation {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   div {
     display: inline-flex;
-    align-items: flex-end;
+    align-items: center;
     .seat {
       width: 2vw;
       height: 2vw;
+    }
+  }
+  @media screen AND (max-width: 599px) {
+    width: 40vw;
+    height: fit-content;
+    div {
+      height: fit-content;
+      margin-top: 8%;
+      margin-bottom: 8%;
     }
   }
 }

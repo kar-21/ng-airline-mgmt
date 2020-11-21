@@ -22,6 +22,11 @@ export class SeatsComponent implements OnInit {
   notCheckedInText = SharedContants.text.notCheckedIn;
   wheelChairText = SharedContants.text.wheelChair;
   infantsText = SharedContants.text.infants;
+  mealNotRequiredText = SharedContants.text.mealNotRequired;
+  normalVegMealText = SharedContants.text.normalVegMeal;
+  normalNonVegMealText = SharedContants.text.normalNonVegMeal;
+  specialVegMealText = SharedContants.text.specialVegMeal;
+  specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   seatsArray;
   columnSeatNumbrer = new Array(26)
     .fill(null)
@@ -64,7 +69,7 @@ export class SeatsComponent implements OnInit {
             : SharedContants.text.noInfants,
         ];
       } else {
-        this.seatsArray[row][column] = [passanger];
+        this.seatsArray[row][column] = [passanger, passanger.mealType, passanger.shopItem.length];
       }
     });
   }

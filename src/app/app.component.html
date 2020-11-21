@@ -1,5 +1,5 @@
 <mat-toolbar class="mat-toolbar" color="primary">
-  <span><mat-icon *ngIf="isMobile" (click)="toggleSideNav()">menu</mat-icon>{{ title }}</span>
+  <span class="header"><mat-icon *ngIf="isMobile" (click)="toggleSideNav()">menu</mat-icon>{{ title }}</span>
   <span *ngIf="isLoggedIn" class="name-container"
     ><mat-icon>account_circle</mat-icon>{{ userName }}</span
   >

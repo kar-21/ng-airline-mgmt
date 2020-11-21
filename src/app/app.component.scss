@@ -12,3 +12,9 @@
     margin-right: 1vw;
   }
 }
+.header {
+  @media screen AND (max-width: 599px) {
+    display: flex;
+    align-items: center;
+  }
+}
