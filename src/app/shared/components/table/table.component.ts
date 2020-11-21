@@ -23,25 +23,35 @@ import { SharedContants } from "../../shared.constant";
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() flightNumber: string;
+  @Input() type: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns = [
-    "name",
-    "seatNumber",
-    "passportNumber",
-    "checkedIn",
-    "wheelChair",
-    "infants",
-    "edit",
-  ];
+  displayedColumns;
   dataSource: MatTableDataSource<PassangerList>;
   rowSeatName = SharedContants.rowSeatName;
+  mealNotRequiredText = SharedContants.text.mealNotRequired;
+  normalVegMealText = SharedContants.text.normalVegMeal;
+  normalNonVegMealText = SharedContants.text.normalNonVegMeal;
+  specialVegMealText = SharedContants.text.specialVegMeal;
+  specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   passangers;
   seatsArray;
   isLoadingShown = false;
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.displayedColumns =
+      this.type === "checkin"
+        ? [
+            "name",
+            "seatNumber",
+            "passportNumber",
+            "checkedIn",
+            "wheelChair",
+            "infants",
+            "edit",
+          ]
+        : ["name", "seatNumber", "passportNumber", "meal", "edit"];
     this.store
       .pipe(select(selectorPassangerListOfFlight))
       .subscribe((passangers) => {
@@ -65,7 +75,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   updateSeatsArray() {
-    console.log('>>>', this.passangers);
+    console.log(">>>", this.passangers);
     this.passangers.forEach((passanger: PassangerList) => {
       const row = this.rowSeatName.indexOf(passanger.seatNumber.slice(0, 1));
       const column =

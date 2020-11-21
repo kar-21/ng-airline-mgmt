@@ -17,6 +17,6 @@
     </div>
     <mat-divider></mat-divider>
     <app-seats *ngIf="isSeatMapView" [flightNumber]="flightNumber" [type]="type"></app-seats>
-    <app-table *ngIf="!isSeatMapView" [flightNumber]="flightNumber"></app-table>
+    <app-table *ngIf="!isSeatMapView" [flightNumber]="flightNumber" [type]="type"></app-table>
   </div>
 </mat-expansion-panel>
