@@ -12,9 +12,10 @@ import { PassangerList } from "../../models/passanger-list.model";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { PassangerDetailsComponent } from "../dialog/passanger-details/passanger-details.component";
+import { PassangerCheckinDetailsComponent } from "../dialog/passanger-checkin-details/passanger-checkin-details.component";
 import { MatDialog } from "@angular/material/dialog";
 import { SharedContants } from "../../shared.constant";
+import { PassangerInflightDetailsComponent } from "../dialog/passanger-inflight-details/passanger-inflight-details.component";
 
 @Component({
   selector: "app-table",
@@ -86,9 +87,14 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   openPassangerDetails(passanger) {
     console.log(">>>", passanger);
-    const dialogRef = this.dialog.open(PassangerDetailsComponent, {
-      data: { ...passanger, airlinePassangers: this.seatsArray },
-    });
+    const dialogRef =
+      this.type === "checkin"
+        ? this.dialog.open(PassangerCheckinDetailsComponent, {
+            data: { ...passanger, airlinePassangers: this.seatsArray },
+          })
+        : this.dialog.open(PassangerInflightDetailsComponent, {
+            data: { ...passanger },
+          });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(">>closed");
     });

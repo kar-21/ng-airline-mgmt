@@ -1,0 +1,82 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    button {
+      margin-top: -24px;
+      margin-right: -24px;
+    }
+  }
+  .name {
+    display: flex;
+    align-items: center;
+    mat-icon {
+      margin-right: 1vw;
+    }
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    h2,
+    h3,
+    h5 {
+      margin: 0;
+    }
+  }
+  td {
+    max-width: 30vh;
+    @media screen AND (max-width: 900px) {
+      max-width: 35vh;
+    }
+    @media screen AND (max-width: 500px) {
+      max-width: 22vh;
+    }
+  }
+  .divider-top {
+    margin-top: 12px;
+  }
+  .divider {
+    margin-bottom: 12px;
+  }
+  .checked-in-cell {
+    display: flex;
+    align-items: center;
+  }
+  .checkin-button {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    height: 30px;
+    align-items: center;
+  }
+  .checked-in-status {
+    display: flex;
+    mat-icon {
+      margin-right: 1vw;
+    }
+  }
+  .form {
+    display: flex;
+  }
+  .form-field {
+    width: 120px;
+  }
+  .seat-input {
+    width: 55%;
+    font-size: 2vw;
+    margin-left: 10%;
+  }
+  .submit {
+    margin-left: 10%;
+    height: fit-content;
+    margin-top: 6%;
+  }
+  .form-chip-field {
+    margin-top: -0.84375em;
+  }
+  .service-button {
+    width: fit-content;
+    margin: auto;
+    height: 30px;
+    display: flex;
+    align-items: center;
+  }

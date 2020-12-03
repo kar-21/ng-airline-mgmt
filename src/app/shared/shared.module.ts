@@ -16,7 +16,6 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { SeatsComponent } from "./components/seats/seats.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { PassangerDetailsComponent } from "./components/dialog/passanger-details/passanger-details.component";
 import { MatInputModule } from "@angular/material/input";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
@@ -28,6 +27,8 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
 } from "@angular/material/dialog";
 import { TableComponent } from "./components/table/table.component";
+import { PassangerInflightDetailsComponent } from './components/dialog/passanger-inflight-details/passanger-inflight-details.component';
+import { PassangerCheckinDetailsComponent } from './components/dialog/passanger-checkin-details/passanger-checkin-details.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +37,10 @@ import { TableComponent } from "./components/table/table.component";
     AirlineListComponent,
     ExpansionPanelComponent,
     SeatsComponent,
-    PassangerDetailsComponent,
+    PassangerCheckinDetailsComponent,
     TableComponent,
+    PassangerInflightDetailsComponent,
+    PassangerCheckinDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -84,7 +87,7 @@ import { TableComponent } from "./components/table/table.component";
     MatPaginatorModule,
     MatChipsModule,
   ],
-  entryComponents: [PassangerDetailsComponent],
+  entryComponents: [PassangerCheckinDetailsComponent],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

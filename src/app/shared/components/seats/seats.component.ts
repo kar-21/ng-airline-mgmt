@@ -5,7 +5,8 @@ import { selectorPassangerListOfFlight } from "src/app/core/store/selector/passa
 import { AppState } from "src/app/core/store/states/app.state";
 import { PassangerList } from "../../models/passanger-list.model";
 import { SharedContants } from "../../shared.constant";
-import { PassangerDetailsComponent } from "../dialog/passanger-details/passanger-details.component";
+import { PassangerCheckinDetailsComponent } from "../dialog/passanger-checkin-details/passanger-checkin-details.component";
+import { PassangerInflightDetailsComponent } from "../dialog/passanger-inflight-details/passanger-inflight-details.component";
 
 @Component({
   selector: "app-seats",
@@ -69,7 +70,11 @@ export class SeatsComponent implements OnInit {
             : SharedContants.text.noInfants,
         ];
       } else {
-        this.seatsArray[row][column] = [passanger, passanger.mealType, passanger.shopItem.length];
+        this.seatsArray[row][column] = [
+          passanger,
+          passanger.mealType,
+          passanger.shopItem.length,
+        ];
       }
     });
   }
@@ -77,9 +82,14 @@ export class SeatsComponent implements OnInit {
   selectSeat(seat) {
     console.log(">>selected", seat);
     if (seat[0] !== null) {
-      const dialogRef = this.dialog.open(PassangerDetailsComponent, {
-        data: { ...seat[0], airlinePassangers: this.seatsArray },
-      });
+      const dialogRef =
+        this.type === "checkin"
+          ? this.dialog.open(PassangerCheckinDetailsComponent, {
+              data: { ...seat[0], airlinePassangers: this.seatsArray },
+            })
+          : this.dialog.open(PassangerInflightDetailsComponent, {
+              data: { ...seat[0] },
+            });
       dialogRef.afterClosed().subscribe((result) => {
         console.log(">>closed");
       });
