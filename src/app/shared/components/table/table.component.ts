@@ -50,9 +50,18 @@ export class TableComponent implements OnInit, AfterViewInit {
             "checkedIn",
             "wheelChair",
             "infants",
+            "checkedInServices",
             "edit",
           ]
-        : ["name", "seatNumber", "passportNumber", "meal", "edit"];
+        : [
+            "name",
+            "seatNumber",
+            "passportNumber",
+            "meal",
+            "inFlightServices",
+            "shopItem",
+            "edit",
+          ];
     this.store
       .pipe(select(selectorPassangerListOfFlight))
       .subscribe((passangers) => {

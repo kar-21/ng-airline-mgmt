@@ -11,3 +11,29 @@ table {
 .edit-icon {
   cursor: pointer;
 }
+.seatNumber-cell,
+.mealType-cell,
+.passportNumber-cell,
+.checkedIn-cell,
+.wheelChair-cell,
+.infants-cell,
+.inflightService-cell,
+.shopItem-cell,
+.checkinServices-cell {
+  text-align: center;
+}
+
+.checkinServices-cell, .shopItem-cell {
+  @media screen AND (max-width: 899px) {
+    display: none;
+  }
+}
+.wheelChair-cell,
+.infants-cell,
+.checkinServices-cell,
+.inflightService-cell,
+.shopItem-cell {
+  @media screen AND (max-width: 599px) {
+    display: none;
+  }
+}
