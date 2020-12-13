@@ -15,3 +15,26 @@ body {
   color: white;
   background-color: #7b1fa2;
 }
+.mat-form-field-appearance-fill .mat-form-field-infix {
+  padding-top: 0px !important;
+}
+.mat-form-field-flex {
+  padding-top: 0px !important;
+}
+.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: translateX(-5%) !important;
+}
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding-top: 0px !important;
+}
+.mat-form-field-subscript-wrapper {
+  @media screen AND(max-width: 1920px) {
+    width: 17vw !important;
+  }
+  @media screen AND (max-width: 900px) {
+    width: 27vw !important;
+  }
+  @media screen AND (max-width: 500px) {
+    width: 47vw !important;
+  }
+}

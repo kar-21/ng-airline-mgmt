@@ -1,0 +1,11 @@
+<h1>Admin</h1>
+<div *ngIf="isLoaderShown" class="spinner-container">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!isLoaderShown">
+  <mat-accordion>
+    <div *ngFor="let airline of airlineList">
+      <app-expansion-panel [airline]="airline" [isAdmin]="isAdmin"></app-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>

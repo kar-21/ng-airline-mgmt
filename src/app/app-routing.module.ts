@@ -11,6 +11,13 @@ const routes: Routes = [
         (m) => m.AirlineStaffModule
       ),
   },
+  {
+    path: "admin",
+    loadChildren: () =>
+      import("./admin/admin.module").then(
+        (m) => m.AdminModule
+      ),
+  },
   { path: "login", component: LoginComponent },
   { path: "about", component: AboutComponent },
 ];

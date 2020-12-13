@@ -16,15 +16,17 @@ import { PassangerCheckinDetailsComponent } from "../dialog/passanger-checkin-de
 import { MatDialog } from "@angular/material/dialog";
 import { SharedContants } from "../../shared.constant";
 import { PassangerInflightDetailsComponent } from "../dialog/passanger-inflight-details/passanger-inflight-details.component";
+import { PassangerDetailsComponent } from '../dialog/passanger-details/passanger-details.component';
 
 @Component({
   selector: "app-table",
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit {
   @Input() flightNumber: string;
   @Input() type: string;
+  @Input() isAdmin = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns;
@@ -41,27 +43,43 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.displayedColumns =
-      this.type === "checkin"
-        ? [
-            "name",
-            "seatNumber",
-            "passportNumber",
-            "checkedIn",
-            "wheelChair",
-            "infants",
-            "checkedInServices",
-            "edit",
-          ]
-        : [
-            "name",
-            "seatNumber",
-            "passportNumber",
-            "meal",
-            "inFlightServices",
-            "shopItem",
-            "edit",
-          ];
+    if (!this.isAdmin) {
+      this.displayedColumns =
+        this.type === "checkin"
+          ? [
+              "name",
+              "seatNumber",
+              "passportNumber",
+              "checkedIn",
+              "wheelChair",
+              "infants",
+              "checkedInServices",
+              "edit",
+            ]
+          : [
+              "name",
+              "seatNumber",
+              "passportNumber",
+              "meal",
+              "inFlightServices",
+              "shopItem",
+              "edit",
+            ];
+    } else {
+      this.displayedColumns = [
+        "name",
+        "seatNumber",
+        "passportNumber",
+        "checkedIn",
+        "wheelChair",
+        "infants",
+        "checkedInServices",
+        "meal",
+        "inFlightServices",
+        "shopItem",
+        "edit",
+      ];
+    }
     this.store
       .pipe(select(selectorPassangerListOfFlight))
       .subscribe((passangers) => {
@@ -70,6 +88,8 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.dataSource = new MatTableDataSource(
             passangers[this.flightNumber]
           );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
           this.seatsArray = new Array(6)
             .fill(null)
             .map((row) => (row = new Array(25).fill([null])));
@@ -77,11 +97,6 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.isLoadingShown = false;
         }
       });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   updateSeatsArray() {
@@ -96,14 +111,17 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   openPassangerDetails(passanger) {
     console.log(">>>", passanger);
-    const dialogRef =
-      this.type === "checkin"
-        ? this.dialog.open(PassangerCheckinDetailsComponent, {
-            data: { ...passanger, airlinePassangers: this.seatsArray },
-          })
-        : this.dialog.open(PassangerInflightDetailsComponent, {
-            data: { ...passanger },
-          });
+    const dialogRef = this.isAdmin
+      ? this.dialog.open(PassangerDetailsComponent, {
+          data: { ...passanger, airlinePassangers: this.seatsArray },
+        })
+      : this.type === "checkin"
+      ? this.dialog.open(PassangerCheckinDetailsComponent, {
+          data: { ...passanger, airlinePassangers: this.seatsArray },
+        })
+      : this.dialog.open(PassangerInflightDetailsComponent, {
+          data: { ...passanger },
+        });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(">>closed");
     });

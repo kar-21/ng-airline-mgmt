@@ -5,113 +5,157 @@
   </button>
 </div>
 <div class="container">
-  <table>
-    <tbody>
-      <tr>
-        <td>
-          <h2>Seat Number</h2>
-        </td>
-        <td>
-          <form class="form" [formGroup]="form" (ngSubmit)="changeSeatnumber()">
-            <mat-form-field class="form-field">
-              <input
-                class="seat-input"
-                matInput
-                formControlName="seatNumberForm"
-              />
-              <mat-icon>mode_edit</mat-icon>
-              <mat-error class="error-text" *ngIf="form.valid">
-                Seat Number is not <strong> Valid </strong>
-              </mat-error>
-              <mat-hint *ngIf="showSeatOccupied">
-                Seat is already taken
-              </mat-hint>
-            </mat-form-field>
-            <button
-              *ngIf="form.valid && form.dirty"
-              class="submit"
-              mat-flat-button
-              type="submit"
-              color="primary"
-            >
-              <span *ngIf="showSeatOccupied">Swap</span
-              ><span *ngIf="!showSeatOccupied">Apply</span>
-            </button>
-          </form>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h3>Passport Number</h3>
-        </td>
-        <td>
-          <h3>{{ passportNumber }}</h3>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h5>Address</h5>
-        </td>
-        <td>
-          <h5>{{ address }}</h5>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h5>Contact</h5>
-        </td>
-        <td>
-          <h5>{{ contactNumber }}</h5>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h3>Checked In</h3>
-        </td>
-        <td class="checked-in-cell">
-          <h3 class="checked-in-status">
-            <mat-icon *ngIf="checkedIn" color="accent">done</mat-icon>
-            <mat-icon *ngIf="!checkedIn" color="warn">close</mat-icon
-            >{{ checkedIn ? "Yes" : "No" }}
-          </h3>
-          <button
-            class="checkin-button"
-            mat-flat-button
-            [color]="checkedIn ? 'warn' : 'primary'"
-            (click)="sendCheckInDataToServer()"
+  <form class="form" class="form-container" [formGroup]="form">
+    <div class="row">
+      <h3>Seat Number</h3>
+      <mat-form-field class="form-field seat-input">
+        <input matInput formControlName="seatNumberField" />
+        <mat-error class="error-text">
+          Seat Number is not <strong>Valid</strong>.
+        </mat-error>
+        <mat-hint *ngIf="showSeatOccupied">
+          Seat is already taken. It will be swapped.
+        </mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <h3>Passport Number</h3>
+      <mat-form-field class="form-field passport-number-input">
+        <input matInput formControlName="passportNumberField" />
+        <mat-error class="error-text">
+          Passport Number should be alphanumeric with Upper case.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <h3>Address</h3>
+      <mat-form-field class="form-field address-input">
+        <textarea matInput formControlName="addressField"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <h3>Contact</h3>
+      <mat-form-field class="form-field contact-number-input">
+        <input matInput formControlName="contactNumberField" />
+        <mat-error class="error-text" *ngIf="form.valid">
+          Contact Number is not <strong> Valid </strong>. It should be numeric.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <h3>Checked In</h3>
+      <div class="checkbox">
+        <section>
+          <mat-checkbox formControlName="checkedInField"></mat-checkbox>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <h3>Wheel Chair</h3>
+      <div class="checkbox">
+        <section>
+          <mat-checkbox formControlName="wheelChairField"></mat-checkbox>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <h3>Infants</h3>
+      <div class="checkbox">
+        <section>
+          <mat-checkbox formControlName="infantsField"></mat-checkbox>
+        </section>
+      </div>
+    </div>
+    <div class="row column">
+      <h3>Check In Services</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipList aria-label="selection">
+          <mat-chip
+            *ngFor="let checkinService of checkinServices"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeCheckinService(checkinService)"
           >
-            {{ checkedIn ? "Undo Check In" : "Check In" }}
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <mat-divider
-    class="divider divider-top"
-    *ngIf="wheelChair || infants"
-  ></mat-divider>
-  <p *ngIf="wheelChair">Passanger requires Wheel Chair.</p>
-  <p *ngIf="infants">Passanger boading with infant.</p>
-  <mat-divider class="divider"></mat-divider>
-  <h3>Checked In Services</h3>
-  <mat-form-field class="form-chip-field">
-    <mat-chip-list #chipList aria-label="selection">
-      <mat-chip
-        *ngFor="let checkinService of checkinServices"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="removeCheckinService(checkinService)"
-      >
-        {{ checkinService }}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-      </mat-chip>
-      <input
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="addCheckinService($event)"
-      />
-    </mat-chip-list>
-  </mat-form-field>
-  <button mat-flat-button  class="service-button" color="primary" (click)="saveServies()">Save Service</button>
+            {{ checkinService }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addCheckinService($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="row column">
+      <h3>Meal Type</h3>
+      <mat-form-field appearance="fill">
+        <mat-select formControlName="mealTypeField">
+          <mat-option value="notRequired">Not Required</mat-option>
+          <mat-option value="vegMeal">Veg Meal</mat-option>
+          <mat-option value="specialVegMeal">Special Veg Meal</mat-option>
+          <mat-option value="nonVegMeal">Non Veg Meal</mat-option>
+          <mat-option value="specialNonVegMeal"
+            >Special Non Veg Meal</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row column">
+      <h3>In Flight Services</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipListInflight aria-label="selection">
+          <mat-chip
+            *ngFor="let inflightService of inflightServices"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeInflightService(inflightService)"
+          >
+            {{ inflightService }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipListInflight"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addInflightService($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="row column">
+      <h3>Shop Items</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipListShopItem aria-label="selection">
+          <mat-chip
+            *ngFor="let shopItem of shopItems"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeShopItem(shopItem)"
+          >
+            {{ shopItem }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipListShopItem"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addShopItem($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div>
+  <button
+    mat-flat-button
+    [disabled]="isFormInvalid()"
+    class="save-button"
+    color="primary"
+    (click)="saveSetting()"
+  >
+    Save
+  </button>
 </div>

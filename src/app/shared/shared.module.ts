@@ -27,8 +27,10 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
 } from "@angular/material/dialog";
 import { TableComponent } from "./components/table/table.component";
-import { PassangerInflightDetailsComponent } from './components/dialog/passanger-inflight-details/passanger-inflight-details.component';
-import { PassangerCheckinDetailsComponent } from './components/dialog/passanger-checkin-details/passanger-checkin-details.component';
+import { PassangerInflightDetailsComponent } from "./components/dialog/passanger-inflight-details/passanger-inflight-details.component";
+import { PassangerCheckinDetailsComponent } from "./components/dialog/passanger-checkin-details/passanger-checkin-details.component";
+import { PassangerDetailsComponent } from "./components/dialog/passanger-details/passanger-details.component";
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -37,7 +39,7 @@ import { PassangerCheckinDetailsComponent } from './components/dialog/passanger-
     AirlineListComponent,
     ExpansionPanelComponent,
     SeatsComponent,
-    PassangerCheckinDetailsComponent,
+    PassangerDetailsComponent,
     TableComponent,
     PassangerInflightDetailsComponent,
     PassangerCheckinDetailsComponent,
@@ -62,6 +64,7 @@ import { PassangerCheckinDetailsComponent } from './components/dialog/passanger-
     MatTableModule,
     MatPaginatorModule,
     MatChipsModule,
+    MatSelectModule,
   ],
   exports: [
     MatSidenavModule,
@@ -86,8 +89,13 @@ import { PassangerCheckinDetailsComponent } from './components/dialog/passanger-
     MatTableModule,
     MatPaginatorModule,
     MatChipsModule,
+    MatSelectModule,
   ],
-  entryComponents: [PassangerCheckinDetailsComponent],
+  entryComponents: [
+    PassangerCheckinDetailsComponent,
+    PassangerDetailsComponent,
+    PassangerInflightDetailsComponent,
+  ],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

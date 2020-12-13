@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgControl, Validators } from "@angular/forms";
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent } from "@angular/material/chips";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { UpdatePassangerDetailsFromKey } from "src/app/core/store/actions/passanger.action";
 import { AppState } from "src/app/core/store/states/app.state";
 import { SharedContants } from "src/app/shared/shared.constant";
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 
 @Component({
   selector: "app-passanger-details",
@@ -31,9 +31,16 @@ export class PassangerDetailsComponent implements OnInit {
   checkinServices: string[];
   flightNumber: string;
   form: FormGroup;
-  checkinServicesForm: FormGroup;
   passangersArray;
+  mealType: string;
+  inflightServices: string[];
+  shopItems: string[];
   rowSeatName = SharedContants.rowSeatName;
+  mealNotRequiredText = SharedContants.text.mealNotRequired;
+  normalVegMealText = SharedContants.text.normalVegMeal;
+  normalNonVegMealText = SharedContants.text.normalNonVegMeal;
+  specialVegMealText = SharedContants.text.specialVegMeal;
+  specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   showSeatOccupied = false;
   visible = true;
   selectable = true;
@@ -51,24 +58,39 @@ export class PassangerDetailsComponent implements OnInit {
       this.checkedIn = this.data.checkedIn;
       this.wheelChair = this.data.wheelChair;
       this.infants = this.data.infants;
+      this.mealType = this.data.mealType;
+      this.inflightServices = Object.assign([], this.data.inflightServices);
+      this.shopItems = Object.assign([], this.data.shopItem);
       this.checkinServices = Object.assign([], this.data.checkinServices);
       this.flightNumber = this.data.flightNumber;
       this.passangersArray = this.data.airlinePassangers;
       this.form = new FormGroup({
-        seatNumberForm: new FormControl(this.seatNumber, [
+        seatNumberField: new FormControl(this.seatNumber, [
           Validators.required,
           Validators.pattern("^[A-F][1-9]$|^[A-F]1[0-9]$|^[A-F]2[0-5]$"),
         ]),
+        passportNumberField: new FormControl(this.passportNumber, [
+          Validators.required,
+          Validators.pattern("^[A-Z0-9]*$"),
+        ]),
+        addressField: new FormControl(this.address, [Validators.required]),
+        contactNumberField: new FormControl(this.contactNumber, [Validators.required, Validators.pattern("^[0-9]*$")]),
+        checkedInField: new FormControl(this.checkedIn, [Validators.required]),
+        mealTypeField: new FormControl(this.mealType, [Validators.required]),
+        wheelChairField: new FormControl(this.wheelChair, [Validators.required]),
+        infantsField: new FormControl(this.infants, [Validators.required]),
       });
     }
 
-    this.form.get("seatNumberForm").valueChanges.subscribe((value) => {
+    this.form.get("seatNumberField").valueChanges.subscribe((value) => {
       if (value && value !== this.seatNumber && value.length > 1) {
         const row = this.rowSeatName.indexOf(value.slice(0, 1));
         const column = +value.slice(1, value.length) - 1;
         if (
           row > -1 &&
           column > -1 &&
+          row < 6 &&
+          column < 25 &&
           this.passangersArray[row][column][0] !== null
         ) {
           this.showSeatOccupied = true;
@@ -81,8 +103,72 @@ export class PassangerDetailsComponent implements OnInit {
     });
   }
 
-  changeSeatnumber() {
-    const newSeatNumber = this.form.get("seatNumberForm").value;
+  addCheckinService(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || "").trim() && !this.checkinServices.includes(value)) {
+      this.checkinServices.push(value.trim());
+    }
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
+
+  removeCheckinService(checkinService: string): void {
+    const index = this.checkinServices.indexOf(checkinService);
+    if (index >= 0) {
+      this.checkinServices.splice(index, 1);
+    }
+  }
+
+  addInflightService(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || "").trim() && !this.inflightServices.includes(value)) {
+      this.inflightServices.push(value.trim());
+    }
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
+
+  removeInflightService(inflightService: string): void {
+    const index = this.inflightServices.indexOf(inflightService);
+    if (index >= 0) {
+      this.inflightServices.splice(index, 1);
+    }
+  }
+
+  addShopItem(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || "").trim() && !this.shopItems.includes(value)) {
+      this.shopItems.push(value.trim());
+    }
+    // Reset the input value
+    if (input) {
+      input.value = "";
+    }
+  }
+
+  removeShopItem(shopItem: string): void {
+    const index = this.shopItems.indexOf(shopItem);
+    if (index >= 0) {
+      this.shopItems.splice(index, 1);
+    }
+  }
+
+  saveSetting() {
+    console.log('>>', this.form);
+    const newSeatNumber = this.form.get("seatNumberField").value;
     if (this.showSeatOccupied) {
       const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
       const column = +newSeatNumber.slice(1, newSeatNumber.length) - 1;
@@ -99,54 +185,27 @@ export class PassangerDetailsComponent implements OnInit {
       new UpdatePassangerDetailsFromKey({
         passangerPassportNumber: this.passportNumber,
         flightNumber: this.flightNumber,
-        keyValuePair: { seatNumber: newSeatNumber },
+        keyValuePair: {
+          checkinServices: this.checkinServices,
+          inflightServices: this.inflightServices,
+          shopItem: this.shopItems,
+          seatNumber: this.form.get('seatNumberField').value,
+          passportNumber: this.form.get('passportNumberField').value,
+          address: this.form.get('addressField').value,
+          contactNumber: this.form.get('contactNumberField').value,
+          checkedIn: this.form.get('checkedInField').value,
+          mealType: this.form.get('mealTypeField').value,
+          wheelChair: this.form.get('wheelChairField').value,
+          infants: this.form.get('infantsField').value,
+        },
       })
     );
     this.closeDialog();
   }
 
-  sendCheckInDataToServer() {
-    this.store.dispatch(
-      new UpdatePassangerDetailsFromKey({
-        passangerPassportNumber: this.passportNumber,
-        flightNumber: this.flightNumber,
-        keyValuePair: { checkedIn: !this.checkedIn },
-      })
-    );
-    this.closeDialog();
-  }
-
-  addCheckinService(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || '').trim() && !this.checkinServices.includes(value)) {
-      this.checkinServices.push(value.trim());
-    }
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  removeCheckinService(checkinService: string ): void {
-    const index = this.checkinServices.indexOf(checkinService);
-    if (index >= 0) {
-      this.checkinServices.splice(index, 1);
-    }
-  }
-
-  saveServies() {
-    console.log('>>>services', this.checkinServices);
-    this.store.dispatch(
-      new UpdatePassangerDetailsFromKey({
-        passangerPassportNumber: this.passportNumber,
-        flightNumber: this.flightNumber,
-        keyValuePair: { checkinServices: this.checkinServices },
-      })
-    );
-    this.closeDialog()
+  isFormInvalid() {
+    console.log(this.form);
+    return this.form.invalid || this.form.pristine
   }
 
   closeDialog() {

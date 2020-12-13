@@ -27,6 +27,7 @@ export class ExpansionPanelComponent implements OnInit {
     }
   }
   @Input() type: string;
+  @Input() isAdmin = false;
   flightFrom: string;
   flightTo: string;
   flightNumber: string;
