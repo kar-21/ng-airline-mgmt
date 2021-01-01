@@ -31,6 +31,7 @@ import { PassangerInflightDetailsComponent } from "./components/dialog/passanger
 import { PassangerCheckinDetailsComponent } from "./components/dialog/passanger-checkin-details/passanger-checkin-details.component";
 import { PassangerDetailsComponent } from "./components/dialog/passanger-details/passanger-details.component";
 import { MatSelectModule } from "@angular/material/select";
+import { AirlineDetailsComponent } from './components/airline-details/airline-details.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatSelectModule } from "@angular/material/select";
     TableComponent,
     PassangerInflightDetailsComponent,
     PassangerCheckinDetailsComponent,
+    AirlineDetailsComponent,
   ],
   imports: [
     CommonModule,

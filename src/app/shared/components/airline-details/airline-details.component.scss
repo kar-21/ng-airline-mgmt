@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-top: 2vh;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  min-height: 7vh;
+  h3 {
+    width: 18vw;
+  }
+  @media screen AND (max-width: 500px) {
+    h3 {
+      width: 35vw;
+    }
+  }
+}
+.column {
+  @media screen AND (max-width: 500px) {
+    flex-direction: row;
+    width: 85vw;
+    h3 {
+      width: 35vw;
+    }
+    & > :nth-child(2) {
+      margin-left: 10vw;
+    }
+  }
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+}

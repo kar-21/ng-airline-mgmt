@@ -16,7 +16,7 @@ import { PassangerCheckinDetailsComponent } from "../dialog/passanger-checkin-de
 import { MatDialog } from "@angular/material/dialog";
 import { SharedContants } from "../../shared.constant";
 import { PassangerInflightDetailsComponent } from "../dialog/passanger-inflight-details/passanger-inflight-details.component";
-import { PassangerDetailsComponent } from '../dialog/passanger-details/passanger-details.component';
+import { PassangerDetailsComponent } from "../dialog/passanger-details/passanger-details.component";
 
 @Component({
   selector: "app-table",
@@ -109,11 +109,37 @@ export class TableComponent implements OnInit {
     });
   }
 
+  addNewPassanger() {
+    this.dialog.open(PassangerDetailsComponent, {
+      data: {
+        name: "",
+        seatNumber: "",
+        address: "",
+        passportNumber: "",
+        contactNumber: "",
+        checkedIn: false,
+        wheelChair: false,
+        infants: false,
+        mealType: 'notRequired',
+        inflightServices: [],
+        shopItems: [],
+        checkinServices: [],
+        flightNumber: this.flightNumber,
+        airlinePassangers: this.seatsArray,
+        isNewPassanger: true,
+      },
+    });
+  }
+
   openPassangerDetails(passanger) {
     console.log(">>>", passanger);
     const dialogRef = this.isAdmin
       ? this.dialog.open(PassangerDetailsComponent, {
-          data: { ...passanger, airlinePassangers: this.seatsArray },
+          data: {
+            ...passanger,
+            airlinePassangers: this.seatsArray,
+            isNewPassanger: false,
+          },
         })
       : this.type === "checkin"
       ? this.dialog.open(PassangerCheckinDetailsComponent, {

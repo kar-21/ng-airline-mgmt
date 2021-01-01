@@ -30,6 +30,7 @@ export class PassangerDetailsComponent implements OnInit {
   infants: boolean;
   checkinServices: string[];
   flightNumber: string;
+  isNewPassanger = false;
   form: FormGroup;
   passangersArray;
   mealType: string;
@@ -74,12 +75,30 @@ export class PassangerDetailsComponent implements OnInit {
           Validators.pattern("^[A-Z0-9]*$"),
         ]),
         addressField: new FormControl(this.address, [Validators.required]),
-        contactNumberField: new FormControl(this.contactNumber, [Validators.required, Validators.pattern("^[0-9]*$")]),
+        contactNumberField: new FormControl(this.contactNumber, [
+          Validators.required,
+          Validators.pattern("^[0-9]*$"),
+        ]),
         checkedInField: new FormControl(this.checkedIn, [Validators.required]),
         mealTypeField: new FormControl(this.mealType, [Validators.required]),
-        wheelChairField: new FormControl(this.wheelChair, [Validators.required]),
+        wheelChairField: new FormControl(this.wheelChair, [
+          Validators.required,
+        ]),
         infantsField: new FormControl(this.infants, [Validators.required]),
+        checkedInServiceField: new FormControl(this.checkinServices),
+        inflightServiceField: new FormControl(this.inflightServices),
+        shopItemsField: new FormControl(this.shopItems),
       });
+      if (this.data.isNewPassanger) {
+        this.form.addControl(
+          "nameField",
+          new FormControl("", [
+            Validators.required,
+            Validators.pattern("^[A-Za-z]*$"),
+          ])
+        );
+        this.isNewPassanger = this.data.isNewPassanger;
+      }
     }
 
     this.form.get("seatNumberField").valueChanges.subscribe((value) => {
@@ -110,10 +129,14 @@ export class PassangerDetailsComponent implements OnInit {
     // Add our fruit
     if ((value || "").trim() && !this.checkinServices.includes(value)) {
       this.checkinServices.push(value.trim());
+      this.form.get('checkedInServiceField').markAsTouched();
+      this.form.get('checkedInServiceField').markAsDirty();
     }
     // Reset the input value
     if (input) {
       input.value = "";
+      this.form.get('checkedInServiceField').markAsTouched();
+      this.form.get('checkedInServiceField').markAsDirty();
     }
   }
 
@@ -121,6 +144,8 @@ export class PassangerDetailsComponent implements OnInit {
     const index = this.checkinServices.indexOf(checkinService);
     if (index >= 0) {
       this.checkinServices.splice(index, 1);
+      this.form.get('checkedInServiceField').markAsTouched();
+      this.form.get('checkedInServiceField').markAsDirty();
     }
   }
 
@@ -131,43 +156,55 @@ export class PassangerDetailsComponent implements OnInit {
     // Add our fruit
     if ((value || "").trim() && !this.inflightServices.includes(value)) {
       this.inflightServices.push(value.trim());
+      this.form.get('inflightServiceField').markAsTouched();
+      this.form.get('inflightServiceField').markAsDirty();
     }
     // Reset the input value
     if (input) {
       input.value = "";
+      this.form.get('inflightServiceField').markAsTouched();
+      this.form.get('inflightServiceField').markAsDirty();
     }
   }
-
+  
   removeInflightService(inflightService: string): void {
     const index = this.inflightServices.indexOf(inflightService);
     if (index >= 0) {
       this.inflightServices.splice(index, 1);
+      this.form.get('inflightServiceField').markAsTouched();
+      this.form.get('inflightServiceField').markAsDirty();
     }
   }
-
+  
   addShopItem(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
+    
     // Add our fruit
     if ((value || "").trim() && !this.shopItems.includes(value)) {
       this.shopItems.push(value.trim());
+      this.form.get('shopItemsField').markAsTouched();
+      this.form.get('shopItemsField').markAsDirty();
     }
     // Reset the input value
     if (input) {
       input.value = "";
+      this.form.get('shopItemsField').markAsTouched();
+      this.form.get('shopItemsField').markAsDirty();
     }
   }
-
+  
   removeShopItem(shopItem: string): void {
     const index = this.shopItems.indexOf(shopItem);
     if (index >= 0) {
       this.shopItems.splice(index, 1);
+      this.form.get('shopItemsField').markAsTouched();
+      this.form.get('shopItemsField').markAsDirty();
     }
   }
 
   saveSetting() {
-    console.log('>>', this.form);
+    console.log(">>", this.form);
     const newSeatNumber = this.form.get("seatNumberField").value;
     if (this.showSeatOccupied) {
       const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
@@ -189,14 +226,14 @@ export class PassangerDetailsComponent implements OnInit {
           checkinServices: this.checkinServices,
           inflightServices: this.inflightServices,
           shopItem: this.shopItems,
-          seatNumber: this.form.get('seatNumberField').value,
-          passportNumber: this.form.get('passportNumberField').value,
-          address: this.form.get('addressField').value,
-          contactNumber: this.form.get('contactNumberField').value,
-          checkedIn: this.form.get('checkedInField').value,
-          mealType: this.form.get('mealTypeField').value,
-          wheelChair: this.form.get('wheelChairField').value,
-          infants: this.form.get('infantsField').value,
+          seatNumber: this.form.get("seatNumberField").value,
+          passportNumber: this.form.get("passportNumberField").value,
+          address: this.form.get("addressField").value,
+          contactNumber: this.form.get("contactNumberField").value,
+          checkedIn: this.form.get("checkedInField").value,
+          mealType: this.form.get("mealTypeField").value,
+          wheelChair: this.form.get("wheelChairField").value,
+          infants: this.form.get("infantsField").value,
         },
       })
     );
@@ -205,7 +242,7 @@ export class PassangerDetailsComponent implements OnInit {
 
   isFormInvalid() {
     console.log(this.form);
-    return this.form.invalid || this.form.pristine
+    return this.form.invalid || this.form.pristine;
   }
 
   closeDialog() {

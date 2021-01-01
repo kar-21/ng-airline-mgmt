@@ -1,5 +1,16 @@
 <div class="header">
-  <h1 class="name"><mat-icon>person</mat-icon>{{ name }}</h1>
+  <h1 *ngIf="!isNewPassanger" class="name">
+    <mat-icon>person</mat-icon>{{ name }}
+  </h1>
+  <div class="new-passanger-row" *ngIf="isNewPassanger">
+    <h1 class="new-passanger">Name</h1>
+    <mat-form-field class="form-field name-input">
+      <input matInput formControlName="nameField" />
+      <mat-error class="error-text">
+        Name is <strong>Required</strong>.
+      </mat-error>
+    </mat-form-field>
+  </div>
   <button mat-mini-fab color="warn" (click)="closeDialog()">
     <mat-icon>close</mat-icon>
   </button>

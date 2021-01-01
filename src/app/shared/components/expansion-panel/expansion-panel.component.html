@@ -10,14 +10,32 @@
       <span> {{ flightNumber }}</span
       ><span>{{ flightPartner }}</span
       ><span> Gate - {{ gate }} </span>
-      <mat-slide-toggle *ngIf="!isAdmin" [checked]="isSeatMapView" (change)="changeView($event)"
+      <mat-slide-toggle
+        *ngIf="!isAdmin"
+        [checked]="isSeatMapView"
+        (change)="changeView($event)"
         >Switch to <span *ngIf="isSeatMapView">Table</span
         ><span *ngIf="!isSeatMapView">Seat</span> View</mat-slide-toggle
       >
     </div>
+    <div *ngIf="isAdmin">
+      <app-airline-details [data]="airlineDetailsData"></app-airline-details>
+    </div>
     <mat-divider></mat-divider>
-    <app-seats *ngIf="!isAdmin && isSeatMapView" [flightNumber]="flightNumber" [type]="type"></app-seats>
-    <app-table *ngIf="!isAdmin && !isSeatMapView" [flightNumber]="flightNumber" [type]="type"></app-table>
-    <app-table *ngIf="isAdmin" [flightNumber]="flightNumber" [isAdmin]="isAdmin"></app-table>
+    <app-seats
+      *ngIf="!isAdmin && isSeatMapView"
+      [flightNumber]="flightNumber"
+      [type]="type"
+    ></app-seats>
+    <app-table
+      *ngIf="!isAdmin && !isSeatMapView"
+      [flightNumber]="flightNumber"
+      [type]="type"
+    ></app-table>
+    <app-table
+      *ngIf="isAdmin"
+      [flightNumber]="flightNumber"
+      [isAdmin]="isAdmin"
+    ></app-table>
   </div>
 </mat-expansion-panel>

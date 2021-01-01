@@ -5,6 +5,7 @@ import { PassangerList } from "src/app/shared/models/passanger-list.model";
 export enum EPassangerAction {
   GetAirlineList = "get [airline] list information",
   GetAirlineListSuccess = "get [airline] list information success",
+  UpdateAirlineDetailsFromKey = "update a [airline] details listed in [key:  value]",
   GetPassangersListOfFlight = "get [passangers] list of [flight]",
   GetPassangersListOfFlightSuccess = "get [passangers] list of [flight] success",
   UpdatePassangerDetailsFromKey = "update a [passanger] details listed in [key: value]",
@@ -17,6 +18,16 @@ export class GetAirLineList implements Action {
 export class GetAirlineListSuccess implements Action {
   public readonly type = EPassangerAction.GetAirlineListSuccess;
   constructor(public payload: AirlineList[]) {}
+}
+
+export class UpdateAirlineDetailsFromKey implements Action {
+  public readonly type = EPassangerAction.UpdateAirlineDetailsFromKey;
+  constructor(
+    public payload: {
+      flightNumber: string;
+      keyValuePair: object;
+    }
+  ) {}
 }
 
 export class GetPassangersListOfFlight implements Action {
@@ -45,6 +56,7 @@ export class UpdatePassangerDetailsFromKey implements Action {
 export type PassangerActions =
   | GetAirLineList
   | GetAirlineListSuccess
+  | UpdateAirlineDetailsFromKey
   | GetPassangersListOfFlight
   | GetPassangerssListOfFlightSuccess
   | UpdatePassangerDetailsFromKey;

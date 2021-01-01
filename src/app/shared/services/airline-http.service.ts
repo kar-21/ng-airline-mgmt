@@ -23,11 +23,20 @@ export class AirlineHttpService {
     );
   }
 
-  getPassangerListForFlight(flightNumber: string): Observable<PassangerList[]> {
-    console.log(
-      ">>>24",
-      environment.backendAPI + "/getPassangers/" + flightNumber
+  updateAirlineDetailsFromKey(
+    flightNumber: string,
+    keyValuePair: object
+  ): Observable<any> {
+    const body = { flightNumber: flightNumber, keyValuePair: keyValuePair };
+    console.log("<<<", body);
+    return this.http.patch<any>(
+      environment.backendAPI + "/updateAirlineList",
+      JSON.stringify(body),
+      this.options
     );
+  }
+
+  getPassangerListForFlight(flightNumber: string): Observable<PassangerList[]> {
     return this.http.get<PassangerList[]>(
       environment.backendAPI + "/getPassangers/" + flightNumber
     );

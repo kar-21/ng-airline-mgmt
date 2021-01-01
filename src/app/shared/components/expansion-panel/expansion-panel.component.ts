@@ -24,6 +24,13 @@ export class ExpansionPanelComponent implements OnInit {
       this.flightNumber = airline.flightNumber;
       this.flightPartner = airline.flightPartner;
       this.gate = airline.gate;
+      this.airlineDetailsData = {
+        flightNumber: airline.flightNumber,
+        mealType: airline.mealTypes,
+        inflightServices: airline.inflightServices,
+        shopItem: airline.shopItem,
+        checkinServices: airline.checkinServices,
+      }
     }
   }
   @Input() type: string;
@@ -39,6 +46,7 @@ export class ExpansionPanelComponent implements OnInit {
   gate: number;
   isPanelOpen = false;
   isSeatMapView = true;
+  airlineDetailsData;
 
   constructor(private store: Store<AppState>) {}
 

@@ -9,6 +9,7 @@ import {
   GetAirlineListSuccess,
   GetPassangersListOfFlight,
   GetPassangerssListOfFlightSuccess,
+  UpdateAirlineDetailsFromKey,
   UpdatePassangerDetailsFromKey,
 } from "../actions/passanger.action";
 import { switchMap } from "rxjs/operators";
@@ -34,6 +35,21 @@ export class PassangerEffect {
     switchMap((airlineHttp: AirlineList[]) =>
       of(new GetAirlineListSuccess(airlineHttp))
     )
+  );
+
+  @Effect()
+  updateAirlineDetailsFromKey = this.actions.pipe(
+    ofType<UpdateAirlineDetailsFromKey>(
+      EPassangerAction.UpdateAirlineDetailsFromKey
+    ),
+    switchMap((data) => {
+      this.updatedFlightNumber = data.payload.flightNumber;
+      return this.airlineHttpService.updateAirlineDetailsFromKey(
+        data.payload.flightNumber,
+        data.payload.keyValuePair
+      );
+    }),
+    switchMap(() => of(new GetAirLineList()))
   );
 
   @Effect()

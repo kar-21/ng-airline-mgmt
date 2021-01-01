@@ -1,0 +1,109 @@
+<mat-divider></mat-divider>
+<mat-expansion-panel (opened)="setPanelOpen()" (closed)="setPanelClose()">
+  <mat-expansion-panel-header>
+    <mat-panel-title
+      >Edit Airline Serives</mat-panel-title
+    ></mat-expansion-panel-header
+  >
+  <div class="container" *ngIf="isSubPanelOpen">
+    <div class="row column">
+      <h3>Check In Services</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipList aria-label="selection">
+          <mat-chip
+            *ngFor="let checkinService of checkinServices"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeCheckinService(checkinService)"
+          >
+            {{ checkinService }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addCheckinService($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="row column">
+      <h3>Meal Type</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipListMeal aria-label="selection">
+          <mat-chip
+            *ngFor="let meal of mealType"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeMeal(meal)"
+          >
+            {{ meal }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipListMeal"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addMeal($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="row column">
+      <h3>In Flight Services</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipListInflight aria-label="selection">
+          <mat-chip
+            *ngFor="let inflightService of inflightServices"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeInflightService(inflightService)"
+          >
+            {{ inflightService }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipListInflight"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addInflightService($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="row column">
+      <h3>Shop Items</h3>
+      <mat-form-field class="form-chip-field">
+        <mat-chip-list #chipListShopItem aria-label="selection">
+          <mat-chip
+            *ngFor="let shopItem of shopItems"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeShopItem(shopItem)"
+          >
+            {{ shopItem }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="chipListShopItem"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addShopItem($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="button-container" *ngIf="isSubPanelOpen">
+    <button
+      mat-flat-button
+      [disabled]="formDirty"
+      class="save-button"
+      color="primary"
+      (click)="saveSetting()"
+    >
+      Save Services
+    </button>
+  </div>
+</mat-expansion-panel>
