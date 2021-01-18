@@ -44,13 +44,20 @@
           <h3>Meal Type</h3>
         </td>
         <td>
-          <span *ngIf="mealType === mealNotRequiredText">Not requried</span
-          ><span *ngIf="mealType === normalVegMealText">Veg</span
-          ><span *ngIf="mealType === normalNonVegMealText">Non Veg</span
-          ><span *ngIf="mealType === specialVegMealText">Special Veg</span
-          ><span *ngIf="mealType === specialNonVegMealText"
-            >Special Non Veg</span
-          >
+          <form [formGroup]="form">
+            <mat-form-field appearance="fill">
+              <mat-select
+                value="{{ mealType }}"
+                formControlName="mealTypeField"
+              >
+                <mat-option
+                  *ngFor="let meals of flightProperties.mealTypes"
+                  value="{{ meals }}"
+                  >{{ meals }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </form>
         </td>
       </tr>
     </tbody>
@@ -73,7 +80,19 @@
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="addInflightService($event)"
-      />
+        [matAutocomplete]="autoInflightService"
+        />
+        <mat-autocomplete
+          #autoInflightService="matAutocomplete"
+          (optionSelected)="selectedInFlightService($event)"
+        >
+          <mat-option
+            *ngFor="let option of flightProperties.inflightServices"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
     </mat-chip-list>
   </mat-form-field>
   <h3>Shop Items</h3>
@@ -93,15 +112,28 @@
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="addShopItem($event)"
-      />
+        [matAutocomplete]="autoShopItem"
+        />
+        <mat-autocomplete
+          #autoShopItem="matAutocomplete"
+          (optionSelected)="selectedShopItem($event)"
+        >
+          <mat-option
+            *ngFor="let option of flightProperties.shopItem"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
     </mat-chip-list>
   </mat-form-field>
   <button
     mat-flat-button
     class="service-button"
     color="primary"
+    [disabled]="saveDisabled"
     (click)="saveServies()"
   >
-    Save Services
+    Save
   </button>
 </div>

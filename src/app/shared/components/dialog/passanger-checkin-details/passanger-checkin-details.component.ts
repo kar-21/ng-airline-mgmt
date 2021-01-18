@@ -1,12 +1,14 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
-import { UpdatePassangerDetailsFromKey } from 'src/app/core/store/actions/passanger.action';
-import { AppState } from 'src/app/core/store/states/app.state';
-import { SharedContants } from 'src/app/shared/shared.constant';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { select, Store } from "@ngrx/store";
+import { UpdatePassangerDetailsFromKey } from "src/app/core/store/actions/passanger.action";
+import { selectorAirlineList } from "src/app/core/store/selector/passanger.selector";
+import { AppState } from "src/app/core/store/states/app.state";
+import { AirlineList } from "src/app/shared/models/airline-list.model";
+import { SharedContants } from "src/app/shared/shared.constant";
 
 @Component({
   selector: "app-passanger-checkin-details",
@@ -39,6 +41,8 @@ export class PassangerCheckinDetailsComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  saveServiceDisabled = true;
+  flightProperties: AirlineList;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   ngOnInit(): void {
@@ -60,6 +64,17 @@ export class PassangerCheckinDetailsComponent implements OnInit {
           Validators.pattern("^[A-F][1-9]$|^[A-F]1[0-9]$|^[A-F]2[0-5]$"),
         ]),
       });
+      this.store
+        .pipe(select(selectorAirlineList))
+        .subscribe((airlineList: AirlineList[]) => {
+          if (airlineList) {
+            airlineList.forEach((airline: AirlineList) => {
+              if (airline.flightNumber === this.data.flightNumber) {
+                this.flightProperties = airline;
+              }
+            });
+          }
+        });
     }
 
     this.form.get("seatNumberForm").valueChanges.subscribe((value) => {
@@ -123,10 +138,12 @@ export class PassangerCheckinDetailsComponent implements OnInit {
     // Add our fruit
     if ((value || "").trim() && !this.checkinServices.includes(value)) {
       this.checkinServices.push(value.trim());
+      this.saveServiceDisabled = false;
     }
     // Reset the input value
     if (input) {
       input.value = "";
+      this.saveServiceDisabled = false;
     }
   }
 
@@ -134,6 +151,15 @@ export class PassangerCheckinDetailsComponent implements OnInit {
     const index = this.checkinServices.indexOf(checkinService);
     if (index >= 0) {
       this.checkinServices.splice(index, 1);
+      this.saveServiceDisabled = false;
+    }
+  }
+
+  selectedCheckinService(event) {
+    const value = event.option.viewValue;
+    if ((value || "").trim() && !this.checkinServices.includes(value)) {
+      this.checkinServices.push(value.trim());
+      this.saveServiceDisabled = false;
     }
   }
 

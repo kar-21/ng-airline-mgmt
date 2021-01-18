@@ -31,7 +31,8 @@ import { PassangerInflightDetailsComponent } from "./components/dialog/passanger
 import { PassangerCheckinDetailsComponent } from "./components/dialog/passanger-checkin-details/passanger-checkin-details.component";
 import { PassangerDetailsComponent } from "./components/dialog/passanger-details/passanger-details.component";
 import { MatSelectModule } from "@angular/material/select";
-import { AirlineDetailsComponent } from './components/airline-details/airline-details.component';
+import { AirlineDetailsComponent } from "./components/airline-details/airline-details.component";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { AirlineDetailsComponent } from './components/airline-details/airline-de
     MatPaginatorModule,
     MatChipsModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
   exports: [
     MatSidenavModule,
@@ -92,6 +94,7 @@ import { AirlineDetailsComponent } from './components/airline-details/airline-de
     MatPaginatorModule,
     MatChipsModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
   entryComponents: [
     PassangerCheckinDetailsComponent,

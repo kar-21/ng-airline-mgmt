@@ -120,7 +120,7 @@ export class TableComponent implements OnInit {
         checkedIn: false,
         wheelChair: false,
         infants: false,
-        mealType: 'notRequired',
+        mealType: 'Not Required',
         inflightServices: [],
         shopItems: [],
         checkinServices: [],

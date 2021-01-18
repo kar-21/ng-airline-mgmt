@@ -2,11 +2,14 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgControl, Validators } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { Store } from "@ngrx/store";
+import { select, Store } from "@ngrx/store";
 import { UpdatePassangerDetailsFromKey } from "src/app/core/store/actions/passanger.action";
 import { AppState } from "src/app/core/store/states/app.state";
 import { SharedContants } from "src/app/shared/shared.constant";
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { COMMA, ENTER, V } from "@angular/cdk/keycodes";
+import { selectorAirlineList } from "src/app/core/store/selector/passanger.selector";
+import { AirlineList } from "src/app/shared/models/airline-list.model";
+import { map, startWith } from "rxjs/operators";
 
 @Component({
   selector: "app-passanger-details",
@@ -47,6 +50,7 @@ export class PassangerDetailsComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  flightProperties: AirlineList;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   ngOnInit(): void {
@@ -65,6 +69,17 @@ export class PassangerDetailsComponent implements OnInit {
       this.checkinServices = Object.assign([], this.data.checkinServices);
       this.flightNumber = this.data.flightNumber;
       this.passangersArray = this.data.airlinePassangers;
+      this.store
+        .pipe(select(selectorAirlineList))
+        .subscribe((airlineList: AirlineList[]) => {
+          if (airlineList) {
+            airlineList.forEach((airline: AirlineList) => {
+              if (airline.flightNumber === this.data.flightNumber) {
+                this.flightProperties = airline;
+              }
+            });
+          }
+        });
       this.form = new FormGroup({
         seatNumberField: new FormControl(this.seatNumber, [
           Validators.required,
@@ -123,20 +138,30 @@ export class PassangerDetailsComponent implements OnInit {
   }
 
   addCheckinService(event: MatChipInputEvent): void {
+    console.log(">>>", event, event.value);
     const input = event.input;
     const value = event.value;
 
     // Add our fruit
     if ((value || "").trim() && !this.checkinServices.includes(value)) {
       this.checkinServices.push(value.trim());
-      this.form.get('checkedInServiceField').markAsTouched();
-      this.form.get('checkedInServiceField').markAsDirty();
+      this.form.get("checkedInServiceField").markAsTouched();
+      this.form.get("checkedInServiceField").markAsDirty();
     }
     // Reset the input value
     if (input) {
       input.value = "";
-      this.form.get('checkedInServiceField').markAsTouched();
-      this.form.get('checkedInServiceField').markAsDirty();
+      this.form.get("checkedInServiceField").markAsTouched();
+      this.form.get("checkedInServiceField").markAsDirty();
+    }
+  }
+
+  selectedCheckinService(event) {
+    const value = event.option.viewValue;
+    if ((value || "").trim() && !this.checkinServices.includes(value)) {
+      this.checkinServices.push(value.trim());
+      this.form.get("checkedInServiceField").markAsTouched();
+      this.form.get("checkedInServiceField").markAsDirty();
     }
   }
 
@@ -144,8 +169,8 @@ export class PassangerDetailsComponent implements OnInit {
     const index = this.checkinServices.indexOf(checkinService);
     if (index >= 0) {
       this.checkinServices.splice(index, 1);
-      this.form.get('checkedInServiceField').markAsTouched();
-      this.form.get('checkedInServiceField').markAsDirty();
+      this.form.get("checkedInServiceField").markAsTouched();
+      this.form.get("checkedInServiceField").markAsDirty();
     }
   }
 
@@ -156,50 +181,68 @@ export class PassangerDetailsComponent implements OnInit {
     // Add our fruit
     if ((value || "").trim() && !this.inflightServices.includes(value)) {
       this.inflightServices.push(value.trim());
-      this.form.get('inflightServiceField').markAsTouched();
-      this.form.get('inflightServiceField').markAsDirty();
+      this.form.get("inflightServiceField").markAsTouched();
+      this.form.get("inflightServiceField").markAsDirty();
     }
     // Reset the input value
     if (input) {
       input.value = "";
-      this.form.get('inflightServiceField').markAsTouched();
-      this.form.get('inflightServiceField').markAsDirty();
+      this.form.get("inflightServiceField").markAsTouched();
+      this.form.get("inflightServiceField").markAsDirty();
     }
   }
-  
+
+  selectedInFlightService(event) {
+    const value = event.option.viewValue;
+    if ((value || "").trim() && !this.inflightServices.includes(value)) {
+      this.inflightServices.push(value.trim());
+      this.form.get("inflightServiceField").markAsTouched();
+      this.form.get("inflightServiceField").markAsDirty();
+    }
+  }
+
   removeInflightService(inflightService: string): void {
     const index = this.inflightServices.indexOf(inflightService);
     if (index >= 0) {
       this.inflightServices.splice(index, 1);
-      this.form.get('inflightServiceField').markAsTouched();
-      this.form.get('inflightServiceField').markAsDirty();
+      this.form.get("inflightServiceField").markAsTouched();
+      this.form.get("inflightServiceField").markAsDirty();
     }
   }
-  
+
   addShopItem(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    
+
     // Add our fruit
     if ((value || "").trim() && !this.shopItems.includes(value)) {
       this.shopItems.push(value.trim());
-      this.form.get('shopItemsField').markAsTouched();
-      this.form.get('shopItemsField').markAsDirty();
+      this.form.get("shopItemsField").markAsTouched();
+      this.form.get("shopItemsField").markAsDirty();
     }
     // Reset the input value
     if (input) {
       input.value = "";
-      this.form.get('shopItemsField').markAsTouched();
-      this.form.get('shopItemsField').markAsDirty();
+      this.form.get("shopItemsField").markAsTouched();
+      this.form.get("shopItemsField").markAsDirty();
     }
   }
-  
+
+  selectedShopItem(event) {
+    const value = event.option.viewValue;
+    if ((value || "").trim() && !this.shopItems.includes(value)) {
+      this.shopItems.push(value.trim());
+      this.form.get("shopItemsField").markAsTouched();
+      this.form.get("shopItemsField").markAsDirty();
+    }
+  }
+
   removeShopItem(shopItem: string): void {
     const index = this.shopItems.indexOf(shopItem);
     if (index >= 0) {
       this.shopItems.splice(index, 1);
-      this.form.get('shopItemsField').markAsTouched();
-      this.form.get('shopItemsField').markAsDirty();
+      this.form.get("shopItemsField").markAsTouched();
+      this.form.get("shopItemsField").markAsDirty();
     }
   }
 
