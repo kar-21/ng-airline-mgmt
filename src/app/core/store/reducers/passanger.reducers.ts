@@ -13,16 +13,8 @@ export const PassangerReducer = (
 ): PassangerState => {
   switch (action.type) {
     case EPassangerAction.GetAirlineListSuccess:
-      console.log(">> store", { ...state, airlineList: action.payload });
       return { ...state, airlineList: action.payload };
     case EPassangerAction.GetPassangersListOfFlightSuccess:
-      console.log(">> store", {
-        ...state,
-        passangerList: {
-          ...state.passangerList,
-          [action.payload.flightNumber]: action.payload.data,
-        },
-      });
       return {
         ...state,
         passangerList: {
@@ -31,7 +23,6 @@ export const PassangerReducer = (
         },
       };
     default:
-      console.log(">>store", { ...state });
       return { ...state };
   }
 };

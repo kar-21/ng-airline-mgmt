@@ -7,11 +7,6 @@ export const UserReducer = (
 ): UserState => {
   switch (action.type) {
     case EUserAction.SaveUserInfo:
-      console.log("store >>", {
-        ...state,
-        userName: action.payload.userName,
-        role: action.payload.role,
-      });
       return {
         ...state,
         userName: action.payload.userName,

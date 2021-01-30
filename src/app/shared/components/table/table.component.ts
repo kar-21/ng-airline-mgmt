@@ -100,7 +100,6 @@ export class TableComponent implements OnInit {
   }
 
   updateSeatsArray() {
-    console.log(">>>", this.passangers);
     this.passangers.forEach((passanger: PassangerList) => {
       const row = this.rowSeatName.indexOf(passanger.seatNumber.slice(0, 1));
       const column =
@@ -132,7 +131,6 @@ export class TableComponent implements OnInit {
   }
 
   openPassangerDetails(passanger) {
-    console.log(">>>", passanger);
     const dialogRef = this.isAdmin
       ? this.dialog.open(PassangerDetailsComponent, {
           data: {
@@ -149,7 +147,6 @@ export class TableComponent implements OnInit {
           data: { ...passanger },
         });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(">>closed");
     });
   }
 }

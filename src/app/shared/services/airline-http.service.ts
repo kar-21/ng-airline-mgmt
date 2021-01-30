@@ -28,7 +28,6 @@ export class AirlineHttpService {
     keyValuePair: object
   ): Observable<any> {
     const body = { flightNumber: flightNumber, keyValuePair: keyValuePair };
-    console.log("<<<", body);
     return this.http.patch<any>(
       environment.backendAPI + "/updateAirlineList",
       JSON.stringify(body),

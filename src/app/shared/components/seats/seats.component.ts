@@ -55,7 +55,6 @@ export class SeatsComponent implements OnInit {
       const row = this.rowSeatName.indexOf(passanger.seatNumber.slice(0, 1));
       const column =
         +passanger.seatNumber.slice(1, passanger.seatNumber.length) - 1;
-      console.log(">>", this.type);
       if (this.type === "checkin") {
         this.seatsArray[row][column] = [
           passanger,
@@ -80,7 +79,6 @@ export class SeatsComponent implements OnInit {
   }
 
   selectSeat(seat) {
-    console.log(">>selected", seat);
     if (seat[0] !== null) {
       const dialogRef =
         this.type === "checkin"
@@ -91,7 +89,6 @@ export class SeatsComponent implements OnInit {
               data: { ...seat[0] },
             });
       dialogRef.afterClosed().subscribe((result) => {
-        console.log(">>closed");
       });
     }
   }

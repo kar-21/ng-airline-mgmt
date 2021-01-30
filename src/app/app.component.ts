@@ -42,13 +42,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isMobile = this.mediaObserver.isActive("xs");
         this.toggled = !this.isMobile;
       });
-    console.log('>>>>', !this.isMobile && this.toggled);
   }
 
   ngOnInit() {
     this.cookieValue = this.cookieService.get("token");
     if (this.cookieValue) {
-      console.log(">>>", jwt_decode(this.cookieValue));
       this.loginService.setIsLoggedIn(true);
       this.store.dispatch(
         new SaveUserInfo({
@@ -71,7 +69,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleSideNav() {
-    console.log(this.toggled)
     this.toggled = !this.toggled;
   }
 

@@ -138,7 +138,6 @@ export class PassangerDetailsComponent implements OnInit {
   }
 
   addCheckinService(event: MatChipInputEvent): void {
-    console.log(">>>", event, event.value);
     const input = event.input;
     const value = event.value;
 
@@ -247,7 +246,6 @@ export class PassangerDetailsComponent implements OnInit {
   }
 
   saveSetting() {
-    console.log(">>", this.form);
     const newSeatNumber = this.form.get("seatNumberField").value;
     if (this.showSeatOccupied) {
       const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
@@ -284,7 +282,6 @@ export class PassangerDetailsComponent implements OnInit {
   }
 
   isFormInvalid() {
-    console.log(this.form);
     return this.form.invalid || this.form.pristine;
   }
 

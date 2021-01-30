@@ -146,7 +146,6 @@ export class AirlineDetailsComponent implements OnInit {
       shopItem: this.shopItems,
       inflightServices: this.inflightServices,
     };
-    console.log('<<<flightnumber', this.flightNumber);
     this.store.dispatch(
       new UpdateAirlineDetailsFromKey({
         flightNumber: this.flightNumber,

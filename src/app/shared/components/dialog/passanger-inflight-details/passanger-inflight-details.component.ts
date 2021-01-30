@@ -140,7 +140,6 @@ export class PassangerInflightDetailsComponent implements OnInit {
   }
 
   saveServies() {
-    console.log(">>>services", this.inflightServices, this.shopItems);
     this.store.dispatch(
       new UpdatePassangerDetailsFromKey({
         passangerPassportNumber: this.passportNumber,

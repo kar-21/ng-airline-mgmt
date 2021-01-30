@@ -164,7 +164,6 @@ export class PassangerCheckinDetailsComponent implements OnInit {
   }
 
   saveServies() {
-    console.log(">>>services", this.checkinServices);
     this.store.dispatch(
       new UpdatePassangerDetailsFromKey({
         passangerPassportNumber: this.passportNumber,

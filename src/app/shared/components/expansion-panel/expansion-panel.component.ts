@@ -54,11 +54,6 @@ export class ExpansionPanelComponent implements OnInit {
   }
 
   getDate(): string {
-    console.log(
-      `${this.dateAndTimeOfDeparture.getDate()}-${
-        this.monthNames[this.dateAndTimeOfDeparture.getMonth()]
-      }-${this.dateAndTimeOfDeparture.getFullYear()}`
-    );
     return `${this.dateAndTimeOfDeparture.getDate()}-${
       this.monthNames[this.dateAndTimeOfDeparture.getMonth()]
     }-${this.dateAndTimeOfDeparture.getFullYear()}`;
