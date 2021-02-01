@@ -37,6 +37,6 @@ export class NoAuthGuard implements CanActivate {
     } else if (this.role && this.role === SharedContants.role.adminRole) {
       this.router.navigateByUrl("/admin");
     }
-      return true;
+    return true;
   }
 }

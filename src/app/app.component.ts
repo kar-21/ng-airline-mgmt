@@ -54,8 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           role: jwt_decode(this.cookieValue).role,
         })
       );
-    } else {
-      this.router.navigateByUrl("/login");
     }
   }
 

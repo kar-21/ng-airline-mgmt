@@ -1,0 +1,10 @@
+div {
+  height: 100%;
+  display: flex;
+  p {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+}
