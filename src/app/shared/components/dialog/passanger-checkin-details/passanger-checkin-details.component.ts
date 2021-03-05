@@ -84,6 +84,7 @@ export class PassangerCheckinDetailsComponent implements OnInit {
         if (
           row > -1 &&
           column > -1 &&
+          typeof(this.passangersArray[row][column]) === 'string' &&
           this.passangersArray[row][column][0] !== null
         ) {
           this.showSeatOccupied = true;
@@ -97,8 +98,9 @@ export class PassangerCheckinDetailsComponent implements OnInit {
   }
 
   changeSeatnumber() {
+    console.log(">>>", this.form.get("seatNumberForm").valid);
     const newSeatNumber = this.form.get("seatNumberForm").value;
-    if (this.showSeatOccupied) {
+    if (this.showSeatOccupied && this.form.get("seatNumberForm").valid) {
       const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
       const column = +newSeatNumber.slice(1, newSeatNumber.length) - 1;
       const passangerForSeatExchange = this.passangersArray[row][column][0];
@@ -109,15 +111,17 @@ export class PassangerCheckinDetailsComponent implements OnInit {
           keyValuePair: { seatNumber: this.seatNumber },
         })
       );
+      this.closeDialog();
+    } else if (this.form.get("seatNumberForm").valid) {
+      this.store.dispatch(
+        new UpdatePassangerDetailsFromKey({
+          passangerPassportNumber: this.passportNumber,
+          flightNumber: this.flightNumber,
+          keyValuePair: { seatNumber: newSeatNumber },
+        })
+      );
+      this.closeDialog();
     }
-    this.store.dispatch(
-      new UpdatePassangerDetailsFromKey({
-        passangerPassportNumber: this.passportNumber,
-        flightNumber: this.flightNumber,
-        keyValuePair: { seatNumber: newSeatNumber },
-      })
-    );
-    this.closeDialog();
   }
 
   sendCheckInDataToServer() {

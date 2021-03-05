@@ -16,6 +16,11 @@ export const SharedContants = {
         icon: "assignment",
       },
       { routerLink: "/about", routerLinkText: "About", icon: "info" },
+      {
+        routerLink: "/logout",
+        routerLinkText: "Logout",
+        icon: "logout",
+      },
     ],
     AdminSideNav: [
       {
@@ -24,6 +29,11 @@ export const SharedContants = {
         icon: "account_box",
       },
       { routerLink: "/about", routerLinkText: "About", icon: "info" },
+      {
+        routerLink: "/logout",
+        routerLinkText: "Logout",
+        icon: "logout",
+      },
     ],
   },
   rowSeatName: ["A", "B", "C", "D", "E", "F"],
@@ -52,6 +62,6 @@ export const SharedContants = {
     normalVegMeal: "Veg Meal",
     normalNonVegMeal: "Non Veg Meal",
     specialVegMeal: "Special Veg Meal",
-    specialNonVegMeal: "Special Non Veg Meal"
+    specialNonVegMeal: "Special Non Veg Meal",
   },
 };
