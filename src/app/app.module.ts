@@ -16,6 +16,8 @@ import { PassangerEffect } from "./core/store/effects/passanger.effect";
 import { NoAuthGuard } from "./core/guards/no-auth.guard";
 import { AdminAuthGuard } from "./core/guards/admin-auth.guard";
 import { StaffAuthGuard } from "./core/guards/staff-auth.guard";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +32,7 @@ import { StaffAuthGuard } from "./core/guards/staff-auth.guard";
     StoreModule.forRoot(AppReducer),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     StoreDevtoolsModule.instrument(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [],
   providers: [NoAuthGuard, AdminAuthGuard, StaffAuthGuard],
