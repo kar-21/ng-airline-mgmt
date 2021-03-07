@@ -1,5 +1,9 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  NgModule,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -16,8 +20,8 @@ import { PassangerEffect } from "./core/store/effects/passanger.effect";
 import { NoAuthGuard } from "./core/guards/no-auth.guard";
 import { AdminAuthGuard } from "./core/guards/admin-auth.guard";
 import { StaffAuthGuard } from "./core/guards/staff-auth.guard";
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from "../environments/environment";
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +36,9 @@ import { environment } from '../environments/environment';
     StoreModule.forRoot(AppReducer),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     StoreDevtoolsModule.instrument(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production,
+    }),
   ],
   exports: [],
   providers: [NoAuthGuard, AdminAuthGuard, StaffAuthGuard],

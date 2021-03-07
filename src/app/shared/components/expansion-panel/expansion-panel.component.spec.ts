@@ -1,16 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Store } from "@ngrx/store";
 
-import { ExpansionPanelComponent } from './expansion-panel.component';
+import { ExpansionPanelComponent } from "./expansion-panel.component";
 
-describe('ExpansionPanelComponent', () => {
+describe("ExpansionPanelComponent", () => {
   let component: ExpansionPanelComponent;
   let fixture: ComponentFixture<ExpansionPanelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExpansionPanelComponent ]
-    })
-    .compileComponents();
+      declarations: [ExpansionPanelComponent],
+      providers: [{ provide: Store, useValue: { dispatch: () => {} } }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +22,7 @@ describe('ExpansionPanelComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

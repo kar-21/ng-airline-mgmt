@@ -9,7 +9,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { SideNavComponent } from "./components/side-nav/side-nav.component";
 import { RouterModule } from "@angular/router";
 import { AboutComponent } from "./components/about/about.component";
-import { AirlineListComponent } from "./components/airline-list/airline-list.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ExpansionPanelComponent } from "./components/expansion-panel/expansion-panel.component";
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -38,7 +37,6 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
   declarations: [
     SideNavComponent,
     AboutComponent,
-    AirlineListComponent,
     ExpansionPanelComponent,
     SeatsComponent,
     PassangerDetailsComponent,

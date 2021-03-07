@@ -84,7 +84,7 @@ export class PassangerCheckinDetailsComponent implements OnInit {
         if (
           row > -1 &&
           column > -1 &&
-          typeof(this.passangersArray[row][column]) === 'string' &&
+          typeof this.passangersArray[row][column] === "string" &&
           this.passangersArray[row][column][0] !== null
         ) {
           this.showSeatOccupied = true;

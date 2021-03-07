@@ -1,16 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatDialog } from "@angular/material/dialog";
+import { Store } from "@ngrx/store";
+import { of } from "rxjs";
 
-import { SeatsComponent } from './seats.component';
+import { SeatsComponent } from "./seats.component";
 
-describe('SeatsComponent', () => {
+describe("SeatsComponent", () => {
   let component: SeatsComponent;
   let fixture: ComponentFixture<SeatsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SeatsComponent ]
-    })
-    .compileComponents();
+      declarations: [SeatsComponent],
+      providers: [
+        { provide: MatDialog, useValue: { open: () => {} } },
+        { provide: Store, useValue: { pipe: () => of("") } },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +27,7 @@ describe('SeatsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
