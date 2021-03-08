@@ -17,7 +17,7 @@ import { MediaObserver } from "@angular/flex-layout";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-  title = "ng-airline-mgmt";
+  title = "Airline Managment System";
   isLoggedIn: boolean;
   cookieValue;
   unsubscribe: Subject<void> = new Subject();

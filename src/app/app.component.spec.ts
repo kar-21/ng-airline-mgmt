@@ -20,14 +20,16 @@ describe("AppComponent", () => {
           provide: LoginService,
           useValue: {
             getIsLoggedIn: () => {
-              return { pipe: () => of("") };
+              return { pipe: () => of(true) };
             },
+            setIsLoggedIn: () => {},
           },
         },
         {
           provide: CookieService,
           useValue: {
-            get: () => "",
+            get: () =>
+              "eyJhbGciOiJIUzI1NiJ9.eyJnaXZlbk5hbWUiOiJKb2huIERvZSIsInJvbGUiOiJhZG1pbiJ9.gB8TurTnGZw-kYlwOYJr9INSYma12tngamrCZQF4VWs",
           },
         },
         {
@@ -40,7 +42,10 @@ describe("AppComponent", () => {
           },
         },
         { provide: Router, useValue: {} },
-        { provide: Store, useValue: { pipe: () => of("") } },
+        {
+          provide: Store,
+          useValue: { pipe: () => of(""), dispatch: () => {} },
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -52,9 +57,32 @@ describe("AppComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ng-airline-mgmt'`, () => {
+  it(`should have as title 'Airline Managment System'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual("ng-airline-mgmt");
+    expect(app.title).toEqual("Airline Managment System");
   });
+
+  it("should get the cookie and save the user info", () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    const spyonStore = spyOn(fixture.debugElement.injector.get(Store), "dispatch");
+    app.ngOnInit();
+    expect(spyonStore).toHaveBeenCalled();
+  });
+
+  it("should get logged in status", () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.ngAfterViewInit();
+    expect(app.isLoggedIn).toBeTruthy();
+  });
+
+  it("should toggle sidenav", () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.toggled = false;
+    app.toggleSideNav();
+    expect(app.toggled).toBeTruthy();
+  })
 });
