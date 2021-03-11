@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { CookieService } from "ngx-cookie-service";
 import { LoginService } from "../services/login.service";
-import { SaveUserInfo } from "../store/actions/user.action";
+import { GetUserInfo, SaveUserInfo } from "../store/actions/user.action";
 import { AppState } from "../store/states/app.state";
 import jwt_decode from "jwt-decode";
 import { SharedContants } from "src/app/shared/shared.constant";
@@ -31,6 +31,7 @@ export class LoginTokenComponent implements OnInit {
             role: jwt_decode(params.token).role,
           })
         );
+        this.store.dispatch(new GetUserInfo(jwt_decode(params.token).userId));
         if (jwt_decode(params.token).role === SharedContants.role.staffRole) {
           this.router.navigateByUrl("/checkIn");
         } else {

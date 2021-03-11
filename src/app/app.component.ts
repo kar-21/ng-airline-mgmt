@@ -7,9 +7,14 @@ import jwt_decode from "jwt-decode";
 import { Router } from "@angular/router";
 import { AppState } from "./core/store/states/app.state";
 import { select, Store } from "@ngrx/store";
-import { SaveUserInfo } from "./core/store/actions/user.action";
-import { selectorUserName } from "./core/store/selector/user.selector";
+import { GetUserInfo, SaveUserInfo } from "./core/store/actions/user.action";
+import {
+  selectorUserInfo,
+  selectorUserName,
+} from "./core/store/selector/user.selector";
 import { MediaObserver } from "@angular/flex-layout";
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-root",
@@ -24,16 +29,26 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   userName: string;
   isMobile: boolean;
   toggled: boolean;
+  userInfo;
 
   constructor(
     private loginService: LoginService,
     private cookieService: CookieService,
     private mediaObserver: MediaObserver,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private matIconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer
   ) {
+    this.matIconRegistry.addSvgIcon(
+      "logo",
+      this.sanitizer.bypassSecurityTrustResourceUrl("../assets/icons/logo.svg")
+    );
     this.store.pipe(select(selectorUserName)).subscribe((userName: string) => {
       this.userName = userName;
+    });
+    this.store.pipe(select(selectorUserInfo)).subscribe((userInfo) => {
+      this.userInfo = userInfo;
     });
     this.mediaObserver
       .asObservable()
@@ -54,6 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           role: jwt_decode(this.cookieValue).role,
         })
       );
+      this.store.dispatch(new GetUserInfo(jwt_decode(this.cookieValue).userId));
     }
   }
 
@@ -68,6 +84,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleSideNav() {
     this.toggled = !this.toggled;
+  }
+
+  navigateToLandingPage() {
+    this.router.navigateByUrl("/");
   }
 
   ngOnDestroy() {

@@ -22,6 +22,7 @@ import { AdminAuthGuard } from "./core/guards/admin-auth.guard";
 import { StaffAuthGuard } from "./core/guards/staff-auth.guard";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
+import { UserEffect } from "./core/store/effects/user.effect";
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,7 @@ import { environment } from "../environments/environment";
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    EffectsModule.forRoot([PassangerEffect]),
+    EffectsModule.forRoot([PassangerEffect, UserEffect]),
     StoreModule.forRoot(AppReducer),
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     StoreDevtoolsModule.instrument(),

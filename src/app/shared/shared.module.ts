@@ -32,6 +32,8 @@ import { PassangerDetailsComponent } from "./components/dialog/passanger-details
 import { MatSelectModule } from "@angular/material/select";
 import { AirlineDetailsComponent } from "./components/airline-details/airline-details.component";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
     MatChipsModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatMenuModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatSidenavModule,
@@ -93,6 +97,8 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
     MatChipsModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatMenuModule,
+    MatSnackBarModule,
   ],
   entryComponents: [
     PassangerCheckinDetailsComponent,

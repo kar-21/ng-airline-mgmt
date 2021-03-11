@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { CookieService } from "ngx-cookie-service";
 import { LoginService } from "../services/login.service";
-import { SaveUserInfo } from "../store/actions/user.action";
+import { GetUserInfoSuccess, SaveUserInfo } from "../store/actions/user.action";
 import { AppState } from "../store/states/app.state";
 
 @Component({
@@ -22,6 +22,13 @@ export class LogoutComponent implements OnInit {
   ngOnInit(): void {
     this.cookieService.delete("token");
     this.loginService.setIsLoggedIn(false);
+    this.store.dispatch(
+      new GetUserInfoSuccess({
+        fullName: null,
+        emailId: null,
+        photoURL: null,
+      })
+    );
     this.store.dispatch(
       new SaveUserInfo({
         userName: null,

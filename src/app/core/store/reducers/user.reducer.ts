@@ -12,6 +12,13 @@ export const UserReducer = (
         userName: action.payload.userName,
         role: action.payload.role,
       };
+    case EUserAction.GetUserInfoSuccess:
+      return {
+        ...state,
+        fullName: action.payload.fullName,
+        emailId: action.payload.emailId,
+        photoURL: action.payload.photoURL,
+      };
     default:
       return { ...state };
   }

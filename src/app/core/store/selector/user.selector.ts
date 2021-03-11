@@ -13,3 +13,8 @@ export const selectorUserRole = createSelector(
   selectorUser,
   (state: UserState) => state.role
 );
+
+export const selectorUserInfo = createSelector(
+  selectorUser,
+  (state: UserState) => state
+);

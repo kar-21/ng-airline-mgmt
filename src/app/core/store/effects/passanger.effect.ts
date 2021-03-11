@@ -12,17 +12,19 @@ import {
   UpdateAirlineDetailsFromKey,
   UpdatePassangerDetailsFromKey,
 } from "../actions/passanger.action";
-import { switchMap } from "rxjs/operators";
+import { catchError, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
 import { AirlineList } from "src/app/shared/models/airline-list.model";
 import { PassangerList } from "src/app/shared/models/passanger-list.model";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable()
 export class PassangerEffect {
   constructor(
     private airlineHttpService: AirlineHttpService,
     private store: Store<AppState>,
-    private actions: Actions
+    private actions: Actions,
+    private snackBar: MatSnackBar
   ) {}
 
   flightNumber: string;
@@ -34,6 +36,9 @@ export class PassangerEffect {
     switchMap(() => this.airlineHttpService.getAirlineList()),
     switchMap((airlineHttp: AirlineList[]) =>
       of(new GetAirlineListSuccess(airlineHttp))
+    ),
+    catchError((error) =>
+      of(this.snackBar.open("Server Error...!", null, { duration: 20000 }))
     )
   );
 
@@ -49,7 +54,10 @@ export class PassangerEffect {
         data.payload.keyValuePair
       );
     }),
-    switchMap(() => of(new GetAirLineList()))
+    switchMap(() => of(new GetAirLineList())),
+    catchError((error) =>
+      of(this.snackBar.open("Server Error...!", null, { duration: 20000 }))
+    )
   );
 
   @Effect()
@@ -68,6 +76,9 @@ export class PassangerEffect {
           data: passangerList,
         })
       )
+    ),
+    catchError((error) =>
+      of(this.snackBar.open("Server Error...!", null, { duration: 20000 }))
     )
   );
 
@@ -84,6 +95,11 @@ export class PassangerEffect {
         data.payload.keyValuePair
       );
     }),
-    switchMap(() => of(new GetPassangersListOfFlight(this.updatedFlightNumber)))
+    switchMap(() =>
+      of(new GetPassangersListOfFlight(this.updatedFlightNumber))
+    ),
+    catchError((error) =>
+      of(this.snackBar.open("Server Error...!", null, { duration: 20000 }))
+    )
   );
 }

@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { UserData } from "../models/user-data.model";
 
 interface googleRequest {
   redirectURI: string;
@@ -25,5 +26,11 @@ export class LoginService {
 
   sendGoogleRequest(): Observable<googleRequest> {
     return this.http.get<googleRequest>(environment.backendAPI + "/login");
+  }
+
+  getUserInfo(userId: number): Observable<UserData> {
+    return this.http.get<UserData>(
+      environment.backendAPI + "/login/userInfo/" + userId
+    );
   }
 }

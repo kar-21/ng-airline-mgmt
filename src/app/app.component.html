@@ -1,9 +1,31 @@
 <mat-toolbar class="mat-toolbar" color="primary">
-  <span class="header"><mat-icon *ngIf="isMobile" (click)="toggleSideNav()">menu</mat-icon>{{ title }}</span>
-  <span *ngIf="isLoggedIn" class="name-container"
-    ><mat-icon>account_circle</mat-icon>{{ userName }}</span
+  <span class="header"
+    ><mat-icon *ngIf="isMobile" (click)="toggleSideNav()">menu</mat-icon
+    ><mat-icon
+      (click)="navigateToLandingPage()"
+      class="logo"
+      svgIcon="logo"
+    ></mat-icon
+    >{{ title }}</span
   >
+  <button
+    *ngIf="isLoggedIn && !isMobile"
+    class="name-container"
+    [matMenuTriggerFor]="menu"
+  >
+    <mat-icon>account_circle</mat-icon>{{ userName }}
+  </button>
 </mat-toolbar>
+<mat-menu #menu="matMenu" xPosition="before" class="menu-content">
+  <div class="profile-image">
+    <img [src]="userInfo.photoURL" />
+  </div>
+  <div class="details">
+    <span>{{ userInfo.fullName }}</span>
+    <span>{{ userInfo.emailId }}</span>
+    <span>{{ userInfo.role }}</span>
+  </div>
+</mat-menu>
 <mat-drawer-container class="mat-drawer-container" [hasBackdrop]="isMobile">
   <mat-drawer
     *ngIf="isLoggedIn"
