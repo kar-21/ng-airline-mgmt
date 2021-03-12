@@ -2,28 +2,37 @@
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!isLoadingShown" class="mat-elevation-z1">
-  <button
-    mat-flat-button
-    color="primary"
-    class="add-passanger"
-    (click)="addNewPassanger()"
-  >
-    <mat-icon>add</mat-icon> Passanger
-  </button>
-
-  <table mat-table [dataSource]="dataSource" matSort>
+  <div class="options-container">
+    <button
+      *ngIf="isAdmin"
+      mat-flat-button
+      color="primary"
+      class="add-passanger"
+      (click)="addNewPassanger()"
+    >
+      <mat-icon>add</mat-icon> Passanger
+    </button>
+    <form class="filter-container" [formGroup]="form">
+      <label class="filter-label">Filter</label>
+      <mat-form-field appearance="fill">
+        <mat-select value="{{ filter }}" formControlName="filterField">
+          <mat-option
+            *ngFor="let filterOption of filterOptions"
+            value="{{ filterOption.value }}"
+            >{{ filterOption.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let passanger">{{ passanger.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="seatNumber">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        class="seatNumber-cell"
-      >
+      <th mat-header-cell *matHeaderCellDef class="seatNumber-cell">
         Seat Number
       </th>
       <td mat-cell *matCellDef="let passanger" class="seatNumber-cell">
@@ -32,12 +41,7 @@
     </ng-container>
 
     <ng-container matColumnDef="passportNumber">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        class="passportNumber-cell"
-      >
+      <th mat-header-cell *matHeaderCellDef class="passportNumber-cell">
         Passport Number
       </th>
       <td mat-cell *matCellDef="let passanger" class="passportNumber-cell">

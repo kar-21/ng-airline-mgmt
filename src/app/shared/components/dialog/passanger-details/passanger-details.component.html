@@ -3,13 +3,15 @@
     <mat-icon>person</mat-icon>{{ name }}
   </h1>
   <div class="new-passanger-row" *ngIf="isNewPassanger">
-    <h1 class="new-passanger">Name</h1>
-    <mat-form-field class="form-field name-input">
-      <input matInput formControlName="nameField" />
-      <mat-error class="error-text">
-        Name is <strong>Required</strong>.
-      </mat-error>
-    </mat-form-field>
+    <form class="form" [formGroup]="formName">
+      <h1 class="new-passanger">Name</h1>
+      <mat-form-field class="form-field name-input">
+        <input matInput formControlName="nameField" />
+        <mat-error class="error-text">
+          Name is <strong>Required</strong>.
+        </mat-error>
+      </mat-form-field>
+    </form>
   </div>
   <button mat-mini-fab color="warn" (click)="closeDialog()">
     <mat-icon>close</mat-icon>
@@ -24,8 +26,15 @@
         <mat-error class="error-text">
           Seat Number is not <strong>Valid</strong>.
         </mat-error>
-        <mat-hint *ngIf="showSeatOccupied">
+        <mat-hint *ngIf="showSeatOccupied && !isNewPassanger">
           Seat is already taken. It will be swapped.
+        </mat-hint>
+        <mat-hint
+          role="alert"
+          class="error"
+          *ngIf="showSeatOccupied && isNewPassanger"
+        >
+          Seat is already <strong>taken</strong>. Please choose other seat number.
         </mat-hint>
       </mat-form-field>
     </div>
@@ -36,6 +45,10 @@
         <mat-error class="error-text">
           Passport Number should be alphanumeric with Upper case.
         </mat-error>
+        <mat-hint role="alert"
+        class="error" *ngIf="isNewPassangerAlreadyPresent">
+        Passport Number already <strong>exisit</strong> in this Flight.
+        </mat-hint>
       </mat-form-field>
     </div>
     <div class="row">

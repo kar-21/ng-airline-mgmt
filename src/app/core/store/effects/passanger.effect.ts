@@ -4,6 +4,7 @@ import { Effect, ofType, Actions } from "@ngrx/effects";
 import { AirlineHttpService } from "src/app/shared/services/airline-http.service";
 import { AppState } from "../states/app.state";
 import {
+  AddNewPassangerDetails,
   EPassangerAction,
   GetAirLineList,
   GetAirlineListSuccess,
@@ -94,6 +95,21 @@ export class PassangerEffect {
         data.payload.flightNumber,
         data.payload.keyValuePair
       );
+    }),
+    switchMap(() =>
+      of(new GetPassangersListOfFlight(this.updatedFlightNumber))
+    ),
+    catchError((error) =>
+      of(this.snackBar.open("Server Error...!", null, { duration: 20000 }))
+    )
+  );
+
+  @Effect()
+  addNewPassanger = this.actions.pipe(
+    ofType<AddNewPassangerDetails>(EPassangerAction.AddNewPassangerDetails),
+    switchMap((data) => {
+      this.updatedFlightNumber = data.payload.flightNumber;
+      return this.airlineHttpService.addNewPassanger(data.payload.data);
     }),
     switchMap(() =>
       of(new GetPassangersListOfFlight(this.updatedFlightNumber))

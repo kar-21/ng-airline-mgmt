@@ -9,6 +9,7 @@ export enum EPassangerAction {
   GetPassangersListOfFlight = "get [passangers] list of [flight]",
   GetPassangersListOfFlightSuccess = "get [passangers] list of [flight] success",
   UpdatePassangerDetailsFromKey = "update a [passanger] details listed in [key: value]",
+  AddNewPassangerDetails = "add a new [passanger] details",
 }
 
 export class GetAirLineList implements Action {
@@ -53,10 +54,16 @@ export class UpdatePassangerDetailsFromKey implements Action {
   ) {}
 }
 
+export class AddNewPassangerDetails implements Action {
+  public readonly type = EPassangerAction.AddNewPassangerDetails;
+  constructor(public payload: { flightNumber: string; data: PassangerList }) {}
+}
+
 export type PassangerActions =
   | GetAirLineList
   | GetAirlineListSuccess
   | UpdateAirlineDetailsFromKey
   | GetPassangersListOfFlight
   | GetPassangerssListOfFlightSuccess
-  | UpdatePassangerDetailsFromKey;
+  | UpdatePassangerDetailsFromKey
+  | AddNewPassangerDetails;

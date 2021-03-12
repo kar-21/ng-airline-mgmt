@@ -3,7 +3,10 @@ import { FormControl, FormGroup, NgControl, Validators } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { select, Store } from "@ngrx/store";
-import { UpdatePassangerDetailsFromKey } from "src/app/core/store/actions/passanger.action";
+import {
+  AddNewPassangerDetails,
+  UpdatePassangerDetailsFromKey,
+} from "src/app/core/store/actions/passanger.action";
 import { AppState } from "src/app/core/store/states/app.state";
 import { SharedContants } from "src/app/shared/shared.constant";
 import { COMMA, ENTER, V } from "@angular/cdk/keycodes";
@@ -35,6 +38,7 @@ export class PassangerDetailsComponent implements OnInit {
   flightNumber: string;
   isNewPassanger = false;
   form: FormGroup;
+  formName: FormGroup;
   passangersArray;
   mealType: string;
   inflightServices: string[];
@@ -46,6 +50,7 @@ export class PassangerDetailsComponent implements OnInit {
   specialVegMealText = SharedContants.text.specialVegMeal;
   specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   showSeatOccupied = false;
+  isNewPassangerAlreadyPresent = false;
   visible = true;
   selectable = true;
   removable = true;
@@ -105,13 +110,12 @@ export class PassangerDetailsComponent implements OnInit {
         shopItemsField: new FormControl(this.shopItems),
       });
       if (this.data.isNewPassanger) {
-        this.form.addControl(
-          "nameField",
-          new FormControl("", [
+        this.formName = new FormGroup({
+          nameField: new FormControl("", [
             Validators.required,
-            Validators.pattern("^[A-Za-z]*$"),
-          ])
-        );
+            Validators.pattern("^[A-Za-z ]*$"),
+          ]),
+        });
         this.isNewPassanger = this.data.isNewPassanger;
       }
     }
@@ -125,6 +129,7 @@ export class PassangerDetailsComponent implements OnInit {
           column > -1 &&
           row < 6 &&
           column < 25 &&
+          typeof this.passangersArray[row][column] === "object" &&
           this.passangersArray[row][column][0] !== null
         ) {
           this.showSeatOccupied = true;
@@ -134,6 +139,27 @@ export class PassangerDetailsComponent implements OnInit {
       } else {
         this.showSeatOccupied = false;
       }
+      console.log(">>>", this.showSeatOccupied);
+    });
+
+    this.form.get("passportNumberField").valueChanges.subscribe((value) => {
+      if (value) {
+        let existingPassportArray = [];
+        this.passangersArray.forEach((column) => {
+          const existingPassportInColumn = column.filter(
+            (passanger) => passanger[0] && passanger[0].passportNumber === value
+          );
+          existingPassportArray = existingPassportArray.concat(existingPassportInColumn);
+        });
+        if (existingPassportArray.length) {
+          this.isNewPassangerAlreadyPresent = true;
+        } else {
+          this.isNewPassangerAlreadyPresent = false;
+        }
+      } else {
+        this.isNewPassangerAlreadyPresent = false;
+      }
+      console.log(">>>", this.isNewPassangerAlreadyPresent);
     });
   }
 
@@ -247,7 +273,7 @@ export class PassangerDetailsComponent implements OnInit {
 
   saveSetting() {
     const newSeatNumber = this.form.get("seatNumberField").value;
-    if (this.showSeatOccupied) {
+    if (this.showSeatOccupied && !this.isNewPassanger) {
       const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
       const column = +newSeatNumber.slice(1, newSeatNumber.length) - 1;
       const passangerForSeatExchange = this.passangersArray[row][column][0];
@@ -259,30 +285,70 @@ export class PassangerDetailsComponent implements OnInit {
         })
       );
     }
-    this.store.dispatch(
-      new UpdatePassangerDetailsFromKey({
-        passangerPassportNumber: this.passportNumber,
-        flightNumber: this.flightNumber,
-        keyValuePair: {
-          checkinServices: this.checkinServices,
-          inflightServices: this.inflightServices,
-          shopItem: this.shopItems,
-          seatNumber: this.form.get("seatNumberField").value,
-          passportNumber: this.form.get("passportNumberField").value,
-          address: this.form.get("addressField").value,
-          contactNumber: this.form.get("contactNumberField").value,
-          checkedIn: this.form.get("checkedInField").value,
-          mealType: this.form.get("mealTypeField").value,
-          wheelChair: this.form.get("wheelChairField").value,
-          infants: this.form.get("infantsField").value,
-        },
-      })
-    );
-    this.closeDialog();
+    if (!this.isNewPassanger) {
+      this.store.dispatch(
+        new UpdatePassangerDetailsFromKey({
+          passangerPassportNumber: this.passportNumber,
+          flightNumber: this.flightNumber,
+          keyValuePair: {
+            checkinServices: this.checkinServices,
+            inflightServices: this.inflightServices,
+            shopItem: this.shopItems,
+            seatNumber: this.form.get("seatNumberField").value,
+            passportNumber: this.form.get("passportNumberField").value,
+            address: this.form.get("addressField").value,
+            contactNumber: this.form.get("contactNumberField").value,
+            checkedIn: this.form.get("checkedInField").value,
+            mealType: this.form.get("mealTypeField").value,
+            wheelChair: this.form.get("wheelChairField").value,
+            infants: this.form.get("infantsField").value,
+          },
+        })
+      );
+      this.closeDialog();
+    } else {
+      setTimeout(() => {
+        this.store.dispatch(
+          new AddNewPassangerDetails({
+            flightNumber: this.flightNumber,
+            data: {
+              name: this.formName.get("nameField").value,
+              flightNumber: this.flightNumber,
+              checkinServices: this.checkinServices,
+              inflightServices: this.inflightServices,
+              shopItem: this.shopItems,
+              seatNumber: this.form.get("seatNumberField").value,
+              passportNumber: this.form.get("passportNumberField").value,
+              address: this.form.get("addressField").value,
+              contactNumber: this.form.get("contactNumberField").value,
+              checkedIn: this.form.get("checkedInField").value,
+              mealType: this.form.get("mealTypeField").value,
+              wheelChair: this.form.get("wheelChairField").value,
+              infants: this.form.get("infantsField").value,
+            },
+          })
+        );
+        this.closeDialog();
+      }, 500);
+    }
   }
 
   isFormInvalid() {
-    return this.form.invalid || this.form.pristine;
+    if (this.isNewPassanger) {
+      return (
+        this.form.invalid ||
+        this.form.pristine ||
+        this.showSeatOccupied ||
+        this.isNewPassangerAlreadyPresent ||
+        this.formName.invalid ||
+        this.formName.pristine
+      );
+    }
+    return (
+      this.form.invalid ||
+      this.form.pristine ||
+      this.isNewPassangerAlreadyPresent
+    );
   }
 
   closeDialog() {

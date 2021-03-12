@@ -84,7 +84,9 @@ export class PassangerCheckinDetailsComponent implements OnInit {
         if (
           row > -1 &&
           column > -1 &&
-          typeof this.passangersArray[row][column] === "string" &&
+          row < 6 &&
+          column < 25 &&
+          typeof this.passangersArray[row][column] === "object" &&
           this.passangersArray[row][column][0] !== null
         ) {
           this.showSeatOccupied = true;
@@ -94,6 +96,7 @@ export class PassangerCheckinDetailsComponent implements OnInit {
       } else {
         this.showSeatOccupied = false;
       }
+      console.log(">>occ", this.showSeatOccupied);
     });
   }
 
@@ -104,6 +107,7 @@ export class PassangerCheckinDetailsComponent implements OnInit {
       const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
       const column = +newSeatNumber.slice(1, newSeatNumber.length) - 1;
       const passangerForSeatExchange = this.passangersArray[row][column][0];
+      console.log(">>seat", this.seatNumber, passangerForSeatExchange);
       this.store.dispatch(
         new UpdatePassangerDetailsFromKey({
           passangerPassportNumber: passangerForSeatExchange.passportNumber,
@@ -111,16 +115,18 @@ export class PassangerCheckinDetailsComponent implements OnInit {
           keyValuePair: { seatNumber: this.seatNumber },
         })
       );
-      this.closeDialog();
-    } else if (this.form.get("seatNumberForm").valid) {
-      this.store.dispatch(
-        new UpdatePassangerDetailsFromKey({
-          passangerPassportNumber: this.passportNumber,
-          flightNumber: this.flightNumber,
-          keyValuePair: { seatNumber: newSeatNumber },
-        })
-      );
-      this.closeDialog();
+    } 
+    if (this.form.get("seatNumberForm").valid) {
+      setTimeout(() => {
+        this.store.dispatch(
+          new UpdatePassangerDetailsFromKey({
+            passangerPassportNumber: this.passportNumber,
+            flightNumber: this.flightNumber,
+            keyValuePair: { seatNumber: newSeatNumber },
+          })
+        );
+        this.closeDialog();
+      }, 500)
     }
   }
 

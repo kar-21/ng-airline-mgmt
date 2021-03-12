@@ -56,4 +56,13 @@ export class AirlineHttpService {
       this.options
     );
   }
+
+  addNewPassanger(data: PassangerList) {
+    const body = { ...data };
+    return this.http.post<any>(
+      environment.backendAPI + "/addNewPassanger",
+      JSON.stringify(body),
+      this.options
+    );
+  }
 }

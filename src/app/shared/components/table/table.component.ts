@@ -17,6 +17,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { SharedContants } from "../../shared.constant";
 import { PassangerInflightDetailsComponent } from "../dialog/passanger-inflight-details/passanger-inflight-details.component";
 import { PassangerDetailsComponent } from "../dialog/passanger-details/passanger-details.component";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-table",
@@ -29,6 +30,9 @@ export class TableComponent implements OnInit {
   @Input() isAdmin = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  filter = "none";
+  filterOptions;
+  form: FormGroup;
   displayedColumns;
   dataSource: MatTableDataSource<PassangerList>;
   rowSeatName = SharedContants.rowSeatName;
@@ -46,40 +50,19 @@ export class TableComponent implements OnInit {
     if (!this.isAdmin) {
       this.displayedColumns =
         this.type === "checkin"
-          ? [
-              "name",
-              "seatNumber",
-              "passportNumber",
-              "checkedIn",
-              "wheelChair",
-              "infants",
-              "checkedInServices",
-              "edit",
-            ]
-          : [
-              "name",
-              "seatNumber",
-              "passportNumber",
-              "meal",
-              "inFlightServices",
-              "shopItem",
-              "edit",
-            ];
+          ? SharedContants.tabel.displayedColumns.checkIn
+          : SharedContants.tabel.displayedColumns.inFlight;
+      this.filterOptions =
+        this.type === "checkin"
+          ? SharedContants.tabel.filterOptions.checkIn
+          : SharedContants.tabel.filterOptions.inFlight;
     } else {
-      this.displayedColumns = [
-        "name",
-        "seatNumber",
-        "passportNumber",
-        "checkedIn",
-        "wheelChair",
-        "infants",
-        "checkedInServices",
-        "meal",
-        "inFlightServices",
-        "shopItem",
-        "edit",
-      ];
+      this.displayedColumns = SharedContants.tabel.displayedColumns.admin;
+      this.filterOptions = SharedContants.tabel.filterOptions.admin;
     }
+    this.form = new FormGroup({
+      filterField: new FormControl(this.filter),
+    });
     this.store
       .pipe(select(selectorPassangerListOfFlight))
       .subscribe((passangers) => {
@@ -96,6 +79,76 @@ export class TableComponent implements OnInit {
           this.updateSeatsArray();
           this.isLoadingShown = false;
         }
+      });
+    this.form
+      .get("filterField")
+      .valueChanges.subscribe((filterValue: string) => {
+        let passangerData;
+        switch (filterValue) {
+          case "checkedIn":
+            passangerData = this.passangers.filter(
+              (value) => value.checkedIn === true
+            );
+            break;
+          case "notCheckedIn":
+            passangerData = this.passangers.filter(
+              (value) => value.checkedIn === false
+            );
+            break;
+          case "wheelChair":
+            passangerData = this.passangers.filter(
+              (value) => value.wheelChair === true
+            );
+            break;
+          case "infants":
+            passangerData = this.passangers.filter(
+              (value) => value.infants === true
+            );
+            break;
+          case "checkInServices":
+            passangerData = this.passangers.filter(
+              (value) => value.checkinServices.length > 0
+            );
+            break;
+          case "notRequried":
+            passangerData = this.passangers.filter(
+              (value) => value.mealType === this.mealNotRequiredText
+            );
+            break;
+          case "vegMeal":
+            passangerData = this.passangers.filter(
+              (value) => value.mealType === this.normalVegMealText
+            );
+            break;
+          case "nonVegMeal":
+            passangerData = this.passangers.filter(
+              (value) => value.mealType === this.normalNonVegMealText
+            );
+            break;
+          case "specialVegMeal":
+            passangerData = this.passangers.filter(
+              (value) => value.mealType === this.specialVegMealText
+            );
+            break;
+          case "specialNonVegMeal":
+            passangerData = this.passangers.filter(
+              (value) => value.mealType === this.specialNonVegMealText
+            );
+            break;
+          case "inFLightServices":
+            passangerData = this.passangers.filter(
+              (value) => value.inflightServices.length > 0
+            );
+            break;
+          case "shopItems":
+            passangerData = this.passangers.filter(
+              (value) => value.shopItem.length > 0
+            );
+            break;
+          default:
+            passangerData = this.passangers;
+        }
+        this.dataSource = new MatTableDataSource(passangerData);
       });
   }
 
@@ -119,7 +172,7 @@ export class TableComponent implements OnInit {
         checkedIn: false,
         wheelChair: false,
         infants: false,
-        mealType: 'Not Required',
+        mealType: "Not Required",
         inflightServices: [],
         shopItems: [],
         checkinServices: [],
@@ -146,7 +199,6 @@ export class TableComponent implements OnInit {
       : this.dialog.open(PassangerInflightDetailsComponent, {
           data: { ...passanger },
         });
-    dialogRef.afterClosed().subscribe((result) => {
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

@@ -39,5 +39,23 @@ table {
 }
 
 .add-passanger {
-  margin-top: 1%;
+  margin-right: 10px;
+  height: 35px;
+}
+
+.filter-container {
+  margin-top: 15px;
+  height: 40px;
+  @media screen AND (max-width: 599px) {
+    height: 70px;
+  }
+}
+
+.filter-label {
+  padding: 0px 15px;
+}
+
+.options-container {
+  display: flex;
+  align-items: center;
 }
