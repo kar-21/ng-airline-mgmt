@@ -15,7 +15,7 @@ describe("SeatsComponent", () => {
       declarations: [SeatsComponent],
       providers: [
         { provide: MatDialog, useValue: { open: () => {} } },
-        { provide: Store, useValue: { pipe: () => of("") } },
+        { provide: Store, useValue: { pipe: () => of({ flightNumber: [] }) } },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -24,6 +24,7 @@ describe("SeatsComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SeatsComponent);
     component = fixture.componentInstance;
+    component.flightNumber = "flightNumber";
     fixture.detectChanges();
   });
 

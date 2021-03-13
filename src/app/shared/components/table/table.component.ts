@@ -80,6 +80,10 @@ export class TableComponent implements OnInit {
           this.isLoadingShown = false;
         }
       });
+    this.subscribeToFliterFeild();
+  }
+
+  subscribeToFliterFeild() {
     this.form
       .get("filterField")
       .valueChanges.subscribe((filterValue: string) => {
@@ -199,6 +203,5 @@ export class TableComponent implements OnInit {
       : this.dialog.open(PassangerInflightDetailsComponent, {
           data: { ...passanger },
         });
-    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

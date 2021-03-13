@@ -45,7 +45,7 @@ These features has folowing functionalities -
 - Handled async API requests / responses with NgRx effects.
 - Lazy loded the modules and lighthouse measured performance as 90.
 - Followed best practices with 0 linting errrors and best lighthouse measured paractices as 100.
-- Implemented unit tesing using Jasmine / Karma with the code coverage of 83.97%.
+- Implemented unit tesing using Jasmine / Karma with the code coverage of 87.13%.
 - Implemented google Oauth2 as authentication.
 
 ## Development server
