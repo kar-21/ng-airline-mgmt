@@ -1,10 +1,10 @@
-import { Action } from "@ngrx/store";
-import { UserData, UserInfo } from "../../models/user-data.model";
+import { Action } from '@ngrx/store';
+import { UserData, UserInfo } from '../../models/user-data.model';
 
 export enum EUserAction {
   SaveUserInfo = 'save [user] information',
-  GetUserInfo = "get [user] information",
-  GetUserInfoSuccess = "get [user] information success",
+  GetUserInfo = 'get [user] information',
+  GetUserInfoSuccess = 'get [user] information success',
 }
 
 export class SaveUserInfo implements Action {
@@ -19,7 +19,6 @@ export class GetUserInfo implements Action {
 export class GetUserInfoSuccess implements Action {
   public readonly type = EUserAction.GetUserInfoSuccess;
   constructor(public payload: UserInfo) {
-    console.log(payload);
   }
 }
 

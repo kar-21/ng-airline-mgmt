@@ -1,14 +1,14 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { CookieService } from "ngx-cookie-service";
-import { of } from "rxjs/internal/observable/of";
-import { LoginService } from "../services/login.service";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { CookieService } from 'ngx-cookie-service';
+import { of } from 'rxjs/internal/observable/of';
+import { LoginService } from '../services/login.service';
 
-import { LoginTokenComponent } from "./login-token.component";
+import { LoginTokenComponent } from './login-token.component';
 
-describe("LoginTokenComponent", () => {
+describe('LoginTokenComponent', () => {
   let component: LoginTokenComponent;
   let fixture: ComponentFixture<LoginTokenComponent>;
 
@@ -21,7 +21,7 @@ describe("LoginTokenComponent", () => {
           useValue: {
             queryParams: of({
               token:
-                "eyJhbGciOiJIUzI1NiJ9.eyJnaXZlbk5hbWUiOiJKb2huIERvZSIsInJvbGUiOiJhZG1pbiJ9.gB8TurTnGZw-kYlwOYJr9INSYma12tngamrCZQF4VWs",
+                'eyJhbGciOiJIUzI1NiJ9.eyJnaXZlbk5hbWUiOiJKb2huIERvZSIsInJvbGUiOiJhZG1pbiJ9.gB8TurTnGZw-kYlwOYJr9INSYma12tngamrCZQF4VWs',
             }),
           },
         },
@@ -40,7 +40,7 @@ describe("LoginTokenComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

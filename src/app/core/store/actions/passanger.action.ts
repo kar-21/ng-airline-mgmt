@@ -1,15 +1,15 @@
-import { Action } from "@ngrx/store";
-import { AirlineList } from "src/app/shared/models/airline-list.model";
-import { PassangerList } from "src/app/shared/models/passanger-list.model";
+import { Action } from '@ngrx/store';
+import { AirlineList } from 'src/app/shared/models/airline-list.model';
+import { PassangerList } from 'src/app/shared/models/passanger-list.model';
 
 export enum EPassangerAction {
-  GetAirlineList = "get [airline] list information",
-  GetAirlineListSuccess = "get [airline] list information success",
-  UpdateAirlineDetailsFromKey = "update a [airline] details listed in [key:  value]",
-  GetPassangersListOfFlight = "get [passangers] list of [flight]",
-  GetPassangersListOfFlightSuccess = "get [passangers] list of [flight] success",
-  UpdatePassangerDetailsFromKey = "update a [passanger] details listed in [key: value]",
-  AddNewPassangerDetails = "add a new [passanger] details",
+  GetAirlineList = 'get [airline] list information',
+  GetAirlineListSuccess = 'get [airline] list information success',
+  UpdateAirlineDetailsFromKey = 'update a [airline] details listed in [key:  value]',
+  GetPassangersListOfFlight = 'get [passangers] list of [flight]',
+  GetPassangersListOfFlightSuccess = 'get [passangers] list of [flight] success',
+  UpdatePassangerDetailsFromKey = 'update a [passanger] details listed in [key: value]',
+  AddNewPassangerDetails = 'add a new [passanger] details',
 }
 
 export class GetAirLineList implements Action {
@@ -27,7 +27,7 @@ export class UpdateAirlineDetailsFromKey implements Action {
     public payload: {
       flightNumber: string;
       keyValuePair: object;
-    }
+    },
   ) {}
 }
 
@@ -38,9 +38,7 @@ export class GetPassangersListOfFlight implements Action {
 
 export class GetPassangerssListOfFlightSuccess implements Action {
   public readonly type = EPassangerAction.GetPassangersListOfFlightSuccess;
-  constructor(
-    public payload: { flightNumber: string; data: PassangerList[] }
-  ) {}
+  constructor(public payload: { flightNumber: string; data: PassangerList[] }) {}
 }
 
 export class UpdatePassangerDetailsFromKey implements Action {
@@ -50,7 +48,7 @@ export class UpdatePassangerDetailsFromKey implements Action {
       passangerPassportNumber: string;
       flightNumber: string;
       keyValuePair: object;
-    }
+    },
   ) {}
 }
 

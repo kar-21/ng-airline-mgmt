@@ -4,7 +4,7 @@
 <div *ngIf="!isLoadingShown" class="container">
   <div class="seat-row-label">
     <div *ngFor="let column of columnSeatNumbrer" class="seat">
-      {{ column !== 0 ? column : "" }}
+      {{ column !== 0 ? column : '' }}
     </div>
   </div>
   <div class="seat-container">
@@ -19,40 +19,20 @@
           (click)="selectSeat(seat)"
           [ngClass]="{
             'checked-in': type === 'checkin' && seat.includes(checkedInText),
-            'not-checked-in':
-              type === 'checkin' && seat.includes(notCheckedInText),
-            'meal-not-requried':
-              type === 'inflight' && seat.includes(mealNotRequiredText),
-            'veg-meal':
-              type === 'inflight' &&
-              (seat.includes(normalVegMealText) ||
-                seat.includes(specialVegMealText)),
+            'not-checked-in': type === 'checkin' && seat.includes(notCheckedInText),
+            'meal-not-requried': type === 'inflight' && seat.includes(mealNotRequiredText),
+            'veg-meal': type === 'inflight' && (seat.includes(normalVegMealText) || seat.includes(specialVegMealText)),
             'non-veg-meal':
-              type === 'inflight' &&
-              (seat.includes(normalNonVegMealText) ||
-                seat.includes(specialNonVegMealText))
+              type === 'inflight' && (seat.includes(normalNonVegMealText) || seat.includes(specialNonVegMealText))
           }"
         >
+          <div *ngIf="type === 'checkin' && seat.includes(wheelChairText)" class="wheel-chair"></div>
+          <div *ngIf="type === 'checkin' && seat.includes(infantsText)" class="infants"></div>
           <div
-            *ngIf="type === 'checkin' && seat.includes(wheelChairText)"
-            class="wheel-chair"
-          ></div>
-          <div
-            *ngIf="type === 'checkin' && seat.includes(infantsText)"
-            class="infants"
-          ></div>
-          <div
-            *ngIf="
-              type === 'inflight' &&
-              (seat.includes(specialVegMealText) ||
-                seat.includes(specialNonVegMealText))
-            "
+            *ngIf="type === 'inflight' && (seat.includes(specialVegMealText) || seat.includes(specialNonVegMealText))"
             class="special-meal"
           ></div>
-          <div
-            *ngIf="type === 'inflight' && seat[2] > 0"
-            class="shop-item"
-          ></div>
+          <div *ngIf="type === 'inflight' && seat[2] > 0" class="shop-item"></div>
         </div>
       </div>
     </div>

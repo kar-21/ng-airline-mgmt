@@ -1,12 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { select, Store } from "@ngrx/store";
-import { selectorUserRole } from "src/app/core/store/selector/user.selector";
-import { SharedContants } from "../../shared.constant";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { selectorUserRole } from 'src/app/core/store/selector/user.selector';
+import { SharedContants } from '../../shared.constant';
 
 @Component({
-  selector: "app-side-nav",
-  templateUrl: "./side-nav.component.html",
-  styleUrls: ["./side-nav.component.scss"],
+  selector: 'app-side-nav',
+  templateUrl: './side-nav.component.html',
+  styleUrls: ['./side-nav.component.scss'],
 })
 export class SideNavComponent implements OnInit {
   activeLink: string;

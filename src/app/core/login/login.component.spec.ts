@@ -1,12 +1,12 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { of } from "rxjs";
-import { LoginService } from "../services/login.service";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { of } from 'rxjs';
+import { LoginService } from '../services/login.service';
 
-import { LoginComponent } from "./login.component";
+import { LoginComponent } from './login.component';
 
-describe("LoginComponent", () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
@@ -17,7 +17,7 @@ describe("LoginComponent", () => {
       providers: [
         {
           provide: LoginService,
-          useValue: { sendGoogleRequest: () => of("") },
+          useValue: { sendGoogleRequest: () => of('') },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -30,7 +30,7 @@ describe("LoginComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

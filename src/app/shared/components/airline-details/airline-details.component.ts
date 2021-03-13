@@ -1,14 +1,14 @@
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { Component, Input, OnInit } from "@angular/core";
-import { MatChipInputEvent } from "@angular/material/chips";
-import { Store } from "@ngrx/store";
-import { UpdateAirlineDetailsFromKey } from "src/app/core/store/actions/passanger.action";
-import { AppState } from "src/app/core/store/states/app.state";
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Store } from '@ngrx/store';
+import { UpdateAirlineDetailsFromKey } from 'src/app/core/store/actions/passanger.action';
+import { AppState } from 'src/app/core/store/states/app.state';
 
 @Component({
-  selector: "app-airline-details",
-  templateUrl: "./airline-details.component.html",
-  styleUrls: ["./airline-details.component.scss"],
+  selector: 'app-airline-details',
+  templateUrl: './airline-details.component.html',
+  styleUrls: ['./airline-details.component.scss'],
 })
 export class AirlineDetailsComponent implements OnInit {
   @Input() data;
@@ -17,7 +17,7 @@ export class AirlineDetailsComponent implements OnInit {
   inflightServices: string[];
   shopItems: string[];
   isSubPanelOpen = false;
-  flightNumber: string;
+  passangerFlightNumber: string;
   visible = true;
   selectable = true;
   removable = true;
@@ -36,7 +36,7 @@ export class AirlineDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.flightNumber = this.data.flightNumber;
+    this.passangerFlightNumber = this.data.flightNumber;
     this.mealType = Object.assign([], this.data.mealType);
     this.inflightServices = Object.assign([], this.data.inflightServices);
     this.shopItems = Object.assign([], this.data.shopItem);
@@ -48,13 +48,13 @@ export class AirlineDetailsComponent implements OnInit {
     const value = event.value;
 
     // Add our fruit
-    if ((value || "").trim() && !this.checkinServices.includes(value)) {
+    if ((value || '').trim() && !this.checkinServices.includes(value)) {
       this.checkinServices.push(value.trim());
       this.formDirty = false;
     }
     // Reset the input value
     if (input) {
-      input.value = "";
+      input.value = '';
       this.formDirty = false;
     }
   }
@@ -72,13 +72,13 @@ export class AirlineDetailsComponent implements OnInit {
     const value = event.value;
 
     // Add our fruit
-    if ((value || "").trim() && !this.mealType.includes(value)) {
+    if ((value || '').trim() && !this.mealType.includes(value)) {
       this.mealType.push(value.trim());
       this.formDirty = false;
     }
     // Reset the input value
     if (input) {
-      input.value = "";
+      input.value = '';
       this.formDirty = false;
     }
   }
@@ -96,13 +96,13 @@ export class AirlineDetailsComponent implements OnInit {
     const value = event.value;
 
     // Add our fruit
-    if ((value || "").trim() && !this.inflightServices.includes(value)) {
+    if ((value || '').trim() && !this.inflightServices.includes(value)) {
       this.inflightServices.push(value.trim());
       this.formDirty = false;
     }
     // Reset the input value
     if (input) {
-      input.value = "";
+      input.value = '';
       this.formDirty = false;
     }
   }
@@ -120,13 +120,13 @@ export class AirlineDetailsComponent implements OnInit {
     const value = event.value;
 
     // Add our fruit
-    if ((value || "").trim() && !this.shopItems.includes(value)) {
+    if ((value || '').trim() && !this.shopItems.includes(value)) {
       this.shopItems.push(value.trim());
       this.formDirty = false;
     }
     // Reset the input value
     if (input) {
-      input.value = "";
+      input.value = '';
       this.formDirty = false;
     }
   }
@@ -140,7 +140,7 @@ export class AirlineDetailsComponent implements OnInit {
   }
 
   saveSetting() {
-    const keyValuePair = {
+    const keyValuePairs = {
       checkinServices: this.checkinServices,
       mealTypes: this.mealType,
       shopItem: this.shopItems,
@@ -148,9 +148,9 @@ export class AirlineDetailsComponent implements OnInit {
     };
     this.store.dispatch(
       new UpdateAirlineDetailsFromKey({
-        flightNumber: this.flightNumber,
-        keyValuePair: keyValuePair,
-      })
+        flightNumber: this.passangerFlightNumber,
+        keyValuePair: keyValuePairs,
+      }),
     );
     this.formDirty = true;
   }

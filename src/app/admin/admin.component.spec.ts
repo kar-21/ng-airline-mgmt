@@ -1,11 +1,11 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Store } from "@ngrx/store";
-import { of } from "rxjs/internal/observable/of";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs/internal/observable/of';
 
-import { AdminComponent } from "./admin.component";
+import { AdminComponent } from './admin.component';
 
-describe("AdminComponent", () => {
+describe('AdminComponent', () => {
   let component: AdminComponent;
   let fixture: ComponentFixture<AdminComponent>;
 
@@ -15,7 +15,7 @@ describe("AdminComponent", () => {
       providers: [
         {
           provide: Store,
-          useValue: { pipe: () => of(""), dispatch: () => {} },
+          useValue: { pipe: () => of(''), dispatch: () => {} },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -28,7 +28,7 @@ describe("AdminComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

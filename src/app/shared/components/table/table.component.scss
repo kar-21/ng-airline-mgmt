@@ -23,7 +23,8 @@ table {
   text-align: center;
 }
 
-.checkinServices-cell, .shopItem-cell {
+.checkinServices-cell,
+.shopItem-cell {
   @media screen AND (max-width: 899px) {
     display: none;
   }

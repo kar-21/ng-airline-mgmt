@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetPassangersListOfFlight } from 'src/app/core/store/actions/passanger.action';
 import { AppState } from 'src/app/core/store/states/app.state';
-import { AirlineList } from "../../models/airline-list.model";
-import { SharedContants } from "../../shared.constant";
+import { AirlineList } from '../../models/airline-list.model';
+import { SharedContants } from '../../shared.constant';
 
 @Component({
-  selector: "app-expansion-panel",
-  templateUrl: "./expansion-panel.component.html",
-  styleUrls: ["./expansion-panel.component.scss"],
+  selector: 'app-expansion-panel',
+  templateUrl: './expansion-panel.component.html',
+  styleUrls: ['./expansion-panel.component.scss'],
 })
 export class ExpansionPanelComponent implements OnInit {
   @Input() set airline(airline: AirlineList) {
@@ -16,9 +16,7 @@ export class ExpansionPanelComponent implements OnInit {
       this.flightFrom = airline.flightFrom;
       this.flightTo = airline.flightTo;
       this.flightNumber = airline.flightNumber;
-      this.dateAndTimeOfDeparture = new Date(
-        airline.dateAndTimeOfDeparture.toString()
-      );
+      this.dateAndTimeOfDeparture = new Date(airline.dateAndTimeOfDeparture.toString());
       this.date = this.getDate();
       this.time = this.getTime();
       this.flightNumber = airline.flightNumber;
@@ -30,7 +28,7 @@ export class ExpansionPanelComponent implements OnInit {
         inflightServices: airline.inflightServices,
         shopItem: airline.shopItem,
         checkinServices: airline.checkinServices,
-      }
+      };
     }
   }
   @Input() type: string;
@@ -50,8 +48,7 @@ export class ExpansionPanelComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getDate(): string {
     return `${this.dateAndTimeOfDeparture.getDate()}-${
@@ -62,53 +59,28 @@ export class ExpansionPanelComponent implements OnInit {
   getTime(): string {
     let time;
     if (this.dateAndTimeOfDeparture.getHours() > 9) {
-      time = this.dateAndTimeOfDeparture.getHours() + ":";
+      time = this.dateAndTimeOfDeparture.getHours() + ':';
     } else {
-      time = "0" + this.dateAndTimeOfDeparture.getHours() + ":";
+      time = '0' + this.dateAndTimeOfDeparture.getHours() + ':';
     }
     if (this.dateAndTimeOfDeparture.getMinutes() > 9) {
-      time = time + this.dateAndTimeOfDeparture.getMinutes() + " GMT";
+      time = time + this.dateAndTimeOfDeparture.getMinutes() + ' GMT';
     } else {
-      time = time + "0" + this.dateAndTimeOfDeparture.getMinutes() + " GMT";
+      time = time + '0' + this.dateAndTimeOfDeparture.getMinutes() + ' GMT';
     }
     if (Math.floor(this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) > 9) {
-      time =
-        time +
-        "-" +
-        Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) +
-        ":";
-    } else if (
-      Math.floor(this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) >= 0
-    ) {
-      time =
-        time +
-        "-0" +
-        Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) +
-        ":";
-    } else if (
-      Math.floor(this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) > -9
-    ) {
-      time =
-        time +
-        "+0" +
-        Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) +
-        ":";
+      time = time + '-' + Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) + ':';
+    } else if (Math.floor(this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) >= 0) {
+      time = time + '-0' + Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) + ':';
+    } else if (Math.floor(this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) > -9) {
+      time = time + '+0' + Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) + ':';
     } else {
-      time =
-        time +
-        "+" +
-        Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) +
-        ":";
+      time = time + '+' + Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() / 60) + ':';
     }
     if (Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() % 60) > 9) {
-      time =
-        time +
-        Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() % 60);
+      time = time + Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() % 60);
     } else {
-      time =
-        time +
-        "0" +
-        Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() % 60);
+      time = time + '0' + Math.floor(-this.dateAndTimeOfDeparture.getTimezoneOffset() % 60);
     }
     return time;
   }
@@ -117,7 +89,7 @@ export class ExpansionPanelComponent implements OnInit {
     this.isPanelOpen = true;
     this.store.dispatch(new GetPassangersListOfFlight(this.flightNumber));
   }
-  
+
   setPanelClose() {
     this.isPanelOpen = false;
   }

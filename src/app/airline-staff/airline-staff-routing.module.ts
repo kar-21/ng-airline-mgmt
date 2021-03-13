@@ -1,23 +1,23 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { StaffAuthGuard } from "../core/guards/staff-auth.guard";
-import { CheckInComponent } from "./check-in/check-in.component";
-import { InFlightComponent } from "./in-flight/in-flight.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { StaffAuthGuard } from '../core/guards/staff-auth.guard';
+import { CheckInComponent } from './check-in/check-in.component';
+import { InFlightComponent } from './in-flight/in-flight.component';
 
 const routes: Routes = [
   {
-    path: "",
-    redirectTo: "checkIn",
-    pathMatch: "full",
-    canActivate: [StaffAuthGuard]
+    path: '',
+    redirectTo: 'checkIn',
+    pathMatch: 'full',
+    canActivate: [StaffAuthGuard],
   },
   {
-    path: "checkIn",
+    path: 'checkIn',
     component: CheckInComponent,
     canActivate: [StaffAuthGuard],
   },
   {
-    path: "inFlight",
+    path: 'inFlight',
     component: InFlightComponent,
     canActivate: [StaffAuthGuard],
   },

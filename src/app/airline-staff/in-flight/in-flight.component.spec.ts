@@ -1,11 +1,11 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Store } from "@ngrx/store";
-import { of } from "rxjs";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
-import { InFlightComponent } from "./in-flight.component";
+import { InFlightComponent } from './in-flight.component';
 
-describe("InFlightComponent", () => {
+describe('InFlightComponent', () => {
   let component: InFlightComponent;
   let fixture: ComponentFixture<InFlightComponent>;
 
@@ -15,7 +15,7 @@ describe("InFlightComponent", () => {
       providers: [
         {
           provide: Store,
-          useValue: { pipe: () => of(""), dispatch: () => {} },
+          useValue: { pipe: () => of(''), dispatch: () => {} },
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -28,7 +28,7 @@ describe("InFlightComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

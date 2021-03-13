@@ -1,10 +1,7 @@
-import { initialUserState, UserState } from "../states/user.state";
-import { UserAction, EUserAction } from "../actions/user.action";
+import { initialUserState, UserState } from '../states/user.state';
+import { UserAction, EUserAction } from '../actions/user.action';
 
-export const UserReducer = (
-  state = initialUserState,
-  action: UserAction
-): UserState => {
+export const UserReducer = (state = initialUserState, action: UserAction): UserState => {
   switch (action.type) {
     case EUserAction.SaveUserInfo:
       return {

@@ -1,14 +1,14 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { CookieService } from "ngx-cookie-service";
-import { of } from "rxjs/internal/observable/of";
-import { LoginService } from "../services/login.service";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { CookieService } from 'ngx-cookie-service';
+import { of } from 'rxjs/internal/observable/of';
+import { LoginService } from '../services/login.service';
 
-import { LogoutComponent } from "./logout.component";
+import { LogoutComponent } from './logout.component';
 
-describe("LogoutComponent", () => {
+describe('LogoutComponent', () => {
   let component: LogoutComponent;
   let fixture: ComponentFixture<LogoutComponent>;
 
@@ -20,14 +20,14 @@ describe("LogoutComponent", () => {
           provide: LoginService,
           useValue: {
             setIsLoggedIn: () => {
-              return { pipe: () => of("") };
+              return { pipe: () => of('') };
             },
           },
         },
         {
           provide: CookieService,
           useValue: {
-            delete: () => "",
+            delete: () => '',
           },
         },
         { provide: Router, useValue: { navigateByUrl: () => {} } },
@@ -43,7 +43,7 @@ describe("LogoutComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

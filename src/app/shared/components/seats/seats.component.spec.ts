@@ -1,12 +1,12 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatDialog } from "@angular/material/dialog";
-import { Store } from "@ngrx/store";
-import { of } from "rxjs";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
-import { SeatsComponent } from "./seats.component";
+import { SeatsComponent } from './seats.component';
 
-describe("SeatsComponent", () => {
+describe('SeatsComponent', () => {
   let component: SeatsComponent;
   let fixture: ComponentFixture<SeatsComponent>;
 
@@ -24,11 +24,11 @@ describe("SeatsComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SeatsComponent);
     component = fixture.componentInstance;
-    component.flightNumber = "flightNumber";
+    component.flightNumber = 'flightNumber';
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

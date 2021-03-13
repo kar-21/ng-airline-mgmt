@@ -1,13 +1,13 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Store } from "@ngrx/store";
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 
-import { ExpansionPanelComponent } from "./expansion-panel.component";
+import { ExpansionPanelComponent } from './expansion-panel.component';
 
-describe("ExpansionPanelComponent", () => {
+describe('ExpansionPanelComponent', () => {
   let component: ExpansionPanelComponent;
   let fixture: ComponentFixture<ExpansionPanelComponent>;
-  const store = { dispatch: jasmine.createSpy("dispatch") };
+  const store = { dispatch: jasmine.createSpy('dispatch') };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,44 +23,44 @@ describe("ExpansionPanelComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should set the airline details on data receviced", () => {
+  it('should set the airline details on data receviced', () => {
     component.airline = {
-      flightFrom: "flightFrom",
-      flightTo: "flightTo",
+      flightFrom: 'flightFrom',
+      flightTo: 'flightTo',
       dateAndTimeOfDeparture: new Date(),
-      flightNumber: "flightNumber",
-      flightPartner: "flightPartner",
+      flightNumber: 'flightNumber',
+      flightPartner: 'flightPartner',
       gate: 1,
-      checkinServices: ["checkinServices"],
-      mealTypes: ["mealTypes"],
-      shopItem: ["shopItem"],
-      inflightServices: ["inflightServices"],
+      checkinServices: ['checkinServices'],
+      mealTypes: ['mealTypes'],
+      shopItem: ['shopItem'],
+      inflightServices: ['inflightServices'],
     };
     expect(component.airlineDetailsData).toEqual({
-      flightNumber: "flightNumber",
-      mealType: ["mealTypes"],
-      inflightServices: ["inflightServices"],
-      shopItem: ["shopItem"],
-      checkinServices: ["checkinServices"],
+      flightNumber: 'flightNumber',
+      mealType: ['mealTypes'],
+      inflightServices: ['inflightServices'],
+      shopItem: ['shopItem'],
+      checkinServices: ['checkinServices'],
     });
   });
 
-  it("should toggle seat map view", () => {
+  it('should toggle seat map view', () => {
     component.changeView({ checked: false });
     expect(component.isSeatMapView).toBeFalsy();
   });
 
-  it("should set panel open and call dispatch", () => {
+  it('should set panel open and call dispatch', () => {
     component.setPanelOpen();
     expect(component.isPanelOpen).toBeTruthy();
     expect(store.dispatch).toHaveBeenCalled();
   });
 
-  it("should set panel close", () => {
+  it('should set panel close', () => {
     component.setPanelClose();
     expect(component.isPanelOpen).toBeFalsy();
   });

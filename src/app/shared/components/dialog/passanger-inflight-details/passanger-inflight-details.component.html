@@ -46,15 +46,10 @@
         <td>
           <form [formGroup]="form">
             <mat-form-field appearance="fill">
-              <mat-select
-                value="{{ mealType }}"
-                formControlName="mealTypeField"
-              >
-                <mat-option
-                  *ngFor="let meals of flightProperties.mealTypes"
-                  value="{{ meals }}"
-                  >{{ meals }}</mat-option
-                >
+              <mat-select value="{{ mealType }}" formControlName="mealTypeField">
+                <mat-option *ngFor="let meals of flightProperties.mealTypes" value="{{ meals }}">{{
+                  meals
+                }}</mat-option>
               </mat-select>
             </mat-form-field>
           </form>
@@ -81,18 +76,12 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="addInflightService($event)"
         [matAutocomplete]="autoInflightService"
-        />
-        <mat-autocomplete
-          #autoInflightService="matAutocomplete"
-          (optionSelected)="selectedInFlightService($event)"
-        >
-          <mat-option
-            *ngFor="let option of flightProperties.inflightServices"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-autocomplete>
+      />
+      <mat-autocomplete #autoInflightService="matAutocomplete" (optionSelected)="selectedInFlightService($event)">
+        <mat-option *ngFor="let option of flightProperties.inflightServices" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-chip-list>
   </mat-form-field>
   <h3>Shop Items</h3>
@@ -113,27 +102,15 @@
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="addShopItem($event)"
         [matAutocomplete]="autoShopItem"
-        />
-        <mat-autocomplete
-          #autoShopItem="matAutocomplete"
-          (optionSelected)="selectedShopItem($event)"
-        >
-          <mat-option
-            *ngFor="let option of flightProperties.shopItem"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-autocomplete>
+      />
+      <mat-autocomplete #autoShopItem="matAutocomplete" (optionSelected)="selectedShopItem($event)">
+        <mat-option *ngFor="let option of flightProperties.shopItem" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-chip-list>
   </mat-form-field>
-  <button
-    mat-flat-button
-    class="service-button"
-    color="primary"
-    [disabled]="saveDisabled"
-    (click)="saveServies()"
-  >
+  <button mat-flat-button class="service-button" color="primary" [disabled]="saveDisabled" (click)="saveServies()">
     Save
   </button>
 </div>

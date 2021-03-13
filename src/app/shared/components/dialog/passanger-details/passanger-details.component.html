@@ -1,15 +1,11 @@
 <div class="header">
-  <h1 *ngIf="!isNewPassanger" class="name">
-    <mat-icon>person</mat-icon>{{ name }}
-  </h1>
+  <h1 *ngIf="!isNewPassanger" class="name"><mat-icon>person</mat-icon>{{ name }}</h1>
   <div class="new-passanger-row" *ngIf="isNewPassanger">
     <form class="form" [formGroup]="formName">
       <h1 class="new-passanger">Name</h1>
       <mat-form-field class="form-field name-input">
         <input matInput formControlName="nameField" />
-        <mat-error class="error-text">
-          Name is <strong>Required</strong>.
-        </mat-error>
+        <mat-error class="error-text"> Name is <strong>Required</strong>. </mat-error>
       </mat-form-field>
     </form>
   </div>
@@ -23,17 +19,9 @@
       <h3>Seat Number</h3>
       <mat-form-field class="form-field seat-input">
         <input matInput formControlName="seatNumberField" />
-        <mat-error class="error-text">
-          Seat Number is not <strong>Valid</strong>.
-        </mat-error>
-        <mat-hint *ngIf="showSeatOccupied && !isNewPassanger">
-          Seat is already taken. It will be swapped.
-        </mat-hint>
-        <mat-hint
-          role="alert"
-          class="error"
-          *ngIf="showSeatOccupied && isNewPassanger"
-        >
+        <mat-error class="error-text"> Seat Number is not <strong>Valid</strong>. </mat-error>
+        <mat-hint *ngIf="showSeatOccupied && !isNewPassanger"> Seat is already taken. It will be swapped. </mat-hint>
+        <mat-hint role="alert" class="error" *ngIf="showSeatOccupied && isNewPassanger">
           Seat is already <strong>taken</strong>. Please choose other seat number.
         </mat-hint>
       </mat-form-field>
@@ -42,12 +30,9 @@
       <h3>Passport Number</h3>
       <mat-form-field class="form-field passport-number-input">
         <input matInput formControlName="passportNumberField" />
-        <mat-error class="error-text">
-          Passport Number should be alphanumeric with Upper case.
-        </mat-error>
-        <mat-hint role="alert"
-        class="error" *ngIf="isNewPassangerAlreadyPresent">
-        Passport Number already <strong>exisit</strong> in this Flight.
+        <mat-error class="error-text"> Passport Number should be alphanumeric with Upper case. </mat-error>
+        <mat-hint role="alert" class="error" *ngIf="isNewPassangerAlreadyPresent">
+          Passport Number already <strong>exisit</strong> in this Flight.
         </mat-hint>
       </mat-form-field>
     </div>
@@ -110,14 +95,8 @@
             (matChipInputTokenEnd)="addCheckinService($event)"
             [matAutocomplete]="auto"
           />
-          <mat-autocomplete
-            #auto="matAutocomplete"
-            (optionSelected)="selectedCheckinService($event)"
-          >
-            <mat-option
-              *ngFor="let option of flightProperties.checkinServices"
-              [value]="option"
-            >
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedCheckinService($event)">
+            <mat-option *ngFor="let option of flightProperties.checkinServices" [value]="option">
               {{ option }}
             </mat-option>
           </mat-autocomplete>
@@ -128,11 +107,7 @@
       <h3>Meal Type</h3>
       <mat-form-field appearance="fill">
         <mat-select value="{{ mealType }}" formControlName="mealTypeField">
-          <mat-option
-            *ngFor="let meals of flightProperties.mealTypes"
-            value="{{ meals }}"
-            >{{ meals }}</mat-option
-          >
+          <mat-option *ngFor="let meals of flightProperties.mealTypes" value="{{ meals }}">{{ meals }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -156,14 +131,8 @@
             (matChipInputTokenEnd)="addInflightService($event)"
             [matAutocomplete]="autoInflightService"
           />
-          <mat-autocomplete
-            #autoInflightService="matAutocomplete"
-            (optionSelected)="selectedInFlightService($event)"
-          >
-            <mat-option
-              *ngFor="let option of flightProperties.inflightServices"
-              [value]="option"
-            >
+          <mat-autocomplete #autoInflightService="matAutocomplete" (optionSelected)="selectedInFlightService($event)">
+            <mat-option *ngFor="let option of flightProperties.inflightServices" [value]="option">
               {{ option }}
             </mat-option>
           </mat-autocomplete>
@@ -190,14 +159,8 @@
             (matChipInputTokenEnd)="addShopItem($event)"
             [matAutocomplete]="autoShopItem"
           />
-          <mat-autocomplete
-            #autoShopItem="matAutocomplete"
-            (optionSelected)="selectedShopItem($event)"
-          >
-            <mat-option
-              *ngFor="let option of flightProperties.shopItem"
-              [value]="option"
-            >
+          <mat-autocomplete #autoShopItem="matAutocomplete" (optionSelected)="selectedShopItem($event)">
+            <mat-option *ngFor="let option of flightProperties.shopItem" [value]="option">
               {{ option }}
             </mat-option>
           </mat-autocomplete>
@@ -207,13 +170,7 @@
   </form>
 </div>
 <div>
-  <button
-    mat-flat-button
-    [disabled]="isFormInvalid()"
-    class="save-button"
-    color="primary"
-    (click)="saveSetting()"
-  >
+  <button mat-flat-button [disabled]="isFormInvalid()" class="save-button" color="primary" (click)="saveSetting()">
     Save
   </button>
 </div>
