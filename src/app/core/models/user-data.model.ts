@@ -8,3 +8,9 @@ export interface UserInfo {
   emailId: string;
   photoURL: string;
 }
+
+export interface UserTokenModel {
+  givenName: string;
+  role: string;
+  userId: number;
+}

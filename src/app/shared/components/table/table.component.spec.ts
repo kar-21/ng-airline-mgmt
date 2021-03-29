@@ -68,19 +68,19 @@ describe('TableComponent', () => {
 
   it('should open admin detials dialog', () => {
     component.isAdmin = true;
-    component.openPassangerDetails([]);
+    component.openPassangerDetails({ target: { id: [] } });
     expect(matDialogMock.open).toHaveBeenCalled();
   });
 
   it('should open check in detials dialog', () => {
     component.isAdmin = false;
-    (component.type = 'checkin'), component.openPassangerDetails([]);
+    (component.type = 'checkin'), component.openPassangerDetails({ target: { id: [] } });
     expect(matDialogMock.open).toHaveBeenCalled();
   });
 
   it('should open in flight detials dialog', () => {
     component.isAdmin = false;
-    (component.type = 'inflight'), component.openPassangerDetails([]);
+    (component.type = 'inflight'), component.openPassangerDetails({ target: { id: [] } });
     expect(matDialogMock.open).toHaveBeenCalled();
   });
 

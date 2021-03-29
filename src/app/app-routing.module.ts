@@ -12,7 +12,7 @@ import { AboutComponent } from './shared/components/about/about.component';
 const routes: Routes = [
   {
     path: 'tokens',
-    component: LoginTokenComponent,
+    component: LoginTokenComponent,  
     canActivate: [NoAuthGuard],
   },
   {
@@ -37,15 +37,12 @@ const routes: Routes = [
     canActivate: [AdminStaffAuthGuard],
   },
 
-  {
-    path: '**',
-    redirectTo: '',
-    canActivate: [NoAuthGuard],
-  },
+  { path: '**',
+    redirectTo: '' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

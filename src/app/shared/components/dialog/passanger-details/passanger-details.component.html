@@ -36,10 +36,15 @@
         </mat-hint>
       </mat-form-field>
     </div>
-    <div class="row">
+    <div class="row address-row">
       <h3>Address</h3>
       <mat-form-field class="form-field address-input">
-        <textarea matInput formControlName="addressField"></textarea>
+        <textarea
+          matInput
+          formControlName="addressField"
+          cdkAutosizeMinRows="3"
+          cdkAutosizeMaxRows="3"
+        ></textarea>
       </mat-form-field>
     </div>
     <div class="row">

@@ -1,11 +1,9 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { selectorPassangerListOfFlight } from 'src/app/core/store/selector/passanger.selector';
 import { AppState } from 'src/app/core/store/states/app.state';
 import { PassangerList } from '../../models/passanger-list.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { PassangerCheckinDetailsComponent } from '../dialog/passanger-checkin-details/passanger-checkin-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedContants } from '../../shared.constant';
@@ -22,8 +20,6 @@ export class TableComponent implements OnInit {
   @Input() flightNumber: string;
   @Input() type: string;
   @Input() isAdmin = false;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   filter = 'none';
   filterOptions;
   form: FormGroup;
@@ -37,7 +33,8 @@ export class TableComponent implements OnInit {
   specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   passangers;
   seatsArray;
-  isLoadingShown = false;
+  isLoadingShown = true;
+  resultsLength = 0;
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit(): void {
@@ -61,11 +58,10 @@ export class TableComponent implements OnInit {
       if (passangers && passangers[this.flightNumber]) {
         this.passangers = passangers[this.flightNumber];
         this.dataSource = new MatTableDataSource(passangers[this.flightNumber]);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.resultsLength = passangers[this.flightNumber].length;
         this.seatsArray = new Array(6).fill(null).map((row) => (row = new Array(25).fill([null])));
         this.updateSeatsArray();
-        this.isLoadingShown = false;
+          this.isLoadingShown = false;
       }
     });
     this.subscribeToFliterFeild();
@@ -148,7 +144,8 @@ export class TableComponent implements OnInit {
     });
   }
 
-  openPassangerDetails(passanger) {
+  openPassangerDetails(event) {
+    const passanger = this.passangers.filter((passanger) => passanger.seatNumber === event.target.id)[0];
     const dialogRef = this.isAdmin
       ? this.dialog.open(PassangerDetailsComponent, {
           data: {

@@ -126,6 +126,9 @@ textarea {
     }
   }
 }
+.address-row {
+  min-height: 10vh;
+}
 .column {
   @media screen AND (max-width: 500px) {
     flex-direction: column;

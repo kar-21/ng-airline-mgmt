@@ -12,6 +12,7 @@ import { selectorUserInfo, selectorUserName } from './core/store/selector/user.s
 import { MediaObserver } from '@angular/flex-layout';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UserTokenModel } from './core/models/user-data.model';
 
 @Component({
   selector: 'app-root',
@@ -57,13 +58,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cookieValue = this.cookieService.get('token');
     if (this.cookieValue) {
       this.loginService.setIsLoggedIn(true);
+      const userDetailsFromToken: UserTokenModel = jwt_decode(this.cookieValue);
       this.store.dispatch(
         new SaveUserInfo({
-          userName: jwt_decode(this.cookieValue).givenName,
-          role: jwt_decode(this.cookieValue).role,
+          userName: userDetailsFromToken.givenName,
+          role: userDetailsFromToken.role,
         }),
       );
-      this.store.dispatch(new GetUserInfo(jwt_decode(this.cookieValue).userId));
+      this.store.dispatch(new GetUserInfo(userDetailsFromToken.userId));
     }
   }
 
