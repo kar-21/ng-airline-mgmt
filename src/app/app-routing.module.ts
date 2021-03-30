@@ -12,7 +12,7 @@ import { AboutComponent } from './shared/components/about/about.component';
 const routes: Routes = [
   {
     path: 'tokens',
-    component: LoginTokenComponent,  
+    component: LoginTokenComponent,
     canActivate: [NoAuthGuard],
   },
   {

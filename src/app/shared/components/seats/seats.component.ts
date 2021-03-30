@@ -61,15 +61,17 @@ export class SeatsComponent implements OnInit {
     });
   }
 
-  selectSeat(seat) {
-    if (seat[0] !== null) {
+  selectSeat(event) {
+    const seat = event.target.id.split('-');
+    const selectedPassanger =  this.seatsArray[seat[0]][seat[1]][0];
+    if (selectedPassanger !== null) {
       const dialogRef =
         this.type === 'checkin'
           ? this.dialog.open(PassangerCheckinDetailsComponent, {
-              data: { ...seat[0], airlinePassangers: this.seatsArray },
+              data: { ...selectedPassanger, airlinePassangers: this.seatsArray },
             })
           : this.dialog.open(PassangerInflightDetailsComponent, {
-              data: { ...seat[0] },
+              data: { ...selectedPassanger },
             });
       dialogRef.afterClosed().subscribe((result) => {});
     }

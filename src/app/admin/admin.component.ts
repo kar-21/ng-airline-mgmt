@@ -16,11 +16,13 @@ export class AdminComponent implements OnInit {
   isAdmin = true;
 
   constructor(private store: Store<AppState>) {
-    this.store.pipe(select(selectorAirlineList)).subscribe((airlineList: AirlineList[]) => {
-      if (airlineList) {
-        this.airlineList = airlineList;
-        this.isLoaderShown = false;
-      }
+    this.store.pipe(select(selectorAirlineList)).subscribe({
+      next: (airlineList: AirlineList[]) => {
+        if (airlineList) {
+          this.airlineList = airlineList;
+          this.isLoaderShown = false;
+        }
+      },
     });
   }
 

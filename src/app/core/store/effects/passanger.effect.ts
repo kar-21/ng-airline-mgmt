@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Effect, ofType, Actions } from '@ngrx/effects';
+import { Effect, ofType, Actions, createEffect } from '@ngrx/effects';
 import { AirlineHttpService } from 'src/app/shared/services/airline-http.service';
 import { AppState } from '../states/app.state';
 import {
@@ -31,66 +31,74 @@ export class PassangerEffect {
   flightNumber: string;
   updatedFlightNumber: string;
 
-  @Effect()
-  getAirlineList = this.actions.pipe(
-    ofType<GetAirLineList>(EPassangerAction.GetAirlineList),
-    switchMap(() => this.airlineHttpService.getAirlineList()),
-    switchMap((airlineHttp: AirlineList[]) => of(new GetAirlineListSuccess(airlineHttp))),
-    catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+  getAirlineList = createEffect(() =>
+    this.actions.pipe(
+      ofType<GetAirLineList>(EPassangerAction.GetAirlineList),
+      switchMap(() => this.airlineHttpService.getAirlineList()),
+      catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+      switchMap((airlineHttp: AirlineList[]) => of(new GetAirlineListSuccess(airlineHttp))),
+    ),
   );
 
-  @Effect()
-  updateAirlineDetailsFromKey = this.actions.pipe(
-    ofType<UpdateAirlineDetailsFromKey>(EPassangerAction.UpdateAirlineDetailsFromKey),
-    switchMap((data) => {
-      this.updatedFlightNumber = data.payload.flightNumber;
-      return this.airlineHttpService.updateAirlineDetailsFromKey(data.payload.flightNumber, data.payload.keyValuePair);
-    }),
-    switchMap(() => of(new GetAirLineList())),
-    catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+  updateAirlineDetailsFromKey = createEffect(() =>
+    this.actions.pipe(
+      ofType<UpdateAirlineDetailsFromKey>(EPassangerAction.UpdateAirlineDetailsFromKey),
+      switchMap((data) => {
+        this.updatedFlightNumber = data.payload.flightNumber;
+        return this.airlineHttpService.updateAirlineDetailsFromKey(
+          data.payload.flightNumber,
+          data.payload.keyValuePair,
+        );
+      }),
+      catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+      switchMap(() => of(new GetAirLineList())),
+    ),
   );
 
-  @Effect()
-  getPassangerListOfFlight = this.actions.pipe(
-    ofType<GetPassangersListOfFlight>(EPassangerAction.GetPassangersListOfFlight),
-    switchMap((data) => {
-      this.flightNumber = data.payload;
-      return this.airlineHttpService.getPassangerListForFlight(data.payload);
-    }),
-    switchMap((passangerList: PassangerList[]) =>
-      of(
-        new GetPassangerssListOfFlightSuccess({
-          flightNumber: this.flightNumber,
-          data: passangerList,
-        }),
+  getPassangerListOfFlight = createEffect(() =>
+    this.actions.pipe(
+      ofType<GetPassangersListOfFlight>(EPassangerAction.GetPassangersListOfFlight),
+      switchMap((data) => {
+        this.flightNumber = data.payload;
+        return this.airlineHttpService.getPassangerListForFlight(data.payload);
+      }),
+      catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+      switchMap((passangerList: PassangerList[]) =>
+        of(
+          new GetPassangerssListOfFlightSuccess({
+            flightNumber: this.flightNumber,
+            data: passangerList,
+          }),
+        ),
       ),
     ),
-    catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
   );
 
-  @Effect()
-  updatePassangerDetailsFromKey = this.actions.pipe(
-    ofType<UpdatePassangerDetailsFromKey>(EPassangerAction.UpdatePassangerDetailsFromKey),
-    switchMap((data) => {
-      this.updatedFlightNumber = data.payload.flightNumber;
-      return this.airlineHttpService.updatePassangerDetailsFromKey(
-        data.payload.passangerPassportNumber,
-        data.payload.flightNumber,
-        data.payload.keyValuePair,
-      );
-    }),
-    switchMap(() => of(new GetPassangersListOfFlight(this.updatedFlightNumber))),
-    catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+  updatePassangerDetailsFromKey = createEffect(() =>
+    this.actions.pipe(
+      ofType<UpdatePassangerDetailsFromKey>(EPassangerAction.UpdatePassangerDetailsFromKey),
+      switchMap((data) => {
+        this.updatedFlightNumber = data.payload.flightNumber;
+        return this.airlineHttpService.updatePassangerDetailsFromKey(
+          data.payload.passangerPassportNumber,
+          data.payload.flightNumber,
+          data.payload.keyValuePair,
+        );
+      }),
+      catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+      switchMap(() => of(new GetPassangersListOfFlight(this.updatedFlightNumber))),
+    ),
   );
 
-  @Effect()
-  addNewPassanger = this.actions.pipe(
-    ofType<AddNewPassangerDetails>(EPassangerAction.AddNewPassangerDetails),
-    switchMap((data) => {
-      this.updatedFlightNumber = data.payload.flightNumber;
-      return this.airlineHttpService.addNewPassanger(data.payload.data);
-    }),
-    switchMap(() => of(new GetPassangersListOfFlight(this.updatedFlightNumber))),
-    catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+  addNewPassanger = createEffect(() =>
+    this.actions.pipe(
+      ofType<AddNewPassangerDetails>(EPassangerAction.AddNewPassangerDetails),
+      switchMap((data) => {
+        this.updatedFlightNumber = data.payload.flightNumber;
+        return this.airlineHttpService.addNewPassanger(data.payload.data);
+      }),
+      catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+      switchMap(() => of(new GetPassangersListOfFlight(this.updatedFlightNumber))),
+    ),
   );
 }

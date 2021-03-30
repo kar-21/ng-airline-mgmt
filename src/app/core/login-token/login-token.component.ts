@@ -22,12 +22,12 @@ export class LoginTokenComponent implements OnInit {
     private cookieService: CookieService,
     private loginService: LoginService,
     private store: Store<AppState>,
-    ) {
-      this.route.queryParams.subscribe((params) => {
-        if (params.token) {
-          this.cookieService.set('token', params.token, 2);
-          this.loginService.setIsLoggedIn(true);
-          const userDetailsFromToken: UserTokenModel = jwt_decode(params.token);
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      if (params.token) {
+        this.cookieService.set('token', params.token, 2);
+        this.loginService.setIsLoggedIn(true);
+        const userDetailsFromToken: UserTokenModel = jwt_decode(params.token);
         this.store.dispatch(
           new SaveUserInfo({
             userName: userDetailsFromToken.givenName,

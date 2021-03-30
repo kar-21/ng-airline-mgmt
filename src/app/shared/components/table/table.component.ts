@@ -61,7 +61,7 @@ export class TableComponent implements OnInit {
         this.resultsLength = passangers[this.flightNumber].length;
         this.seatsArray = new Array(6).fill(null).map((row) => (row = new Array(25).fill([null])));
         this.updateSeatsArray();
-          this.isLoadingShown = false;
+        this.isLoadingShown = false;
       }
     });
     this.subscribeToFliterFeild();
@@ -145,7 +145,7 @@ export class TableComponent implements OnInit {
   }
 
   openPassangerDetails(event) {
-    const passanger = this.passangers.filter((passanger) => passanger.seatNumber === event.target.id)[0];
+    const passanger = this.passangers.filter((passangerDetails) => passangerDetails.seatNumber === event.target.id)[0];
     const dialogRef = this.isAdmin
       ? this.dialog.open(PassangerDetailsComponent, {
           data: {

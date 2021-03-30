@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Effect, ofType, Actions } from '@ngrx/effects';
+import { Effect, ofType, Actions, createEffect } from '@ngrx/effects';
 import { AppState } from '../states/app.state';
 import { EUserAction, GetUserInfo, GetUserInfoSuccess } from '../actions/user.action';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -18,19 +18,20 @@ export class UserEffect {
     private snackBar: MatSnackBar,
   ) {}
 
-  @Effect()
-  getUserInfo = this.actions.pipe(
-    ofType<GetUserInfo>(EUserAction.GetUserInfo),
-    switchMap((data) => this.loginSerivice.getUserInfo(data.payload)),
-    switchMap((userData: UserData) =>
-      of(
-        new GetUserInfoSuccess({
-          fullName: userData[0].fullName,
-          emailId: userData[0].emailId,
-          photoURL: userData[0].photoURL,
-        }),
+  getUserInfo = createEffect(() =>
+    this.actions.pipe(
+      ofType<GetUserInfo>(EUserAction.GetUserInfo),
+      switchMap((data) => this.loginSerivice.getUserInfo(data.payload)),
+      catchError(() => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
+      switchMap((userData: UserData) =>
+        of(
+          new GetUserInfoSuccess({
+            fullName: userData[0].fullName,
+            emailId: userData[0].emailId,
+            photoURL: userData[0].photoURL,
+          }),
+        ),
       ),
     ),
-    catchError((error) => of(this.snackBar.open('Server Error...!', null, { duration: 20000 }))),
   );
 }

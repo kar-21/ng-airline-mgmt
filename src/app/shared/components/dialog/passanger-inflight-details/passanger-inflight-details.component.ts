@@ -70,11 +70,11 @@ export class PassangerInflightDetailsComponent implements OnInit {
         }
       });
     }
-    this.form.get('mealTypeField').valueChanges.subscribe(value => {
+    this.form.get('mealTypeField').valueChanges.subscribe((value) => {
       if (this.saveDisabled) {
-        this.saveDisabled = false
+        this.saveDisabled = false;
       }
-    })
+    });
   }
 
   addInflightService(event: MatChipInputEvent): void {
