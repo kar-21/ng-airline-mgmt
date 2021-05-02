@@ -51,6 +51,7 @@ describe('PassangerDetailsComponent', () => {
           useValue: {
             flightNumber: '1267AB34',
             airlinePassangers: [new Array(30).fill('B2')],
+            dateOfBirth: new Date('12-01-1998'),
           },
         },
         { provide: MatDialogRef, useValue: { close: () => {} } },

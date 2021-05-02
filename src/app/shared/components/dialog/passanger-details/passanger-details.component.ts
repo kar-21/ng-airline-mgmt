@@ -3,7 +3,7 @@ import { FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
-import { AddNewPassangerDetails, UpdatePassangerDetailsFromKey } from 'src/app/core/store/actions/passanger.action';
+import { AddNewPassangerDetails, GetPassangersListOfFlight, UpdatePassangerDetailsFromKey } from 'src/app/core/store/actions/passanger.action';
 import { AppState } from 'src/app/core/store/states/app.state';
 import { SharedContants } from 'src/app/shared/shared.constant';
 import { COMMA, ENTER, V } from '@angular/cdk/keycodes';
@@ -28,6 +28,7 @@ export class PassangerDetailsComponent implements OnInit {
   address: string;
   passportNumber: string;
   contactNumber: number;
+  dateOfBirth: Date;
   checkedIn: boolean;
   wheelChair: boolean;
   infants: boolean;
@@ -62,6 +63,7 @@ export class PassangerDetailsComponent implements OnInit {
       this.address = this.data.address;
       this.passportNumber = this.data.passportNumber;
       this.contactNumber = this.data.contactNumber;
+      this.dateOfBirth = this.data.dateOfBirth ? this.data.dateOfBirth.toString().split('T')[0] : '';
       this.checkedIn = this.data.checkedIn;
       this.wheelChair = this.data.wheelChair;
       this.infants = this.data.infants;
@@ -89,8 +91,9 @@ export class PassangerDetailsComponent implements OnInit {
           Validators.required,
           Validators.pattern('^[A-Z0-9]*$'),
         ]),
-        addressField: new FormControl(this.address, [Validators.required]),
-        contactNumberField: new FormControl(this.contactNumber, [Validators.required, Validators.pattern('^[0-9]*$')]),
+        addressField: new FormControl(this.address),
+        contactNumberField: new FormControl(this.contactNumber, [Validators.pattern('^[0-9]*$')]),
+        dateOfBirthField: new FormControl(this.dateOfBirth),
         checkedInField: new FormControl(this.checkedIn, [Validators.required]),
         mealTypeField: new FormControl(this.mealType, [Validators.required]),
         wheelChairField: new FormControl(this.wheelChair, [Validators.required]),
@@ -287,9 +290,11 @@ export class PassangerDetailsComponent implements OnInit {
             mealType: this.form.get('mealTypeField').value,
             wheelChair: this.form.get('wheelChairField').value,
             infants: this.form.get('infantsField').value,
+            dateOfBirth: this.form.get('dateOfBirthField').value,
           },
         }),
       );
+      this.store.dispatch(new GetPassangersListOfFlight(this.flightNumber));
       this.closeDialog();
     } else {
       setTimeout(() => {
@@ -310,9 +315,11 @@ export class PassangerDetailsComponent implements OnInit {
               mealType: this.form.get('mealTypeField').value,
               wheelChair: this.form.get('wheelChairField').value,
               infants: this.form.get('infantsField').value,
+              dateOfBirth: this.form.get('dateOfBirthField').value,
             },
           }),
         );
+        this.store.dispatch(new GetPassangersListOfFlight(this.flightNumber));
         this.closeDialog();
       }, 500);
     }

@@ -2,6 +2,7 @@ export interface PassangerList {
   name: string;
   passportNumber: string;
   address: string;
+  dateOfBirth: Date;
   contactNumber: number;
   flightNumber: string;
   seatNumber: string;

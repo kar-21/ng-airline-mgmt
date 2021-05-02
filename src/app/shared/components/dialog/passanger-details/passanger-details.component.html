@@ -57,6 +57,15 @@
       </mat-form-field>
     </div>
     <div class="row">
+      <h3>Date of Birth</h3>
+      <mat-form-field class="form-field date-of-birth-input">
+        <input matInput type="date" formControlName="dateOfBirthField" />
+        <mat-error class="error-text" *ngIf="form.valid">
+          Contact Number is not <strong> Valid </strong>. It should be numeric.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
       <h3>Checked In</h3>
       <div class="checkbox">
         <section>

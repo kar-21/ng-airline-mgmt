@@ -35,6 +35,7 @@ export class TableComponent implements OnInit {
   seatsArray;
   isLoadingShown = true;
   resultsLength = 0;
+  isNoDataToShow = false;
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit(): void {
@@ -107,9 +108,19 @@ export class TableComponent implements OnInit {
         case 'shopItems':
           passangerData = this.passangers.filter((value) => value.shopItem.length > 0);
           break;
+        case 'noContactNumber':
+          passangerData = this.passangers.filter((value) => !value.contactNumber);
+          break;
+        case 'noAddress':
+          passangerData = this.passangers.filter((value) => !value.address);
+          break;
+        case 'noDateOfBirth':
+          passangerData = this.passangers.filter((value) => !value.dateOfBirth);
+          break;
         default:
           passangerData = this.passangers;
       }
+      this.isNoDataToShow = passangerData.length === 0;
       this.dataSource = new MatTableDataSource(passangerData);
     });
   }

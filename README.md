@@ -1,6 +1,6 @@
 # Airline Management 
 
-[![Package Manager](https://img.shields.io/badge/npm-6.13.4-red?style=flat-square)](https://docs.npmjs.com/cli/v6) ![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square) [![Deploy](https://img.shields.io/badge/deploy-netlify-blue?style=flat-square)](https://ng-airline-mgmt.netlify.app/) [![Coverage](https://img.shields.io/badge/coverage-87.44%-green?style=flat-square)](https://ng-airline-mgmt.netlify.app/) 
+[![Package Manager](https://img.shields.io/badge/npm-6.13.4-red?style=flat-square)](https://docs.npmjs.com/cli/v6) ![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square) [![Deploy](https://img.shields.io/badge/deploy-netlify-blue?style=flat-square)](https://ng-airline-mgmt.netlify.app/) [![Coverage](https://img.shields.io/badge/coverage-86.91%-green?style=flat-square)](https://ng-airline-mgmt.netlify.app/) 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0. and hosted in Neflify. Back-end is written using express.js and hosted in Heroku.
 
