@@ -31,6 +31,12 @@ td {
     max-width: 22vh;
   }
 }
+.value-column {
+  padding-left: 35px;
+  @media screen AND (max-width: 500px) {
+    padding-left: unset;
+  }
+}
 .divider-top {
   margin-top: 12px;
 }
@@ -57,25 +63,25 @@ td {
 .form {
   display: flex;
 }
-.form-field {
-  width: 120px;
-}
-.seat-input {
-  width: 55%;
-  font-size: 2vw;
-  margin-left: 10%;
-}
-.submit {
-  margin-left: 10%;
-  height: fit-content;
-  margin-top: 6%;
-}
 .form-chip-field {
   margin-top: -0.84375em;
 }
 .service-button {
   width: fit-content;
   margin: auto;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+.component-container {
+  display: flex;
+  justify-content: space-between;
+}
+.occupied-message {
+  font-size: 75%;
+  font-weight: 400;
+}
+.submit {
   height: 30px;
   display: flex;
   align-items: center;

@@ -1,0 +1,31 @@
+<button mat-button class="seat-input" [matMenuTriggerFor]="menu">
+  <h2 class="button-h2">
+    {{ selectedSeatNumber }}
+    <mat-icon>mode_edit</mat-icon>
+  </h2>
+</button>
+<mat-menu #menu="matMenu">
+  <div class="container">
+    <div class="seat-row-label">
+      <div *ngFor="let column of columnSeatNumbrer" class="seat">
+        {{ column !== 0 ? column : '' }}
+      </div>
+    </div>
+    <div class="seat-container">
+      <div class="seat-colum-label">
+        <div *ngFor="let row of rowSeatName" class="seat">{{ row }}</div>
+      </div>
+      <div class="seat-row-container">
+        <div *ngFor="let seatRow of passangersArray; let column = index" class="seat-row">
+          <div
+            *ngFor="let seat of seatRow; let row = index"
+            class="seat seat-selection"
+            id="{{ column }}-{{ row }}"
+            (click)="selectSeat($event)"
+            [ngClass]="{ 'seat-occupied': passangersArray[column][row][0] !== null }"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-menu>

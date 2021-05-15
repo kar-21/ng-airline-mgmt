@@ -1,6 +1,6 @@
 # Airline Management 
 
-[![Package Manager](https://img.shields.io/badge/npm-6.13.4-red?style=flat-square)](https://docs.npmjs.com/cli/v6) ![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square) [![Deploy](https://img.shields.io/badge/deploy-netlify-blue?style=flat-square)](https://ng-airline-mgmt.netlify.app/) [![Coverage](https://img.shields.io/badge/coverage-86.91%-green?style=flat-square)](https://ng-airline-mgmt.netlify.app/) 
+[![Package Manager](https://img.shields.io/badge/npm-6.13.4-red?style=flat-square)](https://docs.npmjs.com/cli/v6) ![License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square) [![Deploy](https://img.shields.io/badge/deploy-netlify-blue?style=flat-square)](https://ng-airline-mgmt.netlify.app/) [![Coverage](https://img.shields.io/badge/coverage-91.38%-green?style=flat-square)](https://ng-airline-mgmt.netlify.app/) 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0. and hosted in Neflify. Back-end is written using express.js and hosted in Heroku.
 
@@ -50,7 +50,7 @@ These features have following  functionalities -
 - Handled async API requests / responses with NgRx effects.
 - Lazy loaded the modules and lighthouse measured performance as 90.
 - Followed best practices with 0 linting errors and best lighthouse measured practices as 100.
-- Implemented unit testing using Jasmine / Karma with the code coverage of 87.13%.
+- Implemented unit testing using Jasmine / Karma with the code coverage of 91.38%.
 - Implemented google Oauth2 as authentication.
 
 ## Installing dependencies

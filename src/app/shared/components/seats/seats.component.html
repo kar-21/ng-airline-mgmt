@@ -27,8 +27,18 @@
               type === 'inflight' && (seat.includes(normalNonVegMealText) || seat.includes(specialNonVegMealText))
           }"
         >
-          <div *ngIf="type === 'checkin' && seat.includes(wheelChairText)" class="wheel-chair"></div>
-          <div *ngIf="type === 'checkin' && seat.includes(infantsText)" class="infants"></div>
+          <div
+            *ngIf="type === 'checkin' && seat.includes(wheelChairText)"
+            id="{{ column }}-{{ row }}"
+            (click)="selectSeat($event)"
+            class="wheel-chair"
+          ></div>
+          <div
+            *ngIf="type === 'checkin' && seat.includes(infantsText)"
+            id="{{ column }}-{{ row }}"
+            (click)="selectSeat($event)"
+            class="infants"
+          ></div>
           <div
             *ngIf="type === 'inflight' && (seat.includes(specialVegMealText) || seat.includes(specialNonVegMealText))"
             class="special-meal"

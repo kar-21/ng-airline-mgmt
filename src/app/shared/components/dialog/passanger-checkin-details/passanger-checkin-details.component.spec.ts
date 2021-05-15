@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -50,6 +50,7 @@ describe('PassangerCheckinDetailsComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: {
             flightNumber: '1220DB84',
+            airlinePassangers: new Array(6).fill(null).map((row) => (row = new Array(25).fill([null])))
           },
         },
         { provide: MatDialogRef, useValue: { close: () => {} } },
@@ -114,4 +115,42 @@ describe('PassangerCheckinDetailsComponent', () => {
     component.selectedCheckinService({ option: { viewValue: 'service' } });
     expect(component.checkinServices).toEqual(['checkin', 'service']);
   });
+  
+  it('should on seat number changed to unoccupied seat', () => {
+    component.passangersArray[0][3] = [null];
+    component.seatNumber = 'B3';
+    component.onSeatNumberChange({ selectedSeatNumberString: 'A3', seatNumberArray: [0, 3] });
+    expect(component.showSeatOccupied).toBeFalsy();
+    expect(component.showSeatValueChange).toBeTruthy();
+  });
+  
+  it('should on seat number changed to occupied seat', () => {
+    component.passangersArray[0][3] = [{ key: 'value' }];
+    component.seatNumber = 'B3';
+    component.onSeatNumberChange({ selectedSeatNumberString: 'A3', seatNumberArray: [0, 3] });
+    expect(component.showSeatOccupied).toBeTruthy();
+    expect(component.showSeatValueChange).toBeTruthy();
+  });
+  
+  it('should on seat number changed to currently selected seat', () => {
+    component.seatNumber = 'A3';
+    component.onSeatNumberChange({ selectedSeatNumberString: 'A3', seatNumberArray: [0, 3] });
+    expect(component.showSeatOccupied).toBeFalsy();
+    expect(component.showSeatValueChange).toBeFalsy();
+  });
+
+  it('should change the seat number', fakeAsync(() => {
+    component.selectedSeatNumber = 'A3';
+    component.showSeatOccupied = true;
+    component.seatNumber = 'B4';
+    component.passportNumber = 'passportNumber';
+    component.flightNumber = 'flightNumber';
+    component.passangersArray[0][2][0] = {
+      passportNumber: 'exchangePassportNumber',
+      flightNumber: 'exchangeFlightNumber',
+    };
+    component.changeSeatnumber();
+    tick(600);
+    expect(store.dispatch).toHaveBeenCalled();
+  }));
 });

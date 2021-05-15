@@ -29,6 +29,7 @@ export class SeatsComponent implements OnInit {
   specialVegMealText = SharedContants.text.specialVegMeal;
   specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   seatsArray;
+  isDialogOpened = false;
   columnSeatNumbrer = new Array(26).fill(null).map((column, index) => (column = index));
 
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
@@ -64,7 +65,8 @@ export class SeatsComponent implements OnInit {
   selectSeat(event) {
     const seat = event.target.id.split('-');
     const selectedPassanger =  this.seatsArray[seat[0]][seat[1]][0];
-    if (selectedPassanger !== null) {
+    if (selectedPassanger !== null && !this.isDialogOpened) {
+      this.isDialogOpened = true;
       const dialogRef =
         this.type === 'checkin'
           ? this.dialog.open(PassangerCheckinDetailsComponent, {
@@ -73,7 +75,9 @@ export class SeatsComponent implements OnInit {
           : this.dialog.open(PassangerInflightDetailsComponent, {
               data: { ...selectedPassanger },
             });
-      dialogRef.afterClosed().subscribe((result) => {});
+      dialogRef.afterClosed().subscribe((result) => {
+        this.isDialogOpened = false;
+      });
     }
   }
 }

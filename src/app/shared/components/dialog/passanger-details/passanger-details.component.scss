@@ -75,7 +75,9 @@ td {
   display: flex;
 }
 .seat-input {
-  width: 70px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
 }
 .passport-number-input {
   width: 140px;
@@ -143,4 +145,13 @@ textarea {
       margin-left: 10vw;
     }
   }
+}
+.occupied-message {
+  font-size: 75%;
+  font-weight: 400;
+}
+.new-occupied-message {
+  color: #f44336;
+  font-size: 75%;
+  font-weight: 400;
 }

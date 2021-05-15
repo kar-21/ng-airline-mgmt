@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -149,10 +150,62 @@ describe('PassangerDetailsComponent', () => {
     expect(component.shopItems).toEqual(['shop items']);
   });
 
-  it('should dispatch action to save setings', () => {
-    component.showSeatOccupied = true;
+  it('should dispatch action to save setings', fakeAsync(() => {
     component.form.get('seatNumberField').setValue('A21');
+    component.showSeatOccupied = true;
+    component.isNewPassanger = false;
+    component.seatNumber = 'B4';
+    component.passportNumber = 'passportNumber';
+    component.flightNumber = 'flightNumber';
+    component.passangersArray[0][2] = {
+      passportNumber: 'exchangePassportNumber',
+      flightNumber: 'exchangeFlightNumber',
+    };
     component.saveSetting();
+    tick(600);
     expect(store.dispatch).toHaveBeenCalled();
+  }));
+
+  it('should dispatch action to save setings for new passanger', fakeAsync(() => {
+    component.form.get('seatNumberField').setValue('A21');
+    component.showSeatOccupied = false;
+    component.isNewPassanger = true;
+    component.formName = new FormGroup({ nameField: new FormControl('') });
+    component.form = new FormGroup({
+      seatNumberField: new FormControl(''),
+      passportNumberField: new FormControl(''),
+      addressField: new FormControl(''),
+      contactNumberField: new FormControl(''),
+      dateOfBirthField: new FormControl(''),
+      checkedInField: new FormControl(''),
+      mealTypeField: new FormControl(''),
+      wheelChairField: new FormControl(''),
+      infantsField: new FormControl(''),
+      checkedInServiceField: new FormControl(''),
+      inflightServiceField: new FormControl(''),
+      shopItemsField: new FormControl(''),
+    });
+    component.saveSetting();
+    tick(600);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
+  }));
+
+  it('should on seat number changed to unoccupied seat', () => {
+    component.onSeatNumberChange({ selectedSeatNumberString: 'A3', seatNumberArray: [0, 3] });
+    expect(component.showSeatOccupied).toBeFalsy();
+  });
+
+  it('should on seat number changed to occupied seat', () => {
+    component.passangersArray[0][3] = { key: 'value' };
+    component.onSeatNumberChange({ selectedSeatNumberString: 'A3', seatNumberArray: [0, 3] });
+    expect(component.showSeatOccupied).toBeTruthy();
+  });
+
+  it('should on seat number changed to currently selected seat', () => {
+    component.seatNumber = 'A3';
+    component.isNewPassanger = true;
+    component.onSeatNumberChange({ selectedSeatNumberString: 'A3', seatNumberArray: [0, 3] });
+    expect(component.showSeatOccupied).toBeFalsy();
+    expect(component.showSeatSelectedError).toBeTruthy();
   });
 });

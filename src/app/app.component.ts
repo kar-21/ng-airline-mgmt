@@ -13,7 +13,6 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserTokenModel } from './core/models/user-data.model';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',

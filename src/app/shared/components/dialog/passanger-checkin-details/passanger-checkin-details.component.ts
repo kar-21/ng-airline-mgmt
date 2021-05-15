@@ -1,6 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
@@ -32,11 +32,12 @@ export class PassangerCheckinDetailsComponent implements OnInit {
   infants: boolean;
   checkinServices: string[];
   flightNumber: string;
-  form: FormGroup;
   checkinServicesForm: FormGroup;
   passangersArray;
   rowSeatName = SharedContants.rowSeatName;
   showSeatOccupied = false;
+  showSeatValueChange = false;
+  selectedSeatNumber;
   visible = true;
   selectable = true;
   removable = true;
@@ -58,12 +59,6 @@ export class PassangerCheckinDetailsComponent implements OnInit {
       this.checkinServices = Object.assign([], this.data.checkinServices);
       this.flightNumber = this.data.flightNumber;
       this.passangersArray = this.data.airlinePassangers;
-      this.form = new FormGroup({
-        seatNumberForm: new FormControl(this.seatNumber, [
-          Validators.required,
-          Validators.pattern('^[A-F][1-9]$|^[A-F]1[0-9]$|^[A-F]2[0-5]$'),
-        ]),
-      });
       this.store.pipe(select(selectorAirlineList)).subscribe((airlineList: AirlineList[]) => {
         if (airlineList) {
           airlineList.forEach((airline: AirlineList) => {
@@ -74,34 +69,30 @@ export class PassangerCheckinDetailsComponent implements OnInit {
         }
       });
     }
+  }
 
-    this.form.get('seatNumberForm').valueChanges.subscribe((value) => {
-      if (value && value !== this.seatNumber && value.length > 1) {
-        const row = this.rowSeatName.indexOf(value.slice(0, 1));
-        const column = +value.slice(1, value.length) - 1;
-        if (
-          row > -1 &&
-          column > -1 &&
-          row < 6 &&
-          column < 25 &&
-          typeof this.passangersArray[row][column] === 'object' &&
-          this.passangersArray[row][column][0] !== null
+  onSeatNumberChange(event) {
+    if (event.selectedSeatNumberString !== this.seatNumber) {
+      this.showSeatValueChange = true;
+      this.selectedSeatNumber = event.selectedSeatNumberString
+      if (
+          typeof this.passangersArray[event.seatNumberArray[0]][event.seatNumberArray[1]] === 'object' &&
+          this.passangersArray[event.seatNumberArray[0]][event.seatNumberArray[1]][0] !== null
         ) {
           this.showSeatOccupied = true;
         } else {
           this.showSeatOccupied = false;
         }
-      } else {
-        this.showSeatOccupied = false;
-      }
-    });
+    } else {
+      this.showSeatOccupied = false;
+      this.showSeatValueChange = false;
+    }
   }
 
   changeSeatnumber() {
-    const newSeatNumber = this.form.get('seatNumberForm').value;
-    if (this.showSeatOccupied && this.form.get('seatNumberForm').valid) {
-      const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
-      const column = +newSeatNumber.slice(1, newSeatNumber.length) - 1;
+    if (this.showSeatOccupied && this.selectedSeatNumber) {
+      const row = this.rowSeatName.indexOf(this.selectedSeatNumber.slice(0, 1));
+      const column = +this.selectedSeatNumber.slice(1, this.selectedSeatNumber.length) - 1;
       const passangerForSeatExchange = this.passangersArray[row][column][0];
       this.store.dispatch(
         new UpdatePassangerDetailsFromKey({
@@ -111,13 +102,13 @@ export class PassangerCheckinDetailsComponent implements OnInit {
         }),
       );
     }
-    if (this.form.get('seatNumberForm').valid) {
+    if (this.selectedSeatNumber) {
       setTimeout(() => {
         this.store.dispatch(
           new UpdatePassangerDetailsFromKey({
             passangerPassportNumber: this.passportNumber,
             flightNumber: this.flightNumber,
-            keyValuePair: { seatNumber: newSeatNumber },
+            keyValuePair: { seatNumber: this.selectedSeatNumber },
           }),
         );
         this.closeDialog();

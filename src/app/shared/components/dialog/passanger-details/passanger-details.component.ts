@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
@@ -9,7 +9,6 @@ import { SharedContants } from 'src/app/shared/shared.constant';
 import { COMMA, ENTER, V } from '@angular/cdk/keycodes';
 import { selectorAirlineList } from 'src/app/core/store/selector/passanger.selector';
 import { AirlineList } from 'src/app/shared/models/airline-list.model';
-import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-passanger-details',
@@ -48,6 +47,7 @@ export class PassangerDetailsComponent implements OnInit {
   specialVegMealText = SharedContants.text.specialVegMeal;
   specialNonVegMealText = SharedContants.text.specialNonVegMeal;
   showSeatOccupied = false;
+  showSeatSelectedError = false;
   isNewPassangerAlreadyPresent = false;
   visible = true;
   selectable = true;
@@ -110,27 +110,6 @@ export class PassangerDetailsComponent implements OnInit {
       }
     }
 
-    this.form.get('seatNumberField').valueChanges.subscribe((value) => {
-      if (value && value !== this.seatNumber && value.length > 1) {
-        const row = this.rowSeatName.indexOf(value.slice(0, 1));
-        const column = +value.slice(1, value.length) - 1;
-        if (
-          row > -1 &&
-          column > -1 &&
-          row < 6 &&
-          column < 25 &&
-          typeof this.passangersArray[row][column] === 'object' &&
-          this.passangersArray[row][column][0] !== null
-        ) {
-          this.showSeatOccupied = true;
-        } else {
-          this.showSeatOccupied = false;
-        }
-      } else {
-        this.showSeatOccupied = false;
-      }
-    });
-
     this.form.get('passportNumberField').valueChanges.subscribe((value) => {
       if (value) {
         let existingPassportArray = [];
@@ -149,6 +128,29 @@ export class PassangerDetailsComponent implements OnInit {
         this.isNewPassangerAlreadyPresent = false;
       }
     });
+  }
+
+  onSeatNumberChange(event) {
+    if (event.selectedSeatNumberString !== this.seatNumber) {
+      this.form.get('seatNumberField').setValue(event.selectedSeatNumberString);
+      this.form.get('seatNumberField').markAsDirty();
+      this.showSeatSelectedError = false;
+      if (
+        typeof this.passangersArray[event.seatNumberArray[0]][event.seatNumberArray[1]] === 'object' &&
+        this.passangersArray[event.seatNumberArray[0]][event.seatNumberArray[1]][0] !== null
+        ) {
+          this.showSeatOccupied = true;
+        } else {
+          this.showSeatOccupied = false;
+        }
+      } else {
+        this.form.get('seatNumberField').setValue(this.seatNumber);
+        this.form.get('seatNumberField').markAsDirty();
+      this.showSeatOccupied = false;
+      if (this.isNewPassanger) {
+        this.showSeatSelectedError = true
+      }
+    }
   }
 
   addCheckinService(event: MatChipInputEvent): void {
@@ -262,9 +264,7 @@ export class PassangerDetailsComponent implements OnInit {
   saveSetting() {
     const newSeatNumber = this.form.get('seatNumberField').value;
     if (this.showSeatOccupied && !this.isNewPassanger) {
-      const row = this.rowSeatName.indexOf(newSeatNumber.slice(0, 1));
-      const column = +newSeatNumber.slice(1, newSeatNumber.length) - 1;
-      const passangerForSeatExchange = this.passangersArray[row][column][0];
+      const passangerForSeatExchange = newSeatNumber;
       this.store.dispatch(
         new UpdatePassangerDetailsFromKey({
           passangerPassportNumber: passangerForSeatExchange.passportNumber,

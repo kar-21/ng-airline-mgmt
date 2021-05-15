@@ -11,25 +11,25 @@
         <td>
           <h2>Seat Number</h2>
         </td>
-        <td>
-          <form class="form" [formGroup]="form" (ngSubmit)="changeSeatnumber()">
-            <mat-form-field class="form-field">
-              <input class="seat-input" matInput formControlName="seatNumberForm" />
-              <mat-icon>mode_edit</mat-icon>
-              <mat-error class="error-text"> Seat Number is not <strong> Valid </strong> </mat-error>
-              <mat-hint *ngIf="showSeatOccupied"> Seat is already taken </mat-hint>
-            </mat-form-field>
-            <button *ngIf="form.valid && form.dirty" class="submit" mat-flat-button type="submit" color="primary">
+        <td class="value-column">
+          <div class="component-container">
+            <app-seat-selection-menu
+              [seatNumber]="seatNumber"
+              [passangersArray]="passangersArray"
+              (onSeatNumberChange)="onSeatNumberChange($event)"
+            ></app-seat-selection-menu>
+            <button *ngIf="showSeatValueChange" class="submit" mat-flat-button color="primary" (click)="changeSeatnumber()">
               <span *ngIf="showSeatOccupied">Swap</span><span *ngIf="!showSeatOccupied">Apply</span>
             </button>
-          </form>
+          </div>
+        <span *ngIf="showSeatOccupied" class="occupied-message"> Seat is already taken. It will be swapped.</span>
         </td>
       </tr>
       <tr>
         <td>
           <h3>Passport Number</h3>
         </td>
-        <td>
+        <td class="value-column">
           <h3>{{ passportNumber }}</h3>
         </td>
       </tr>
@@ -37,7 +37,7 @@
         <td>
           <h5>Address</h5>
         </td>
-        <td>
+        <td class="value-column">
           <h5>{{ address }}</h5>
         </td>
       </tr>
@@ -45,7 +45,7 @@
         <td>
           <h5>Contact</h5>
         </td>
-        <td>
+        <td class="value-column">
           <h5>{{ contactNumber }}</h5>
         </td>
       </tr>
@@ -53,7 +53,7 @@
         <td>
           <h3>Checked In</h3>
         </td>
-        <td class="checked-in-cell">
+        <td class="checked-in-cell value-column">
           <h3 class="checked-in-status">
             <mat-icon *ngIf="checkedIn" color="accent">done</mat-icon>
             <mat-icon *ngIf="!checkedIn" color="warn">close</mat-icon>{{ checkedIn ? 'Yes' : 'No' }}

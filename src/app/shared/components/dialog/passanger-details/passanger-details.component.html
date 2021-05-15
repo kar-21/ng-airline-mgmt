@@ -17,14 +17,15 @@
   <form class="form" class="form-container" [formGroup]="form">
     <div class="row">
       <h3>Seat Number</h3>
-      <mat-form-field class="form-field seat-input">
-        <input matInput formControlName="seatNumberField" />
-        <mat-error class="error-text"> Seat Number is not <strong>Valid</strong>. </mat-error>
-        <mat-hint *ngIf="showSeatOccupied && !isNewPassanger"> Seat is already taken. It will be swapped. </mat-hint>
-        <mat-hint role="alert" class="error" *ngIf="showSeatOccupied && isNewPassanger">
-          Seat is already <strong>taken</strong>. Please choose other seat number.
-        </mat-hint>
-      </mat-form-field>
+      <div class="seat-input">
+        <app-seat-selection-menu
+          [seatNumber]="seatNumber"
+          [passangersArray]="passangersArray"
+          (onSeatNumberChange)="onSeatNumberChange($event)"
+        ></app-seat-selection-menu>
+        <span *ngIf="showSeatOccupied && !isNewPassanger" class="occupied-message"> Seat is already taken. It will be swapped.</span>
+        <span *ngIf="showSeatOccupied && isNewPassanger" class="new-occupied-message"> Invalid seat. Please Choose the un occupied seat.</span>
+      </div>
     </div>
     <div class="row">
       <h3>Passport Number</h3>
@@ -39,12 +40,7 @@
     <div class="row address-row">
       <h3>Address</h3>
       <mat-form-field class="form-field address-input">
-        <textarea
-          matInput
-          formControlName="addressField"
-          cdkAutosizeMinRows="3"
-          cdkAutosizeMaxRows="3"
-        ></textarea>
+        <textarea matInput formControlName="addressField" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="3"></textarea>
       </mat-form-field>
     </div>
     <div class="row">
